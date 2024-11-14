@@ -82,6 +82,7 @@
                                 </div>
                             </form>
                         </div>
+
                         <div class="tab-pane fade" id="navs-top-profile" role="tabpanel">
                             {{-- <form method="POST" action="{{ route('Admin.update.whatsappSettings') }}"> --}}
                             <form method="POST" action="{{ route('Admin.update.UpdateWhatsAppSetting') }}">
@@ -89,29 +90,29 @@
                                 @csrf
                                 <div class="mb-3">
                                     <label for="api_key" class="form-label">url</label>
-                                    <input type="text" name="url" id="url" class="form-control"  value="{{ $WhatsAppSettingService->url }}" required>
+                                    <input type="text" name="url" id="url" class="form-control"  value="{{ $WhatsAppSettingService->url ?? '' }}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="api_key" class="form-label">API Key</label>
-                                    <input type="text" name="api_key" id="api_key" class="form-control" value="{{ $WhatsAppSettingService->api_key }}" required>
+                                    <input type="text" name="api_key" id="api_key" class="form-control" value="{{ $WhatsAppSettingService->api_key ?? '' }}" required>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="session_uuid" class="form-label">Session UUID</label>
-                                    <input type="text" name="session_uuid" id="session_uuid" class="form-control" value="{{ $WhatsAppSettingService->session_uuid }}" required>
+                                    <input type="text" name="session_uuid" id="session_uuid" class="form-control" value="{{ $WhatsAppSettingService->session_uuid ?? '' }}" required>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="phone" class="form-label">Phone Number</label>
-                                    <input type="text" name="phone" id="phone" class="form-control" value="{{ $WhatsAppSettingService->phone }}" required>
+                                    <input type="text" name="phone" id="phone" class="form-control" value="{{ $WhatsAppSettingService->phone ?? '' }}" required>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="type" class="form-label">Message Type</label>
                                     <select name="type" id="type" class="form-control">
-                                        <option value="TEXT" {{  $WhatsAppSettingService->type == 'TEXT' ? 'selected' : '' }}>TEXT</option>
-                                        <option value="IMAGE" {{ $WhatsAppSettingService->type == 'IMAGE' ? 'selected' : '' }}>IMAGE</option>
-                                    </select>
+                                        <option value="TEXT" {{ optional($WhatsAppSettingService)->type == 'TEXT' ? 'selected' : '' }}>TEXT</option>
+                                        <option value="IMAGE" {{ optional($WhatsAppSettingService)->type == 'IMAGE' ? 'selected' : '' }}>IMAGE</option>
+                                        </select>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Save Settings</button>
