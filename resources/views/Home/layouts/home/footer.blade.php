@@ -93,7 +93,7 @@
                 جميع الحقوق محفوظه ©
                 <a href="{{ env('COMPANY_URL', 'https://bluecode.sa') }}" target="_blank" class="text-reset"> لشركة
                     بلوكود</a> -
-                تاون {{ env('APP_VERSION', 'V1.1') }}</p>
+                تاون {{ env('APP_VERSION', 'v2.3') }}</p>
             </div>
             <div>
                 <a href="https://github.com/pixinvent" class="footer-link me-3" target="_blank">

@@ -8,10 +8,11 @@
         <div class="footer-container d-flex align-items-center justify-content-between py-2 flex-md-row flex-column">
             <div>
 
-
-                @lang('© Town -') {{ env('APP_VERSION', 'V1.0') }} @lang(' By Blue Code') ❤️
+                جميع الحقوق محفوظه © -
+                تاون {{ env('APP_VERSION', 'v2.3') }}</p>
+                {{-- @lang('© Town -') {{ env('APP_VERSION', 'V1.0') }} @lang(' By Blue Code') ❤️
                 <a href="{{ env('COMPANY_URL', 'https://bluecode.sa') }}" target="_blank"
-                    class="footer-link text-primary fw-medium">BlueCode</a>
+                    class="footer-link text-primary fw-medium">BlueCode</a> --}}
             </div>
 
         </div>
