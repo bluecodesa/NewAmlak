@@ -1793,6 +1793,47 @@ class HomeController extends Controller
         }
     }
 
+
+    public function nafathVerify(Request $request)
+    {
+
+        $accountType = $request->query('accountType');
+        $email = session('email');
+        $fullPhone = session('phone');
+        $phone = session('mobile');
+        $key_phone = session('key_phone');
+
+
+        if($accountType == 'broker'){
+            $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
+            $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+            $subscriptionType = SubscriptionType::where('is_deleted', 0)
+            ->where('status', 1)
+            ->where('new_subscriber', '1')
+            ->whereIn('id', $RolesSubscriptionTypeIds)
+            ->first();
+        }elseif($accountType == 'office'){
+            $RolesIds = Role::whereIn('name', ['Office-Admin'])->pluck('id')->toArray();
+            $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+            $subscriptionType = SubscriptionType::where('is_deleted', 0)
+            ->where('status', 1)
+            ->where('new_subscriber', '1')
+            ->whereIn('id', $RolesSubscriptionTypeIds)
+            ->first();
+        }elseif($accountType == 'owner'){
+            $RolesIds = Role::whereIn('name', ['owner'])->pluck('id')->toArray();
+            $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+            $subscriptionType = SubscriptionType::where('is_deleted', 0)
+            ->where('status', 1)
+            ->where('new_subscriber', '1')
+            ->whereIn('id', $RolesSubscriptionTypeIds)
+            ->first();
+        }
+
+
+        return view('auth.nafath_verify', get_defined_vars());
+    }
+
     public function createAccount(Request $request)
     {
 

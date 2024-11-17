@@ -24,7 +24,7 @@
                                                  fill="currentColor" />
 
                                 </svg>
-                                <span class="custom-option-title">@lang('Broker')
+                                <span class="custom-option-title">@lang('Broker') <small class="text-danger">@lang('(التوثيق عن طريق نفاذ الوطني)')</small>
                                     @if ($sitting->active_broker == 0)
                                         <br>
                                         <span class="badge rounded-pill bg-label-warning">
@@ -51,7 +51,7 @@
                                     fill="currentColor" />
 
                                 </svg>
-                                <span class="custom-option-title"> @lang('Office')
+                                <span class="custom-option-title"> @lang('Office') <small class="text-danger">@lang('(التوثيق عن طريق نفاذ الوطني)')</small>
                                     @if ($sitting->active_office == 0)
                                         <br>
                                         <span class="badge rounded-pill bg-label-warning">
@@ -132,9 +132,15 @@
         }
     </script> --}}
 
-    <script>
+    {{-- <script>
         function redirectToIdNumber(accountType) {
             window.location.href = "{{ route('Home.createAccount') }}" + "?accountType=" + accountType;
+        }
+    </script> --}}
+
+    <script>
+        function redirectToIdNumber(accountType) {
+            window.location.href = "{{ route('Home.nafathVerify') }}" + "?accountType=" + accountType;
         }
     </script>
 
