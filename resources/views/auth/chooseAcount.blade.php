@@ -8,7 +8,7 @@
                     <div class="card">
                         <div class="card-body">
             <div class="text-center mb-4">
-                <h3 class="address-title mb-2">انشاء حساب</h3>
+                <h3 class="address-title mb-2">نوع الحساب</h3>
             </div>
             <div class="row">
                 <div class="col-md mb-md-0 mb-3">
@@ -24,7 +24,7 @@
                                                  fill="currentColor" />
 
                                 </svg>
-                                <span class="custom-option-title">@lang('Broker') <small class="text-danger">@lang('(التوثيق عن طريق نفاذ الوطني)')</small>
+                                <span class="custom-option-title">@lang('Broker')
                                     @if ($sitting->active_broker == 0)
                                         <br>
                                         <span class="badge rounded-pill bg-label-warning">
@@ -51,7 +51,7 @@
                                     fill="currentColor" />
 
                                 </svg>
-                                <span class="custom-option-title"> @lang('Office') <small class="text-danger">@lang('(التوثيق عن طريق نفاذ الوطني)')</small>
+                                <span class="custom-option-title"> @lang('Office')
                                     @if ($sitting->active_office == 0)
                                         <br>
                                         <span class="badge rounded-pill bg-label-warning">
@@ -132,17 +132,17 @@
         }
     </script> --}}
 
-    {{-- <script>
+    <script>
         function redirectToIdNumber(accountType) {
             window.location.href = "{{ route('Home.createAccount') }}" + "?accountType=" + accountType;
         }
-    </script> --}}
+    </script>
 
-    <script>
+    {{-- <script>
         function redirectToIdNumber(accountType) {
             window.location.href = "{{ route('Home.nafathVerify') }}" + "?accountType=" + accountType;
         }
-    </script>
+    </script> --}}
 
 
 @endsection

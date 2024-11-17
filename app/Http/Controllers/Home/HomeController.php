@@ -1948,7 +1948,7 @@ class HomeController extends Controller
                     }
                 },
             ],
-            'email' => 'required|email|unique:users',
+            'email' => 'nullable|email|unique:users',
             'name' => 'required|string|max:255',
             'account_type' => 'required|string|in:broker,office,owner,property_finder',
             'subscription_type_id' => 'nullable|exists:subscription_types,id',
@@ -2016,7 +2016,7 @@ class HomeController extends Controller
         // Create a new user
         $newUser = User::create([
             'id_number' => $request->id_number,
-            'email' => $request->email,
+            'email' => $request->email ?? null,
             'name' => $request->name,
             'is_broker' => $request->account_type == 'broker',
             'is_office' => $request->account_type == 'office',
