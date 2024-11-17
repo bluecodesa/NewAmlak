@@ -6,7 +6,7 @@
         <div class="container-xxl flex-grow-1 container-p-y">
 
             <!-- DataTable with Buttons -->
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-body">
                     <h4 class="mt-0 header-title">
                         <h4 class="mt-0 header-title">
@@ -61,7 +61,7 @@
                         @endif
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <hr>
             <div class="row">
 

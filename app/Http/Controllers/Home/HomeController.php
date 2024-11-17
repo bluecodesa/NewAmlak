@@ -2130,7 +2130,7 @@ private function handleOffice($request, $user)
         'key_phone' => $request->key_phone,
         'full_phone' => $request->full_phone,
         'created_by' => $user->id,
-        'company_logo' => $request->company_logo ?? null,
+        'company_logo' => $request->company_logo ?? 'HOME_PAGE/img/avatars/14.png',
     ]);
 
     $subscriptionType = SubscriptionType::find($request->subscription_type_id);
