@@ -132,7 +132,9 @@ class ReceiptController extends Controller
         $newReceipt = Receipt::create($data);
 
         if ($newReceipt) {
-            return redirect()->back()->with('success', __('New receipt created successfully!'));
+            // return redirect()->back()->with('success', __('New receipt created successfully!'));
+            return redirect()->route('Office.ShowSubscription')->with('success', __('New receipt created successfully!'));
+
         } else {
             return redirect()->back()->with('sorry', __('Failed to create receipt. Please try again.'));
         }
@@ -208,6 +210,7 @@ class ReceiptController extends Controller
     $this->notifyRelatedUser($receipt, $newStatus);
 
     return redirect()->back()->with('success', __('Receipt status updated successfully.'));
+
 }
 
     protected function notifyRelatedUser($receipt, $newStatus)
