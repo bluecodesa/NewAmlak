@@ -37,9 +37,17 @@
 
                         <div class="col-md-6 col-12 mb-3">
                             <label class="form-label">@lang('Ad Url')</label>
-                            <input class="form-control" type="text" id="ad_url" name="ad_url"
-                                placeholder="https://tryTown.com">
+                            <input
+                                class="form-control"
+                                type="text"
+                                id="ad_url"
+                                name="ad_url"
+                                placeholder="https://townapp.sa/"
+                                pattern="https:\/\/[a-zA-Z0-9-]+(\.[a-zA-Z]{2,}){1,}(\/?)"
+                                title="Please enter a valid URL (e.g., https://townapp.sa/)"
+                                required>
                         </div>
+
 
                         <div class="col-md-6 col-12 mb-3">
                             <label class="form-label">@lang('Display Start Date')</label>
