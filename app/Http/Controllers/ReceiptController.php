@@ -16,27 +16,72 @@ class ReceiptController extends Controller
 {
     //
 
-    public function storeReceipt(Request $request){
-        // Validate the request
-        $request->validate([
-            'receipt' => 'required|file|mimes:jpeg,png,jpg,pdf|max:2048', // Validate file types and size
-        ]);
+    // public function storeReceipt(Request $request){
+    //     // Validate the request
+    //     $request->validate([
+    //         'receipt' => 'required|file|mimes:jpeg,png,jpg,pdf|max:2048', // Validate file types and size
+    //     ]);
 
-    // Initialize the data array with receipt_id and status
-
-
-    $Last_receipt_id = Receipt::where('receipt_id', '!=', null)->latest()->value('receipt_id');
-    $delimiter = '-';
-    $new_receipt_id = !$Last_receipt_id ? '00001' : str_pad((int)explode($delimiter, $Last_receipt_id)[1] + 1, 5, '0', STR_PAD_LEFT);
+    // // Initialize the data array with receipt_id and status
 
 
+    // $Last_receipt_id = Receipt::where('receipt_id', '!=', null)->latest()->value('receipt_id');
+    // $delimiter = '-';
+    // $new_receipt_id = !$Last_receipt_id ? '00001' : str_pad((int)explode($delimiter, $Last_receipt_id)[1] + 1, 5, '0', STR_PAD_LEFT);
 
+
+
+    // $data = [
+    //     'receipt_id' => 'REC-' . $new_receipt_id,
+    //     'status' => 'Under review', // Default status
+    //     'comment' => $request->input('comment') ?? null,
+    // ];
+
+    // if (auth()->check()) {
+    //     $user = auth()->user();
+
+    //     if ($user->is_office) {
+    //         $data['office_id'] = $user->UserOfficeData->id;
+    //     } elseif ($user->is_broker) {
+    //         $data['broker_id'] = $user->UserBrokerData->id;
+    //     } elseif ($user->is_owner) {
+    //         $data['owner_id'] = $user->UserOwnerData->id;
+    //     }
+    // }
+
+
+    // if ($request->hasFile('receipt')) {
+    //     $receipt = $request->file('receipt');
+    //     $ext = $receipt->getClientOriginalExtension();
+    //     $receiptName = uniqid() . '.' . $ext;
+    //     $receipt->move(public_path('/Admin/Receipt/'), $receiptName);
+    //     $data['receipt'] = '/Admin/Receipt/' . $receiptName;
+    // }
+
+
+    // $receipt = Receipt::create($data);
+
+    // if ($receipt) {
+    //     return redirect()->back()->with('success', __('Receipt uploaded successfully!'));
+    // } else {
+    //     return redirect()->back()->with('error', __('Failed to upload receipt. Please try again.'));
+    // }
+    // }
+
+    public function storeReceipt(Request $request)
+{
+    // Validate the request
+    $request->validate([
+        'receipt' => 'required|file|mimes:jpeg,png,jpg,pdf|max:2048', // Validate file types and size
+    ]);
+
+    // Initialize the data array
     $data = [
-        'receipt_id' => 'REC-' . $new_receipt_id,
-        'status' => 'Under review', // Default status
+        'status' => 'Under review',
         'comment' => $request->input('comment') ?? null,
     ];
 
+    // Determine the user's type and set the appropriate ID
     if (auth()->check()) {
         $user = auth()->user();
 
@@ -49,7 +94,20 @@ class ReceiptController extends Controller
         }
     }
 
+    // Check if a receipt is already under review for the current user type
+    $existingReceipt = Receipt::where(function ($query) use ($data) {
+        if (isset($data['office_id'])) {
+            $query->where('office_id', $data['office_id']);
+        } elseif (isset($data['broker_id'])) {
+            $query->where('broker_id', $data['broker_id']);
+        } elseif (isset($data['owner_id'])) {
+            $query->where('owner_id', $data['owner_id']);
+        }
+    })
+    ->where('status', 'Under review')
+    ->first();
 
+    // Handle file upload
     if ($request->hasFile('receipt')) {
         $receipt = $request->file('receipt');
         $ext = $receipt->getClientOriginalExtension();
@@ -58,15 +116,29 @@ class ReceiptController extends Controller
         $data['receipt'] = '/Admin/Receipt/' . $receiptName;
     }
 
-
-    $receipt = Receipt::create($data);
-
-    if ($receipt) {
-        return redirect()->back()->with('success', __('Receipt uploaded successfully!'));
+    if ($existingReceipt) {
+        // Update the existing receipt
+        $existingReceipt->update($data);
+        return redirect()->back()->with('success', __('Receipt updated successfully!'));
     } else {
-        return redirect()->back()->with('error', __('Failed to upload receipt. Please try again.'));
+        // Generate a new receipt ID
+        $Last_receipt_id = Receipt::where('receipt_id', '!=', null)->latest()->value('receipt_id');
+        $delimiter = '-';
+        $new_receipt_id = !$Last_receipt_id ? '00001' : str_pad((int)explode($delimiter, $Last_receipt_id)[1] + 1, 5, '0', STR_PAD_LEFT);
+
+        $data['receipt_id'] = 'REC-' . $new_receipt_id;
+
+        // Create a new receipt
+        $newReceipt = Receipt::create($data);
+
+        if ($newReceipt) {
+            return redirect()->back()->with('success', __('New receipt created successfully!'));
+        } else {
+            return redirect()->back()->with('sorry', __('Failed to create receipt. Please try again.'));
+        }
     }
-    }
+}
+
 
     public function indexReceipt(){
         $receipts = Receipt::paginate(20);
@@ -107,7 +179,7 @@ class ReceiptController extends Controller
 
     // تحقق مما إذا كان الإيصال قد تمت معالجته بالفعل
     if ($receipt->status === 'accepted' || $receipt->status === 'rejected') {
-        return redirect()->back()->with('error', __('This receipt has already been processed.'));
+        return redirect()->back()->with('sorry', __('This receipt has already been processed.'));
     }
 
     // الحصول على الحالة الجديدة من النموذج
