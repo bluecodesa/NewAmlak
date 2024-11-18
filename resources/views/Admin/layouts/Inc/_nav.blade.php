@@ -216,7 +216,7 @@
                         <img src="{{ Auth::user()->UserBrokerData->broker_logo != null ? url(Auth::user()->UserBrokerData->broker_logo) : asset('HOME_PAGE/img/avatars/14.png') }}"
                         alt class="h-auto rounded-circle" />
                         @elseif(Auth::user()->is_office)
-                        <img src="{{ auth()->user()->UserOfficeData->company_logo != null ? url(Auth::user()->UserOfficeData->company_logo) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                        <img src="{{ auth()->user()->UserOfficeData->company_logo != null ? url(Auth::user()->UserOfficeData->company_logo) : asset('HOME_PAGE/img/avatars/14.png') }}"
                         alt class="h-auto rounded-circle" />
                         @elseif (Auth::user()->is_employee)
                             @php
@@ -253,7 +253,7 @@
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
-                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : asset('HOME_PAGE/img/avatars/14.png') }}"
                                                 alt class="h-auto rounded-circle" />
                                         </div>
                                     </div>
@@ -268,7 +268,7 @@
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
-                                            <img src="{{ auth()->user()->UserOfficeData->company_logo != null ? url(Auth::user()->UserOfficeData->company_logo) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                            <img src="{{ auth()->user()->UserOfficeData->company_logo != null ? url(Auth::user()->UserOfficeData->company_logo) : asset('HOME_PAGE/img/avatars/14.png') }}"
                                                 alt class="h-auto rounded-circle" />
                                         </div>
                                     </div>
