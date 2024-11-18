@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Notifications\Admin\ReceiptAcceptedNotification;
 use App\Notifications\Admin\ReceiptRejectedNotification;
 use App\Notifications\Admin\ReceiptStatusUpdatedNotification;
+use App\Notifications\Admin\ReceiptUploadNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
@@ -73,10 +74,13 @@ class ReceiptController extends Controller
     // Validate the request
     $request->validate([
         'receipt' => 'required|file|mimes:jpeg,png,jpg,pdf|max:2048', // Validate file types and size
+        'invoice_id' => 'required|exists:system_invoices,id', // Ensure invoice_id is valid
+
     ]);
 
     // Initialize the data array
     $data = [
+        'invoice_id' => $request->invoice_id,
         'status' => 'Under review',
         'comment' => $request->input('comment') ?? null,
     ];
@@ -118,6 +122,7 @@ class ReceiptController extends Controller
 
     if ($existingReceipt) {
         // Update the existing receipt
+        $this->notifyRelatedAdmin( $existingReceipt);
         $existingReceipt->update($data);
         return redirect()->back()->with('success', __('Receipt updated successfully!'));
     } else {
@@ -132,6 +137,8 @@ class ReceiptController extends Controller
         $newReceipt = Receipt::create($data);
 
         if ($newReceipt) {
+            $this->notifyRelatedAdmin( $newReceipt);
+
             // return redirect()->back()->with('success', __('New receipt created successfully!'));
             return redirect()->route('Office.ShowSubscription')->with('success', __('New receipt created successfully!'));
 
@@ -140,7 +147,13 @@ class ReceiptController extends Controller
         }
     }
 }
-
+protected function notifyRelatedAdmin( $newReceipt)
+{
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new ReceiptUploadNotification($newReceipt));
+        }
+}
 
     public function indexReceipt(){
         $receipts = Receipt::paginate(20);

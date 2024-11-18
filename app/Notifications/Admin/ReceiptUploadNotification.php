@@ -14,8 +14,7 @@ class ReceiptUploadNotification extends Notification
 
     use Queueable;
 
-    protected $receipt;
-    protected $newStatus;
+    protected $newReceipt;
 
     /**
      * Create a new notification instance.
@@ -23,24 +22,32 @@ class ReceiptUploadNotification extends Notification
      * @param $receipt
      * @param $newStatus
      */
-    public function __construct($receipt, $newStatus)
+    public function __construct($newReceipt)
     {
-        $this->receipt = $receipt;
-        $this->newStatus = $newStatus;
+        $this->newReceipt = $newReceipt;
     }
 
     public function via($notifiable)
     {
         return ['database'];
     }
-    public function toDatabase($notifiable)
+    public function toDatabase($notifiable): array
     {
+         // Determine the client name based on available relationships
+    $client_name = '';
 
+    if ($this->newReceipt->office_id && $this->newReceipt->OfficeData) {
+        $client_name = $this->newReceipt->OfficeData->UserData->name;
+    } elseif ($this->newReceipt->broker_id && $this->newReceipt->BrokerData) {
+        $client_name = $this->newReceipt->BrokerData->UserData->name;
+    } elseif ($this->newReceipt->owner_id && $this->newReceipt->OwnerData) {
+        $client_name = $this->newReceipt->OwnerData->UserData->name;
+    }
 
-        return [
-            'msg' => __( ($this->receipt->receipt_id)),
-            'url' => route('Admin.ShowSubscription'),
-            'type_noty' => 'Your subscription is active now!',
+    return [
+        'msg' => __('Receipt Number') . ' ' . ($this->newReceipt->receipt_id) . ' ' . __('By') . ' ' . $client_name,
+        'url' => route('Admin.Receipt.show', $this->newReceipt->id),
+            'type_noty' => 'New receipt attached',
             'service_name' => '',
             'created_at' => now(),
         ];

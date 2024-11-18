@@ -125,6 +125,7 @@
                             <div class="accordion-body">
                                 <form action="{{ route('Receipt.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
+                                    <input class="" type="text" name="invoice_id" hidden value="{{ $invoice->id }}">
                                     <label for="formFileMultiple" class="form-label">@lang('Attach the receipt')</label>
                                     <div class="input-group">
                                     <input class="form-control" type="file" name="receipt" required

@@ -42,7 +42,7 @@
 
                         @if($accountType)
                         <div class="alert alert-info" style="text-align: center;">
-                            @lang('التوثيق عن طريق نفاذ الوطني')
+                            @lang('التوثيق عن طريق النفاذ الوطني')
                         </div>
                         @endif
 

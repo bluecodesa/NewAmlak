@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Visitor;
+use App\Notifications\Admin\ReceiptUploadNotification;
 use App\Services\Admin\RegionService as AdminRegionService;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
@@ -39,9 +40,7 @@ use App\Services\Broker\TicketService;
 use App\Services\RealEstateRequestService;
 use App\Services\Office\ProjectService;
 use App\Services\Office\PropertyService;
-
-
-
+use Illuminate\Support\Facades\Notification;
 
 class HomeController extends Controller
 {
@@ -399,8 +398,19 @@ $receipts = Receipt::where('office_id',auth()->user()->UserOfficeData->id)->get(
         $receipt->comment = $validatedData['comment'] ?? $receipt->comment;
 
         $receipt->save();
+        $this->notifyRelatedAdmin( $receipt);
 
         return redirect()->back()->with('success', __('Receipt updated successfully.'));
+    }
+
+    protected function notifyRelatedAdmin( $receipt)
+    {
+        dd($receipt);
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new ReceiptUploadNotification($receipt));
+        }
+
     }
     public function showReceipt($id){
         $receipt = Receipt::findOrFail($id);
