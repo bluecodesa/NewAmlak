@@ -1936,7 +1936,6 @@ class HomeController extends Controller
 
     public function register(Request $request)
     {
-
         $request->validate([
             'id_number' => [
                 'required',
@@ -1956,6 +1955,7 @@ class HomeController extends Controller
             'broker_license' => 'nullable|string',
             'license_date' => 'nullable|date',
             'CRN' => 'nullable|string',
+            'company_email' => 'nullable|email|unique:offices',
             'company_name' => 'nullable|string',
             'company_logo' => 'nullable|image',
             'broker_logo' => 'nullable|image',
@@ -1970,6 +1970,8 @@ class HomeController extends Controller
             'email.required' => 'The email address is required.',
             'email.email' => 'Please provide a valid email address.',
             'email.unique' => 'This email address is already taken.',
+            'company_email.email' => 'Please provide a valid email address.',
+            'company_email.unique' => 'This email address is already taken.',
 
             'name.required' => 'The name is required.',
             'name.string' => 'The name must be a valid string.',
@@ -1989,9 +1991,13 @@ class HomeController extends Controller
 
 
         // Check if the user already exists
-        $existingUser = User::where('email', $request->email)
-                            ->orWhere('id_number', $request->id_number)
-                            ->first();
+    // Check if the user already exists with email not null
+        $existingUser = User::where('id_number', $request->id_number)
+        ->orWhere(function ($query) use ($request) {
+            $query->where('email', $request->email)
+                ->whereNotNull('email');
+        })
+        ->first();
 
         if ($existingUser) {
             return redirect()->back()->withErrors([
@@ -2165,7 +2171,7 @@ private function handleOffice($request, $user)
         'CRN' => $request->CRN ?? null,
         // 'phone' => $request->phone,
         // 'company_name' => $user->name,
-        'company_email' => $request->email,
+        'company_email' => $request->email ??  null,
         'company_name' => $user->customer_id .' Office',
         'company_number' => $request->phone,
         'key_phone' => $request->key_phone,
