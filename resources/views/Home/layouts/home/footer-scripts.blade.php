@@ -98,7 +98,7 @@
 
         });
     </script>
-    {{-- {!! $sitting->zoho_salesiq !!} --}}
+    {!! $sitting->zoho_salesiq !!}
 
     {{-- <script>
         window.$zoho = window.$zoho || {};
