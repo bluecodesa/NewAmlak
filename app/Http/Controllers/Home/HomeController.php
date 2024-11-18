@@ -1870,7 +1870,6 @@ class HomeController extends Controller
             ->first();
         }
 
-
         return view('auth.id-validation', get_defined_vars());
     }
 
@@ -2120,7 +2119,8 @@ private function handleBroker($request, $user)
         'invoice_ID' => 'INV-' . $new_invoice_ID,
     ]);
 
-    $galleryName = explode('@', $request->email)[0];
+    // $galleryName = explode('@', $request->email)[0];
+    $galleryName = $user->customer_id;
     $defaultCoverImage = '/Gallery/cover/cover.png';
 
 
@@ -2134,7 +2134,8 @@ private function handleBroker($request, $user)
 
     if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
         // Create the gallery
-        $galleryName = explode('@', $request->email)[0];
+        // $galleryName = explode('@', $request->email)[0];
+        $galleryName = $user->customer_id;
         $defaultCoverImage = '/Gallery/cover/cover.png';
         $gallery = Gallery::create([
             'broker_id' => $broker->id,
@@ -2220,7 +2221,8 @@ private function handleOffice($request, $user)
         'invoice_ID' => 'INV-' . $new_invoice_ID,
     ]);
 
-    $galleryName = explode('@', $request->email)[0];
+    // $galleryName = explode('@', $request->email)[0];
+    $galleryName = $user->customer_id;
     $defaultCoverImage = '/Gallery/cover/cover.png';
 
 
@@ -2233,7 +2235,8 @@ private function handleOffice($request, $user)
     }
 
     if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
-        $galleryName = explode('@', $request->email)[0];
+        // $galleryName = explode('@', $request->email)[0];
+        $galleryName = $user->customer_id;
         $defaultCoverImage = '/Gallery/cover/cover.png';
 
         $gallery = Gallery::create([
