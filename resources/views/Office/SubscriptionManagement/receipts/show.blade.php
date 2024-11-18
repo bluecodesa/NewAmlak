@@ -4,6 +4,17 @@
 
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="row">
+            <div class="col-6 ">
+
+                <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                    <a href="{{ route('Office.ShowSubscription') }}" class="text-muted fw-light">@lang('Subscription Management')
+                    </a> /
+                    @lang('Receipt')
+                </h4>
+            </div>
+        </div>
+
         @if($receipt->comment)
         <div class="card">
             <div class="card-body">
