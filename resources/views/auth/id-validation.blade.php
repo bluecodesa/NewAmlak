@@ -53,7 +53,7 @@
                         </div> --}}
 
                         <div class="app-brand justify-content-center mb-4 mt-2">
-                            <a href="{{ route('welcome') }}" class="logo logo-admin"><img
+                            <a class="logo logo-admin"><img
                                     src="{{ url('HOME_PAGE/svg/icons/nafath_logo.png') }}" alt="" height="50"></a>
                         </div>
 
