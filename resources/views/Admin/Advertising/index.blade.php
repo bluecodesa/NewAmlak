@@ -98,7 +98,7 @@
                                     </td> --}}
                                     <td>{{ $Ad->client_name }}</td>
                                     {{-- <td>{{ $Ad->ad_url }}</td> --}}
-                                    <td>{{ $Ad->status }}</td>
+                                    <td>{{ __($Ad->status) }}</td>
                                     <td>{{ \Carbon\Carbon::parse($Ad->show_start_date)->format('Y-m-d H:i:s') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($Ad->show_end_date)->format('Y-m-d H:i:s') }}</td>
                                     <td>{{ $Ad->ad_duration }} @lang('day')</td>
@@ -131,7 +131,7 @@
                                             </div>
                                         </div>
                                     </td>
-                      
+
                                 </tr>
                             @empty
                                 <tr>

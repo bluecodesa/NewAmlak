@@ -8,7 +8,7 @@
                     <div class="card">
                         <div class="card-body">
             <div class="text-center mb-4">
-                <h3 class="address-title mb-2">انشاء حساب</h3>
+                <h3 class="address-title mb-2">نوع الحساب</h3>
             </div>
             <div class="row">
                 <div class="col-md mb-md-0 mb-3">
@@ -137,6 +137,12 @@
             window.location.href = "{{ route('Home.createAccount') }}" + "?accountType=" + accountType;
         }
     </script>
+
+    {{-- <script>
+        function redirectToIdNumber(accountType) {
+            window.location.href = "{{ route('Home.nafathVerify') }}" + "?accountType=" + accountType;
+        }
+    </script> --}}
 
 
 @endsection

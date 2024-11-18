@@ -517,7 +517,8 @@
                                         @forelse ($invoices as $index => $invoice)
                                             <tr>
                                                 <td> {{ $invoice->subscription_name }} </td>
-                                                <td>{{ __($invoice->period_type) }} </td>
+                                                {{-- <td>{{ __($invoice->period_type) }} </td> --}}
+                                                <td>{{ __($invoice->period) }} {{ __($invoice->period_type) }} </td>
 
                                                 <td>
                                                     @if ($loop->last)

@@ -236,7 +236,7 @@
                                                 @endif
                                                 @if($receipt->status == "Under review")
                                                     @if (Auth::user()->hasPermission('read-project'))
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateReceiptModal" href="#">
+                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateReceiptModal-{{ $receipt->id }}">
                                                         @lang('Edit')
                                                     </a>
                                                     @endif
@@ -260,7 +260,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="updateReceiptModal" tabindex="-1" aria-labelledby="updateReceiptModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="updateReceiptModal-{{ $receipt->id }}" tabindex="-1" aria-labelledby="updateReceiptModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <form action="{{ route('Broker.Receipt.update', $receipt->id) }}" method="POST" enctype="multipart/form-data">

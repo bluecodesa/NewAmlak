@@ -20,15 +20,15 @@
                         <label class="form-label">@lang('Name')</label>
                         <p>{{ $advertisement->ad_name }}</p>
                     </div>
-                 
+
 
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">@lang('Client Name')</label>
                         <p>{{ $advertisement->client_name }}</p>
                     </div>
-                    
+
                     <div class="col-md-6 col-12 mb-3">
-                        <label class="form-label">@lang('Client Name')</label>
+                        <label class="form-label">@lang('status')</label>
                         <p>{{ __($advertisement->status) }}</p>
                     </div>
 
@@ -64,7 +64,7 @@
                             </video>
                         @endif
                     </div>
-                    
+
                 </div>
                 <div class="col-12">
                     <a href="{{ route('Admin.Advertisings.index') }}" class="btn btn-secondary">

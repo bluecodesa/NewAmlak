@@ -122,6 +122,7 @@
                             <thead class="table-dark">
                                 <tr>
                                     <th>@lang('Subscription Name')</th>
+                                    <th>@lang('Invoice Number')</th>
                                     <th>@lang('Subscription Time')</th>
                                     <th>@lang('Subscription Status')</th>
                                     <th>@lang('Action')</th>
@@ -132,6 +133,7 @@
                                     <tr>
 
                                         <td> {{ $invoice->subscription_name }} </td>
+                                        <td> {{ $invoice->invoice_ID }} </td>
                                         <td>{{ __($invoice->period) }} {{ __($invoice->period_type) }} </td>
                                         <td>
                                             @if ($loop->last)
@@ -196,6 +198,7 @@
                             <tr>
 
                                 <th>@lang('Receipt Number')</th>
+                                <th>@lang('Invoice Number')</th>
                                 <th>@lang('Receipt Status')</th>
                                 <th>@lang('Created Date')</th>
                                 <th>@lang('Action')</th>
@@ -208,6 +211,9 @@
 
                                     <td>
                                         {{ $receipt->receipt_id }}
+                                    </td>
+                                    <td>
+                                        {{ $receipt->InvoiceData->invoice_ID }}
                                     </td>
                                     <td><span class="badge bg-primary" style="font-size: 0.75rem; padding: 0.25em 0.5em;">
                                         {{ __($receipt->status) }}
@@ -232,7 +238,7 @@
                                                 @endif
                                                 @if($receipt->status == "Under review")
                                                     @if (Auth::user()->hasPermission('read-project'))
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateReceiptModal" href="#">
+                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateReceiptModal-{{ $receipt->id }}">
                                                         @lang('Edit')
                                                     </a>
                                                     @endif
@@ -256,7 +262,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="updateReceiptModal" tabindex="-1" aria-labelledby="updateReceiptModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="updateReceiptModal-{{ $receipt->id }}" tabindex="-1" aria-labelledby="updateReceiptModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <form action="{{ route('Office.Receipt.update', $receipt->id) }}" method="POST" enctype="multipart/form-data">

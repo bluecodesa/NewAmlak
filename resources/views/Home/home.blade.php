@@ -1179,11 +1179,12 @@
                     <div class="col-lg-7">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="mb-1">ارسال رسالة</h4>
-                                <p class="mb-4">
+                                <h4 class="mb-1">ارسل لنا رسالة</h4>
+                                <p class="mb-4">إذا كان لديك اي استفسار / شكوى / اقتراح يسعدنا تواصلك معنا</p>
+                                {{-- <p class="mb-4">
                                     إذا كنت ترغب في مناقشة أي شيء متعلق بالدفع والحساب والترخيص<br
                                         class="d-none d-lg-block" />
-                                    الشراكات، أو لديك أسئلة ما قبل البيع، فأنت في المكان الصحيح. </p>
+                                    الشراكات، أو لديك أسئلة ما قبل البيع، فأنت في المكان الصحيح. </p> --}}
                                 <form action="{{ route('home.StoreContactUs') }}" method="POST">
                                     @csrf
                                     <input type="text" name="key_phone" hidden required value="966"

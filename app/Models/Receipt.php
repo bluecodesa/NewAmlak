@@ -24,5 +24,9 @@ class Receipt extends Model
     {
         return $this->belongsTo(Owner::class, 'owner_id');
     }
+    public function InvoiceData()
+    {
+        return $this->belongsTo(SystemInvoice::class, 'invoice_id');
+    }
 
 }

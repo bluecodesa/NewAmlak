@@ -83,6 +83,8 @@ Route::group(
             Route::post('verifyLogin', [HomeController::class, 'verifyLogin'])->name('auth.verifyLogin');
             Route::get('chooseAccount', [HomeController::class, 'chooseAccount'])->name('auth.chooseAccount');
             Route::get('Login', [HomeController::class, 'loginByPassword'])->name('auth.loginByPassword');
+            Route::get('nafathVerify', [HomeController::class, 'nafathVerify'])->name('nafathVerify');
+            Route::post('nafathVerify', [HomeController::class, 'register'])->name('storeAccount');
             Route::get('createAccount', [HomeController::class, 'createAccount'])->name('createAccount');
             Route::post('createAccount', [HomeController::class, 'register'])->name('storeAccount');
             Route::post('addAccount', [HomeController::class, 'addAccount'])->name('addAccount');

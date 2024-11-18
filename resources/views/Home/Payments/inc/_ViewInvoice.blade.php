@@ -101,11 +101,11 @@
                 اكمل الدفع اون لاين</button>
         </form> --}}
 
-        <div class="row">
+        <div class="row m-2">
             <div class="col-4">
                 <form action="{{ route('Payment.store') }}" method="POST">
                     @csrf
-                    <button type="submit" class="btn btn-success btn-lg btn-block waves-effect waves-light">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block waves-effect waves-light">
                         اكمل الدفع اون لاين
                     </button>
                 </form>
@@ -115,23 +115,24 @@
                     <div class="accordion-item card">
                         <button
                             type="button"
-                            class="btn btn-primary btn-lg btn-block waves-effect waves-light"
+                            class="btn btn-success btn-lg btn-block waves-effect waves-light"
                             data-bs-toggle="collapse"
                             data-bs-target="#accordionIcon-1"
                             aria-controls="accordionIcon-1">
                             اكمل الدفع عن طريق حواله بنكيه
                         </button>
-                        <div id="accordionIcon-1" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+                        <div id="accordionIcon-1" class="accordion-collapse collapse m-2" data-bs-parent="#accordionIcon">
                             <div class="accordion-body">
                                 <form action="{{ route('Receipt.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
+                                    <input class="" type="text" name="invoice_id" hidden value="{{ $invoice->id ?? '' }}">
                                     <label for="formFileMultiple" class="form-label">@lang('Attach the receipt')</label>
                                     <div class="input-group">
                                     <input class="form-control" type="file" name="receipt" required
                                         id="projectMasterplan" accept="image/*,application/pdf">
                                         <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
                                     </div>
-                                    <div class="col-12" style="text-align: center;">
+                                    <div class="col-12 m-2" style="text-align: center;">
                                         <button class="btn btn-primary col-4 waves-effect waves-light" id="submit_button"
                                             type="submit">@lang('send')</button>
                                     </div>
