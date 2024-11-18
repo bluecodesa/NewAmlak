@@ -71,6 +71,7 @@
                         </div>
                     </div> --}}
 <!-- Modal -->
+
 <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -111,6 +112,8 @@
                 <div class="card m-b-30">
                     <div class="card-body">
                         <h4 class="card-title">@lang('Receipt')</h4>
+                        <h4 class="card-title">{{ __($receipt->receipt_id) }}</h4>
+                        <h4 class="card-title">{{ __($receipt->status) }}</h4>
                         <div class="embed-responsive embed-responsive-16by9">
                             @if($receipt->receipt)
                                 <div class="card card-action mb-4">
