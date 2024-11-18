@@ -405,7 +405,6 @@ $receipts = Receipt::where('office_id',auth()->user()->UserOfficeData->id)->get(
 
     protected function notifyRelatedAdmin( $receipt)
     {
-        dd($receipt);
         $admins = User::where('is_admin', true)->get();
         foreach ($admins as $admin) {
             Notification::send($admin, new ReceiptUploadNotification($receipt));
