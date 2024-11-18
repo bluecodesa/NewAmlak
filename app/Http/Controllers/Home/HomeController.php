@@ -2257,7 +2257,7 @@ private function handleOwner($request, $user)
 {
     $owner= Owner::create([
         'name' => $request->name,
-        'email' => $request->email,
+        'email' => $request->email ?? null,
         'user_id' => $user->id,
         'key_phone' => $request->key_phone ?? null,
         'phone' => $request->phone ?? null,
@@ -2582,7 +2582,7 @@ public function addAccount (Request $request)
 
             'user_id' => $user->id,
             'CRN' => $request->CRN ?? null,
-            'company_email' => $request->email,
+            'company_email' => $request->email ?? null,
             'company_name' => $user->customer_id .' Office',
             'company_number' => $request->phone,
             'key_phone' => $request->key_phone,
