@@ -70,8 +70,8 @@ trait WhatsAppAccountCredentials
                         ],
                         'json' => [
                             'session_uuid' => $whatsAppSetting->session_uuid,
-                            // 'phone' => $user->full_phone,
-                            'phone' => 201119978333,
+                            'phone' => $user->full_phone,
+                            // 'phone' => 201119978333,
                             // 'phone' => 201205693178,
                             'type' => $whatsAppSetting->type,
                             'message' => $plainContent,
