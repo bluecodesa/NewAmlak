@@ -63,7 +63,7 @@
                                             <label class="form-label" for="mobile">@lang('Mobile Whats app')<span
                                                     class="text-danger">*</span></label>
                                             <div class="input-group">
-                                                <input type="text" placeholder="123456789" id="phone" name="mobile"
+                                                <input type="text" placeholder="5********" id="phone" name="mobile"
                                                     class="form-control" required maxlength="9" pattern="\d{1,9}"
                                                     oninput="updateFullPhone(this)"
                                                     aria-label="Text input with dropdown button">

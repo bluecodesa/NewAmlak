@@ -2364,7 +2364,7 @@ public function addAccount (Request $request)
 
         $owner= Owner::create([
             'name' => $request->name,
-            'email' => $request->email,
+            'email' => $request->email ?? null,
             'user_id' => $user->id,
             'key_phone' => $request->key_phone ?? null,
             'phone' => $request->phone ?? null,
@@ -2512,7 +2512,8 @@ public function addAccount (Request $request)
             'invoice_ID' => 'INV-' . $new_invoice_ID,
         ]);
 
-        $galleryName = explode('@', $request->email)[0];
+        // $galleryName = explode('@', $request->email)[0];
+        $galleryName = $user->customer_id;
         $defaultCoverImage = '/Gallery/cover/cover.png';
 
 
@@ -2526,7 +2527,8 @@ public function addAccount (Request $request)
 
         if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
             // Create the gallery
-            $galleryName = explode('@', $request->email)[0];
+            // $galleryName = explode('@', $request->email)[0];
+            $galleryName = $user->customer_id;
             $defaultCoverImage = '/Gallery/cover/cover.png';
             $gallery = Gallery::create([
                 'broker_id' => $broker->id,
@@ -2563,7 +2565,6 @@ public function addAccount (Request $request)
     private function handleNewOffice($request, $user)
     {
         $user->update(['is_office' => 1]);
-
         $RolesIds = Role::whereIn('name', ['Office-Admin'])->pluck('id')->toArray();
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
         $subscriptionType = SubscriptionType::where('is_deleted', 0)
@@ -2571,18 +2572,10 @@ public function addAccount (Request $request)
         ->where('new_subscriber', '1')
         ->whereIn('id', $RolesSubscriptionTypeIds)
         ->first();
+
         $subscription_type_id = $subscriptionType->id;
 
         $office = Office::create([
-            // 'user_id' => $user->id,
-            // 'CRN' => $request->CRN ?? null,
-            // 'phone' => $request->phone,
-            // 'key_phone' => $request->key_phone,
-            // 'full_phone' => $request->full_phone,
-            // 'company_name' => $user->name,
-            // 'created_by' => $user->id,
-            // 'company_logo' => $request->company_logo ?? null,
-
             'user_id' => $user->id,
             'CRN' => $request->CRN ?? null,
             'company_email' => $request->email ?? null,
@@ -2611,6 +2604,12 @@ public function addAccount (Request $request)
             'end_date' => $endDate,
             'total' => '200'
         ]);
+        foreach ($subscriptionType->sections as $section) {
+            SubscriptionSection::create([
+                'section_id' => $section->id,
+                'subscription_id' => $subscription->id,
+            ]);
+        }
 
         $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
         $delimiter = '-';
@@ -2627,7 +2626,8 @@ public function addAccount (Request $request)
             'invoice_ID' => 'INV-' . $new_invoice_ID,
         ]);
 
-        $galleryName = explode('@', $request->email)[0];
+        // $galleryName = explode('@', $request->email)[0];
+        $galleryName = $user->customer_id;
         $defaultCoverImage = '/Gallery/cover/cover.png';
 
 
@@ -2640,7 +2640,8 @@ public function addAccount (Request $request)
         }
 
         if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
-            $galleryName = explode('@', $request->email)[0];
+            // $galleryName = explode('@', $request->email)[0];
+            $galleryName = $user->customer_id;
             $defaultCoverImage = '/Gallery/cover/cover.png';
 
             $gallery = Gallery::create([
