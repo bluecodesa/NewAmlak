@@ -1654,6 +1654,12 @@ class HomeController extends Controller
         $setting = Setting::first();
         return view('Home.Terms', get_defined_vars());
     }
+
+    function TermsAdvertising()
+    {
+        $setting = Setting::first();
+        return view('Home.TermsAdvertising', get_defined_vars());
+    }
     public function createRequest(Request $request)
     {
 

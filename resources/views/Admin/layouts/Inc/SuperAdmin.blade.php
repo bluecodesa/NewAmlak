@@ -302,6 +302,11 @@
                                     <div data-i18n="@lang('Terms')">@lang('Conditions & Terms')</div>
                                 </a>
                             </li>
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.TermsAdvertising') }}" class="menu-link">
+                                    <div data-i18n="@lang('Terms')">@lang('Terms of advertising on the platform')</div>
+                                </a>
+                            </li>
 
             </ul>
         </li>

@@ -396,7 +396,22 @@ class SettingController extends Controller
         return view('Admin.settings.HomePages.Terms', get_defined_vars());
     }
 
+
     function UpdateTerms(Request $request)
+    {
+        $request_data =  $request->except(['files']);
+        $setting = Setting::first();
+        $setting->update($request_data);
+        return back()->withSuccess(__('Update successfully'));
+    }
+
+    function TermsAdvertising()
+    {
+        $setting = Setting::first();
+        return view('Admin.settings.HomePages.TermsAdvertising', get_defined_vars());
+    }
+
+    function UpdateTermsAdvertising(Request $request)
     {
         $request_data =  $request->except(['files']);
         $setting = Setting::first();

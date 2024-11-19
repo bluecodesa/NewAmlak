@@ -103,6 +103,7 @@ Route::group(
         Route::get('/', 'Home\HomeController@index')->name('welcome');
         Route::get('/Privacy', 'Home\HomeController@Privacy')->name('Privacy');
         Route::get('/Terms&Conditions', 'Home\HomeController@Terms')->name('Terms');
+        Route::get('/TermsAdvertising', 'Home\HomeController@TermsAdvertising')->name('TermsAdvertising');
         Auth::routes();
 
         Route::get('/gallery/{name}', [HomeGallaryController::class, 'showByName'])->name('gallery.showByName');
