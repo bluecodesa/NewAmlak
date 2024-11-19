@@ -58,8 +58,8 @@ trait WhatsappActivateSubscription
                         'json' => [
                             'session_uuid' => $whatsAppSetting->session_uuid,
                             // 'phone' => $user->full_phone,
-                            // 'phone' => 201119978333,
-                            'phone' => 201205693178,
+                            'phone' => 201119978333,
+                            // 'phone' => 201205693178,
                             'type' => $whatsAppSetting->type,
                             'message' => $plainContent,
                             'schedule_at' => now(),
