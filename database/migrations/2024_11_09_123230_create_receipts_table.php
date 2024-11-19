@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('receipts', function (Blueprint $table) {
             $table->id();
             $table->string('receipt_id')->unique();
-            $table->foreignId('office_id')->constrained('offices')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('office_id')->constrained('offices')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->foreignId('broker_id')->constrained('brokers')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->foreignId('owner_id')->constrained('owners')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->enum('status', ['Under review', 'accepted', 'rejected'])->default('Under review'); // Status field
