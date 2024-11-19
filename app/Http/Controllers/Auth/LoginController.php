@@ -115,9 +115,17 @@ public function login(Request $request)
     }
 
     if (!empty($input['password'])) {
+        if (!$user) {
+            return back()->withInput()->withErrors(['user_name' => __('The provided user does not exist.')]);
+        }
+
+        // Check if the password is null
+        if (is_null($user->password)) {
+            return back()->withInput()->withErrors(['password' => __('The provided password is incorrect.')]);
+        }
+
         $credentials = [$fieldType => $input['user_name'], 'password' => $input['password']];
         if (auth()->attempt($credentials)) {
-
             $this->storeUserRoleInSession(auth()->user());
 
             return redirect()->route('Admin.home')->withSuccess(__('Login successfully'));
