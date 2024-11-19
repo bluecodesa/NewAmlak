@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Traits\Email\MailActivateSubscription;
+use App\Http\Traits\WhatsApp\WhatsappActivateSubscription;
 use App\Models\Receipt;
 use App\Models\SubscriptionSection;
 use App\Models\User;
@@ -15,6 +17,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ReceiptController extends Controller
 {
+    use MailActivateSubscription;
+    use WhatsappActivateSubscription;
     //
 
     // public function storeReceipt(Request $request){
@@ -70,7 +74,7 @@ class ReceiptController extends Controller
     // }
 
     public function storeReceipt(Request $request)
-{
+    {
     // Validate the request
     $request->validate([
         'receipt' => 'required|file|mimes:jpeg,png,jpg,pdf|max:2048', // Validate file types and size
@@ -189,7 +193,7 @@ protected function notifyRelatedAdmin( $newReceipt)
     // }
 
     public function updateStatus(Request $request, $id)
-{
+    {
     $receipt = Receipt::findOrFail($id);
 
     // تحقق مما إذا كان الإيصال قد تمت معالجته بالفعل
@@ -221,7 +225,6 @@ protected function notifyRelatedAdmin( $newReceipt)
 
     // إرسال إشعار للمستخدم المرتبط بالإيصال
     $this->notifyRelatedUser($receipt, $newStatus);
-
     return redirect()->back()->with('success', __('Receipt status updated successfully.'));
 
 }
@@ -271,58 +274,61 @@ protected function notifyRelatedAdmin( $newReceipt)
     }
 
     protected function activateSubscription($userId)
-{
-    // Auth::loginUsingId($userId);
+     {
+        // Auth::loginUsingId($userId);
 
-    // Fetch user data for office or broker
-    $user = User::find($userId);
+        // Fetch user data for office or broker
+        $user = User::find($userId);
 
-    // $user = Auth::user();
-    if (!$user) {
-        return;
-    }
-    $officeData = $user->UserOfficeData;
-    $brokerData = $user->UserBrokerData;
+        // $user = Auth::user();
+        if (!$user) {
+            return;
+        }
+        $officeData = $user->UserOfficeData;
+        $brokerData = $user->UserBrokerData;
 
-    // Determine which subscription to use
-    $subscription = $officeData ? $officeData->UserSubscription : $brokerData->UserSubscription;
+        // Determine which subscription to use
+        $subscription = $officeData ? $officeData->UserSubscription : $brokerData->UserSubscription;
 
-    if ($subscription) {
-        $subscriptionType = $subscription->SubscriptionTypeData;
-        $endDate = $subscriptionType->calculateEndDate(now())->format('Y-m-d H:i:s');
+        if ($subscription) {
+            $subscriptionType = $subscription->SubscriptionTypeData;
+            $endDate = $subscriptionType->calculateEndDate(now())->format('Y-m-d H:i:s');
 
-        // Get subscription sections
-        $sections = $subscriptionType->sections()->get();
+            // Get subscription sections
+            $sections = $subscriptionType->sections()->get();
 
-        // Delete old sections and add new ones
-        $subscription->SubscriptionSectionData()->delete();
-        foreach ($sections as $section) {
-            SubscriptionSection::create([
-                'section_id' => $section->id,
-                'subscription_id' => $subscription->id,
+            // Delete old sections and add new ones
+            $subscription->SubscriptionSectionData()->delete();
+            foreach ($sections as $section) {
+                SubscriptionSection::create([
+                    'section_id' => $section->id,
+                    'subscription_id' => $subscription->id,
+                ]);
+            }
+
+            // Update subscription status to active
+            $subscription->update([
+                'status' => 'active',
+                'is_start' => 1,
+                'start_date' => now()->format('Y-m-d H:i:s'),
+                'end_date' => $endDate
             ]);
         }
 
-        // Update subscription status to active
-        $subscription->update([
-            'status' => 'active',
-            'is_start' => 1,
-            'start_date' => now()->format('Y-m-d H:i:s'),
-            'end_date' => $endDate
-        ]);
-    }
+        // Update invoice status if available
+        $invoice = $this->getPendingInvoice($officeData, $brokerData);
+        if ($invoice) {
+            $invoice->update(['status' => 'active']);
+        }
 
-    // Update invoice status if available
-    $invoice = $this->getPendingInvoice($officeData, $brokerData);
-    if ($invoice) {
-        $invoice->update(['status' => 'active']);
-    }
+        // Redirect user based on their role
+        $redirectRoute = $officeData ? 'Office.home' : 'Broker.home';
+        $redirectMessage = __('The subscription has been activated successfully');
+        $this->MailActivateSubscription($user, $subscription, $subscriptionType, $invoice);
+        $this->WhatsappActivateSubscription($user, $subscription, $subscriptionType, $invoice);
 
-    // Redirect user based on their role
-    $redirectRoute = $officeData ? 'Office.home' : 'Broker.home';
-    $redirectMessage = __('The subscription has been activated successfully');
-    return redirect()->route($redirectRoute)->with('success', $redirectMessage);
-}
+        return redirect()->route($redirectRoute)->with('success', $redirectMessage);
+    }
 
 // Helper function to get the pending invoice
 private function getPendingInvoice($officeData, $brokerData)
