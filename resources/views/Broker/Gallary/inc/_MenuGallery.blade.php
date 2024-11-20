@@ -2,14 +2,13 @@
     <table class="table" id="table">
         <thead class="table-dark">
             <tr>
-
+                <th>@lang('Ad Status')</th>
                 <th>@lang('ad name') / @lang('Name')</th>
                 <th>@lang('Type')</th>
                 <th>@lang('Occupancy')</th>
                 <th>@lang('Ad type')</th>
                 <th>@lang('city')</th>
-                <th>@lang('Show in Gallery')</th>
-                <th>@lang('Ad Status')</th>
+                <th>@lang('Ad validity')</th>
                 <th>@lang('views')</th>
                 <th>@lang('Action')</th>
             </tr>
@@ -22,6 +21,17 @@
             $isGalleryProperty = isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
             @endphp
                 <tr>
+                    <td>
+                        @if ($unit->show_in_gallery != 1)
+                            <i class="tf-icons ti ti-alarm me-1 text-danger animate-alarm icon" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذا الاعلان غير منشور في المعرض اضغط هنا للنشر')">
+                            </i>
+                            <span class="text-danger">@lang('Unpublished')</span>
+                        @else
+                            <i class="tf-icons ti ti-alarm me-1 text-success icon" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذا الاعلان منشور في المعرض')">
+                            </i>
+                            <span class="text-success">@lang('Published')</span>
+                        @endif
+                    </td>
 
                     <td>{{ $unit->ad_name ?? $unit->name }}</td>
                     <td >
@@ -36,12 +46,11 @@
                         @endif
                         </button>
                     </td>
-                    <td>{{ __($unit->status) }}</td>
-                    <td>{{ __($unit->type) ?? '' }} </td>
+                    <td>{{ __($unit->status) ?? '-' }}</td>
+                    <td>{{ __($unit->type) ?? '-' }} </td>
                     <td>
-                        {{ $unit->CityData->name ?? '' }}
+                        {{ $unit->CityData->name ?? '-' }}
                     </td>
-                    <td>{{ $unit->show_in_gallery == 1 || $unit->show_in_gallery == 1 ? __('show') : __('hide') }}</td>
                     <td> {{ __($unit->ad_license_status)}}
                     </td>
                     <td> {{ $numberOfVisitorsForEachUnit[$unit->id] ?? 0 }}</td>
@@ -106,7 +115,7 @@
 
                 </tr>
             @empty
-                <td colspan="8">
+                <td colspan="9">
                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                         <span class="alert-icon text-danger me-2">
                             <i class="ti ti-ban ti-xs"></i>
