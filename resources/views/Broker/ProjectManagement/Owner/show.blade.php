@@ -32,7 +32,7 @@
                             <label for="color" class="form-label">@lang('phone')</label>
                             <div class="input-group">
                                 <input type="text" placeholder="123456789" name="phone" id="phone" disabled
-                                    value="{{ $Owner->UserData->phone }}" readonly class="form-control" maxlength="9">
+                                    value="{{ $Owner->UserData->phone }}" readonly class="form-control" maxlength="10">
                                 <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false" disabled>
                                     {{ $Owner->key_phone ?? '966' }}

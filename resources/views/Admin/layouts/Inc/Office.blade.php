@@ -289,14 +289,15 @@
             </a>
         </li>
     @endif
-        @if (in_array(11, $sectionsIds))
-            <li class="menu-item">
-                <a href="{{ route('Office.Tickets.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
-                    <div data-i18n="@lang('technical support')">@lang('technical support')</div>
-                </a>
-            </li>
-        @endif
+    @if (in_array(11, $sectionsIds))
+    <li class="menu-item" data-tour="technical-support">
+        <a href="{{ route('Office.Tickets.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+            <div data-i18n="@lang('technical support')">@lang('technical support')</div>
+        </a>
+    </li>
+@endif
+
         @if (in_array(9, $sectionsIds))
             <li class="menu-item">
                 <a href="{{ route('Office.Setting.index') }}" class="menu-link">

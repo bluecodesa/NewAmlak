@@ -9,7 +9,45 @@
         /* transition: background-color 0.3s; */
     }
 
+
+    .shepherd-element {
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.shepherd-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.shepherd-text {
+    font-size: 14px;
+    color: #555;
+}
+
+.shepherd-button {
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+
+.shepherd-button-primary {
+    background-color: #7367f0;
+    color: #fff;
+}
+
+.shepherd-button-secondary {
+    background-color: #e9ecef;
+    color: #333;
+}
+
+
 </style>
+
+
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             @if(!auth()->user()->UserOfficeData->city_id)
@@ -876,5 +914,51 @@
 </script>
 
         {{-- end mapbox --}}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Declare the tour variable
+                let tour;
+
+                // Initialize the tour
+                tour = new Shepherd.Tour({
+                    defaultStepOptions: {
+                        classes: 'shadow-md bg-white',
+                        scrollTo: true,
+                        cancelIcon: {
+                            enabled: true
+                        },
+                        buttons: [
+                            {
+                                text: 'Skip',
+                                action: () => tour.cancel() // Correctly reference the tour
+                            }
+                        ]
+                    },
+                    useModalOverlay: true // Adds a semi-transparent overlay
+                });
+
+                // Add the step for the Technical Support menu item
+                tour.addStep({
+                    id: 'technical-support',
+                    text: 'This is the Technical Support section where you can manage support tickets.',
+                    attachTo: {
+                        element: '[data-tour="technical-support"]', // Attach to the menu item
+                        on: 'right' // Tooltip will appear to the right of the element
+                    },
+                    title: 'Technical Support',
+                    buttons: [
+                        {
+                            text: 'Skip',
+                            action: () => tour.cancel() // Correctly reference the tour
+                        }
+                    ]
+                });
+
+                // Automatically start the tour
+                tour.start();
+            });
+        </script>
+
+
     @endpush
 @endsection

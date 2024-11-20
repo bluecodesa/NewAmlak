@@ -1204,10 +1204,10 @@
                                                     class="required-color">*</span></label>
                                             <div class="input-group">
                                                 <input type="text" placeholder="123456789" name="mobile" required
-                                                    id="phone" value="" class="form-control" maxlength="9"
-                                                    pattern="\d{1,9}" oninput="updateFullPhone(this)"
+                                                    id="phone" value="" class="form-control" maxlength="10"
+                                                    pattern="\d{1,10}" oninput="updateFullPhone(this)"
                                                     aria-label="Text input with dropdown button">
-                                                <button class="btn btn-outline-primary dropdown-toggle waves-effect"
+                                                {{-- <button class="btn btn-outline-primary dropdown-toggle waves-effect"
                                                     type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     966
                                                 </button>
@@ -1216,6 +1216,19 @@
                                                             href="javascript:void(0);">971</a></li>
                                                     <li><a class="dropdown-item" data-key="966"
                                                             href="javascript:void(0);">966</a></li>
+                                                </ul> --}}
+                                                <button class="btn btn-outline-primary dropdown-toggle waves-effect"
+                                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                {{ config('translatable.phones')[0] }}
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    @foreach (config('translatable.phones') as $phone)
+                                                    <li>
+                                                    <a class="dropdown-item" data-key="{{ $phone }}" href="javascript:void(0);">
+                                                        {{ $phone }}+
+                                                    </a>
+                                                    </li>
+                                                    @endforeach
                                                 </ul>
                                             </div>
                                         </div>

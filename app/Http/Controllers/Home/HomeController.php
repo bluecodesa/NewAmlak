@@ -138,13 +138,13 @@ class HomeController extends Controller
             $fullPhone = $request->input('full_phone');
             $phone = $request->input('mobile');
             $keyPhone = $request->input('key_phone');
-
+// dd($fullPhone);
             session(['phone' => $fullPhone, 'mobile' => $phone, 'key_phone' => $keyPhone]);
 
             // Send WhatsApp Message
             $this->WhatsappSendCode([
-                'phone' => 201119978333,
-                // 'phone' => $fullPhone,
+                // 'phone' => 201119978333,
+                'phone' => $fullPhone,
                 'otp' => $otp,
             ]);
         }
