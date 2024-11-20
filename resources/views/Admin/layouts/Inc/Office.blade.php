@@ -289,14 +289,46 @@
             </a>
         </li>
     @endif
-    @if (in_array(11, $sectionsIds))
-    <li class="menu-item" data-tour="technical-support">
-        <a href="{{ route('Office.Tickets.index') }}" class="menu-link">
-            <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
-            <div data-i18n="@lang('technical support')">@lang('technical support')</div>
-        </a>
-    </li>
-@endif
+        {{-- <li class="menu-item" data-tour="technical-support">
+            <a href="{{ route('Office.Tickets.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                <div data-i18n="@lang('technical support')">@lang('technical support')</div>
+            </a>
+        </li> --}}
+
+        @if (in_array(11, $sectionsIds))
+        <li class="menu-item">
+            <a href="javascript:void(0);"  data-tour="technical-support" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                <div data-i18n="@lang('technical support')">@lang('technical support')</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item" data-tour="technical-support">
+                    <a href="{{ route('Office.Tickets.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                        <div data-i18n="@lang('Tickets Support')">@lang('Tickets Support')</div>
+                    </a>
+                </li>
+                @if (Auth::user()->hasPermission('service-request'))
+                    <li class="menu-item">
+                        <a href="tel:+{{ $sitting->full_phone }}" class="menu-link">
+                            <div data-i18n="@lang('For help contact')">
+                                <i class="ti ti-phone ti-md"></i>@lang('اتصال')
+                            </div>
+                        </a>
+                    </li>
+                @endif
+                <li class="menu-item">
+                    <a href="mailto:{{ $sitting->support_email }}" class="menu-link">
+                        <div data-i18n="@lang('For help send to')">
+                            <i class="ti ti-brand-whatsapp ti-md"></i>  @lang('واتس اب')
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    @endif
+
 
         @if (in_array(9, $sectionsIds))
             <li class="menu-item">

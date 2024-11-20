@@ -139,6 +139,7 @@ class HomeController extends Controller
             $sectionNames = $hasRealEstateGallerySection->pluck('name')->toArray();
         }
 
+
         //
         // $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes()->where('is_deleted', 0)->where('status', 1);
         $UserSubscriptionTypes = $this->SubscriptionTypeService->getOfficeSubscriptionTypes()->where('is_deleted', 0)->where('status', 1);

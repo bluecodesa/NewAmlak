@@ -914,50 +914,56 @@
 </script>
 
         {{-- end mapbox --}}
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                // Declare the tour variable
-                let tour;
+@if ($subscriber->status === 'active' && \Carbon\Carbon::now()->isSameDay(\Carbon\Carbon::parse($subscriber->start_date)))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Declare the tour variable
+            let tour;
+            let technicalSupportText = `@lang('This is the Technical Support section where you can manage support tickets.')`;
+            let technicalSupportTitle = `@lang('technical support')`;
 
-                // Initialize the tour
-                tour = new Shepherd.Tour({
-                    defaultStepOptions: {
-                        classes: 'shadow-md bg-white',
-                        scrollTo: true,
-                        cancelIcon: {
-                            enabled: true
-                        },
-                        buttons: [
-                            {
-                                text: 'Skip',
-                                action: () => tour.cancel() // Correctly reference the tour
-                            }
-                        ]
-                    },
-                    useModalOverlay: true // Adds a semi-transparent overlay
-                });
 
-                // Add the step for the Technical Support menu item
-                tour.addStep({
-                    id: 'technical-support',
-                    text: 'This is the Technical Support section where you can manage support tickets.',
-                    attachTo: {
-                        element: '[data-tour="technical-support"]', // Attach to the menu item
-                        on: 'right' // Tooltip will appear to the right of the element
+            // Initialize the tour
+            tour = new Shepherd.Tour({
+                defaultStepOptions: {
+                    classes: 'shadow-md bg-white',
+                    scrollTo: true,
+                    cancelIcon: {
+                        enabled: true
                     },
-                    title: 'Technical Support',
                     buttons: [
                         {
                             text: 'Skip',
                             action: () => tour.cancel() // Correctly reference the tour
                         }
                     ]
-                });
-
-                // Automatically start the tour
-                tour.start();
+                },
+                useModalOverlay: true // Adds a semi-transparent overlay
             });
-        </script>
+
+            // Add the step for the Technical Support menu item
+            tour.addStep({
+                id: 'technical-support',
+                text: technicalSupportText,
+                attachTo: {
+                    element: '[data-tour="technical-support"]', // Attach to the menu item
+                    on: 'right' // Tooltip will appear to the right of the element
+                },
+                title: technicalSupportTitle,
+                buttons: [
+                    {
+                        text: 'Skip',
+                        action: () => tour.cancel() // Correctly reference the tour
+                    }
+                ]
+            });
+
+            // Automatically start the tour
+            tour.start();
+        });
+    </script>
+
+@endif
 
 
     @endpush
