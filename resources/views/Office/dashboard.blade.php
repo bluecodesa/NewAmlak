@@ -10,40 +10,11 @@
     }
 
 
-    .shepherd-element {
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    font-family: Arial, sans-serif;
-}
 
-.shepherd-title {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-}
-
-.shepherd-text {
-    font-size: 14px;
-    color: #555;
-}
 
 .shepherd-button {
-    font-size: 14px;
-    padding: 8px 12px;
-    border-radius: 5px;
+    margin: 5px; /* Add spacing between buttons */
 }
-
-.shepherd-button-primary {
-    background-color: #7367f0;
-    color: #fff;
-}
-
-.shepherd-button-secondary {
-    background-color: #e9ecef;
-    color: #333;
-}
-
 
 </style>
 
@@ -647,6 +618,87 @@
         @include('Home.Payments._view_inv')
     @include('Office.inc._SubscriptionSuspend')
 
+    @if ($subscriber->status === 'active' && \Carbon\Carbon::now()->isSameDay(\Carbon\Carbon::parse($subscriber->start_date)))
+        <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1" style="text-align: center;">
+            <div class="modal-dialog modal-dialog-centered">
+                <form class="modal-content">
+                    <div class="modal-header">
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="modal-title mb-4" id="backDropModalTitle">@lang('Welcome in Townapp you can strat your tour!')</h5>
+                        <button type="button" class="btn btn-primary" id="startTourButton">@lang('Start Tour')</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var modal = new bootstrap.Modal(document.getElementById('backDropModal'), {
+                    keyboard: false
+                });
+                modal.show();
+
+                document.getElementById('startTourButton').addEventListener('click', function () {
+                    modal.hide();
+
+                    let tour = new Shepherd.Tour({
+                        defaultStepOptions: {
+                            classes: 'shadow-md bg-white',
+                            scrollTo: true,
+                            cancelIcon: {
+                                enabled: true
+                            },
+                            buttons: [
+                                {
+                                    text: '@lang("Skip")',
+                                    classes: 'btn btn-success',
+                                    action: () => tour.cancel()
+                                },
+                                {
+                                    text: '@lang("Next")',
+                                    classes: 'btn btn-info',
+                                    action: () => tour.next()
+                                }
+                            ]
+                        },
+                        useModalOverlay: true
+                    });
+
+
+                    tour.addStep({
+                        id: 'technical-support',
+                        text: `@lang('Here you can get help or open a support ticket.')`,
+                        attachTo: {
+                            element: '[data-tour="technical-support"]',
+                            on: 'right'
+                        },
+                        title: `@lang('technical support')`,
+                        buttons: [
+                            {
+                                text: '@lang("Skip")',
+                                classes: 'btn btn-success',
+                                action: () => tour.cancel()
+                            },
+                            {
+                                text: '@lang("Next")',
+                                classes: 'btn btn-primary',
+                                action: () => tour.next()
+                            }
+                        ]
+                    });
+
+                    tour.start();
+                });
+            });
+        </script>
+    @endif
+
 
     @push('scripts')
         @if ((Auth::user()->UserOfficeData->UserSubscriptionSuspend ?? null))
@@ -914,57 +966,6 @@
 </script>
 
         {{-- end mapbox --}}
-@if ($subscriber->status === 'active' && \Carbon\Carbon::now()->isSameDay(\Carbon\Carbon::parse($subscriber->start_date)))
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Declare the tour variable
-            let tour;
-            let technicalSupportText = `@lang('This is the Technical Support section where you can manage support tickets.')`;
-            let technicalSupportTitle = `@lang('technical support')`;
-
-
-            // Initialize the tour
-            tour = new Shepherd.Tour({
-                defaultStepOptions: {
-                    classes: 'shadow-md bg-white',
-                    scrollTo: true,
-                    cancelIcon: {
-                        enabled: true
-                    },
-                    buttons: [
-                        {
-                            text: 'Skip',
-                            action: () => tour.cancel() // Correctly reference the tour
-                        }
-                    ]
-                },
-                useModalOverlay: true // Adds a semi-transparent overlay
-            });
-
-            // Add the step for the Technical Support menu item
-            tour.addStep({
-                id: 'technical-support',
-                text: technicalSupportText,
-                attachTo: {
-                    element: '[data-tour="technical-support"]', // Attach to the menu item
-                    on: 'right' // Tooltip will appear to the right of the element
-                },
-                title: technicalSupportTitle,
-                buttons: [
-                    {
-                        text: 'Skip',
-                        action: () => tour.cancel() // Correctly reference the tour
-                    }
-                ]
-            });
-
-            // Automatically start the tour
-            tour.start();
-        });
-    </script>
-
-@endif
-
 
     @endpush
 @endsection
