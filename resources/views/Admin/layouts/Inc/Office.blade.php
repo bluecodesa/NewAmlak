@@ -319,9 +319,9 @@
                     </li>
                 @endif
                 <li class="menu-item">
-                    <a href="mailto:{{ $sitting->support_email }}" class="menu-link">
+                    <a href="https://wa.me/{{ $sitting->full_phone }}" class="menu-link" target="_blank">
                         <div data-i18n="@lang('For help send to')">
-                            <i class="ti ti-brand-whatsapp ti-md"></i>  @lang('واتس اب')
+                            <i class="ti ti-brand-whatsapp ti-md"></i> @lang('واتس اب')
                         </div>
                     </a>
                 </li>
