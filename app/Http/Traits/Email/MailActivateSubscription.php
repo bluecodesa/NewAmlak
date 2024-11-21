@@ -11,7 +11,6 @@ trait MailActivateSubscription
 {
     public function MailActivateSubscription($user, $subscription, $subscriptionType, $Invoice)
     {
-        dd($user);
         $notification_id = DB::table('notification_settings')
         ->where('notification_name', 'activate-subscription')
         ->where('email', 1)
