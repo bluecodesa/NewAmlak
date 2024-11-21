@@ -9,7 +9,16 @@
         /* transition: background-color 0.3s; */
     }
 
+
+
+
+.shepherd-button {
+    margin: 5px; /* Add spacing between buttons */
+}
+
 </style>
+
+
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             @if(!auth()->user()->UserOfficeData->city_id)
@@ -609,6 +618,87 @@
         @include('Home.Payments._view_inv')
     @include('Office.inc._SubscriptionSuspend')
 
+    @if ($subscriber->status === 'active' && \Carbon\Carbon::now()->isSameDay(\Carbon\Carbon::parse($subscriber->start_date)))
+        <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1" style="text-align: center;">
+            <div class="modal-dialog modal-dialog-centered">
+                <form class="modal-content">
+                    <div class="modal-header">
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="modal-title mb-4" id="backDropModalTitle">@lang('Welcome in Townapp you can strat your tour!')</h5>
+                        <button type="button" class="btn btn-primary" id="startTourButton">@lang('Start Tour')</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var modal = new bootstrap.Modal(document.getElementById('backDropModal'), {
+                    keyboard: false
+                });
+                modal.show();
+
+                document.getElementById('startTourButton').addEventListener('click', function () {
+                    modal.hide();
+
+                    let tour = new Shepherd.Tour({
+                        defaultStepOptions: {
+                            classes: 'shadow-md bg-white',
+                            scrollTo: true,
+                            cancelIcon: {
+                                enabled: true
+                            },
+                            buttons: [
+                                {
+                                    text: '@lang("Skip")',
+                                    classes: 'btn btn-success',
+                                    action: () => tour.cancel()
+                                },
+                                {
+                                    text: '@lang("Next")',
+                                    classes: 'btn btn-info',
+                                    action: () => tour.next()
+                                }
+                            ]
+                        },
+                        useModalOverlay: true
+                    });
+
+
+                    tour.addStep({
+                        id: 'technical-support',
+                        text: `@lang('Here you can get help or open a support ticket.')`,
+                        attachTo: {
+                            element: '[data-tour="technical-support"]',
+                            on: 'right'
+                        },
+                        title: `@lang('technical support')`,
+                        buttons: [
+                            {
+                                text: '@lang("Skip")',
+                                classes: 'btn btn-success',
+                                action: () => tour.cancel()
+                            },
+                            {
+                                text: '@lang("Next")',
+                                classes: 'btn btn-primary',
+                                action: () => tour.next()
+                            }
+                        ]
+                    });
+
+                    tour.start();
+                });
+            });
+        </script>
+    @endif
+
 
     @push('scripts')
         @if ((Auth::user()->UserOfficeData->UserSubscriptionSuspend ?? null))
@@ -876,5 +966,6 @@
 </script>
 
         {{-- end mapbox --}}
+
     @endpush
 @endsection

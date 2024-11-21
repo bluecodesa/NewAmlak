@@ -203,7 +203,7 @@
                                     <td>
                                         @if (Auth::user()->hasPermission('update-requests-interest'))
                                             <form method="POST"
-                                                action="{{ route('Broker.Interest.status.update', $client->id) }}">
+                                                action="{{ route('Office.Interest.status.update', $client->id) }}">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $client->id }}">
                                                 <select class="form-control select-input w-auto" name="status"

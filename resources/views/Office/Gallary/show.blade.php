@@ -298,7 +298,7 @@
                                                         <td>{{ $client->whatsapp }}</td>
                                                         <td>
                                                             <form method="POST"
-                                                                action="{{ route('Broker.Interest.status.update', $client->id) }}">
+                                                                action="{{ route('Office.Interest.status.update', $client->id) }}">
                                                                 @csrf
                                                                 <input type="hidden" name="id"
                                                                     value="{{ $client->id }}">

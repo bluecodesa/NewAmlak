@@ -51,6 +51,8 @@
                             </a></li>
                         <li class="mb-3"><a href="{{ route('Privacy') }}" class="footer-link">
                                 سياسة الخصوصية</a></li>
+                        <li class="mb-3"><a href="{{ route('TermsAdvertising') }}" class="footer-link">
+                                     @lang('Terms of advertising on the platform')</a></li>
                         {{-- <li class="mb-3"><a href="#" class="footer-link">
                                 ملفات التوثيق</a></li> --}}
 

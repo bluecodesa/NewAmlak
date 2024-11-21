@@ -78,15 +78,15 @@ Route::group(
             Route::get('gallery/{gallery_name}/property/{id}', [HomeGallaryController::class, 'showPubllicProperty'])->name('showPublicProperty');
             route::resource('Real-Estate-Requests', RealEstateRequestController::class)->middleware('CheckSubscription');
             Route::post('/store-request', [HomeController::class, 'createRequest'])->name('createRequest');
-            Route::post('send-otp', [HomeController::class, 'sendOtp'])->name('sendOtp');
-            Route::get('verifyLogin', [HomeController::class, 'verifyLogin'])->name('auth.verifyLogin');
-            Route::post('verifyLogin', [HomeController::class, 'verifyLogin'])->name('auth.verifyLogin');
-            Route::get('chooseAccount', [HomeController::class, 'chooseAccount'])->name('auth.chooseAccount');
-            Route::get('Login', [HomeController::class, 'loginByPassword'])->name('auth.loginByPassword');
-            Route::get('nafathVerify', [HomeController::class, 'nafathVerify'])->name('nafathVerify');
+            Route::post('send-otp', [HomeController::class, 'sendOtp'])->name('sendOtp')->middleware('guest');
+            Route::get('verifyLogin', [HomeController::class, 'verifyLogin'])->name('auth.verifyLogin')->middleware('guest');
+            Route::post('verifyLogin', [HomeController::class, 'verifyLogin'])->name('auth.verifyLogin')->middleware('guest');
+            Route::get('chooseAccount', [HomeController::class, 'chooseAccount'])->name('auth.chooseAccount')->middleware('guest');
+            Route::get('Login', [HomeController::class, 'loginByPassword'])->name('auth.loginByPassword')->middleware('guest');
+            Route::get('nafathVerify', [HomeController::class, 'nafathVerify'])->name('nafathVerify')->middleware('guest');
             Route::post('nafathVerify', [HomeController::class, 'register'])->name('storeAccount');
-            Route::get('createAccount', [HomeController::class, 'createAccount'])->name('createAccount');
-            Route::post('createAccount', [HomeController::class, 'register'])->name('storeAccount');
+            Route::get('createAccount', [HomeController::class, 'createAccount'])->name('createAccount')->middleware('guest');
+            Route::post('createAccount', [HomeController::class, 'register'])->name('storeAccount')->middleware('guest');
             Route::post('addAccount', [HomeController::class, 'addAccount'])->name('addAccount');
 
 
@@ -103,6 +103,7 @@ Route::group(
         Route::get('/', 'Home\HomeController@index')->name('welcome');
         Route::get('/Privacy', 'Home\HomeController@Privacy')->name('Privacy');
         Route::get('/Terms&Conditions', 'Home\HomeController@Terms')->name('Terms');
+        Route::get('/TermsAdvertising', 'Home\HomeController@TermsAdvertising')->name('TermsAdvertising');
         Auth::routes();
 
         Route::get('/gallery/{name}', [HomeGallaryController::class, 'showByName'])->name('gallery.showByName');

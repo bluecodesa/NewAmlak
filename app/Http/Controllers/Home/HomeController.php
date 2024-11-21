@@ -122,8 +122,8 @@ class HomeController extends Controller
 
     public function sendOtp(Request $request)
     {
-        // $otp = 555555;
-        $otp = mt_rand(100000, 999999);
+        $otp = 555555;
+        // $otp = mt_rand(100000, 999999);
         session()->forget(['otp', 'email', 'phone', 'mobile', 'key_phone']);
 
         session(['otp' => $otp]);
@@ -138,7 +138,7 @@ class HomeController extends Controller
             $fullPhone = $request->input('full_phone');
             $phone = $request->input('mobile');
             $keyPhone = $request->input('key_phone');
-
+// dd($fullPhone);
             session(['phone' => $fullPhone, 'mobile' => $phone, 'key_phone' => $keyPhone]);
 
             // Send WhatsApp Message
@@ -1653,6 +1653,12 @@ class HomeController extends Controller
     {
         $setting = Setting::first();
         return view('Home.Terms', get_defined_vars());
+    }
+
+    function TermsAdvertising()
+    {
+        $setting = Setting::first();
+        return view('Home.TermsAdvertising', get_defined_vars());
     }
     public function createRequest(Request $request)
     {

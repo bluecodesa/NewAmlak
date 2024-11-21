@@ -20,6 +20,22 @@
                 @else
                     <img class="" src="{{ url('Offices/Projects/default.svg') }}" alt="Card default image" width="100%" height="200" />
                 @endif
+                <div class="lable bg-label-primary" style="position: absolute; top: 10px; right: 10px; background: rgba(0, 0, 0, 0.5); color: white; padding: 5px; border-radius: 5px;" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذا الاعلان غير منشورة في المعرض اضغط هنا للنشر')">
+
+                @if ($unit->show_in_gallery != 1)
+                <i class="tf-icons ti ti-alarm me-1 text-danger animate-alarm icon" >
+                </i>
+                <span class="text-danger">@lang('Unpublished')</span>
+
+            @else
+                <i class="tf-icons ti ti-alarm me-1 text-success icon">
+
+                </i>
+                <span class="text-success">@lang('Published')</span>
+
+            @endif
+                </div>
+
                 <div class="lable bg-label-primary" style="position: absolute; top: 10px; left: 10px; background: rgba(0, 0, 0, 0.5); color: white; padding: 5px; border-radius: 5px;">
                     @if ($isGalleryUnit)
                        @lang('Unit')
@@ -124,4 +140,4 @@
         @lang('No Data Found!')
     </div>
 @endforelse
-{{-- @include('Broker.Gallary.inc._shareGallery') --}}
+{{-- @include('Office.Gallary.inc._shareGallery') --}}

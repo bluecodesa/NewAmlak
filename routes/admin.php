@@ -103,7 +103,8 @@ Route::group(
 
             Route::get('/TermsPage', [SettingController::class, 'TermsPage'])->name('TermsPage');
             Route::post('/UpdateTerms', [SettingController::class, 'UpdateTerms'])->name('UpdateTerms');
-
+            Route::get('/TermsAdvertisingPage', [SettingController::class, 'TermsAdvertising'])->name('TermsAdvertising');
+            Route::post('/UpdateTermsAdvertising', [SettingController::class, 'UpdateTermsAdvertising'])->name('UpdateTermsAdvertising');
 
 
 

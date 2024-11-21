@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\Email\MailActivateSubscription;
+use App\Http\Traits\WhatsApp\WhatsappActivateSubscription;
 use App\Models\Gallery;
 use App\Models\SubscriptionHistory;
 use App\Models\SubscriptionSection;
@@ -19,6 +21,10 @@ use PDO;
 
 class PaymentController extends Controller
 {
+
+    use MailActivateSubscription;
+    use WhatsappActivateSubscription;
+
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function __construct()
     {
@@ -102,6 +108,8 @@ class PaymentController extends Controller
 
         $redirectRoute = $officeData ? 'Office.home' : 'Broker.home';
         $redirectMessage = $officeData ? 'The subscription has been activated successfully' : 'The subscription has been activated successfully';
+        $this->MailActivateSubscription($user, $subscription, $subscriptionType, $invoice);
+        $this->WhatsappActivateSubscription($user, $subscription, $subscriptionType, $invoice);
         Auth::loginUsingId($data[1]);
         return redirect()->route($redirectRoute)->with('success', __($redirectMessage));
     }
@@ -226,7 +234,7 @@ class PaymentController extends Controller
             $discount =$SubscriptionType->upgrade_rate;
         }
 
-        SystemInvoice::create([
+       $invoice= SystemInvoice::create([
             'broker_id' => $subscription->broker_id,
             'office_id' => $subscription->office_id,
             'subscription_name' => $SubscriptionType->name,
@@ -242,6 +250,8 @@ class PaymentController extends Controller
 
         $redirectRoute = $officeData ? 'Office.home' : 'Broker.home';
         $redirectMessage = 'The subscription has been upgraded successfully';
+        $this->MailActivateSubscription($user, $subscription, $SubscriptionType, $invoice);
+        $this->WhatsappActivateSubscription($user, $subscription, $SubscriptionType, $invoice);
 
         return redirect()->route($redirectRoute)->with('success', __($redirectMessage));
     }

@@ -1,7 +1,30 @@
 @extends('Admin.layouts.app')
 
 @section('title', __('Gallary'))
+<style>
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(2);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
 
+    .animate-alarm {
+        color: red; /* Change the color to red */
+        animation: pulse 1s infinite; /* Add pulse animation */
+    }
+
+    .icon {
+        font-size: 2rem !important; /* Adjust the size of the icon here */
+        transition: transform 0.2s; /* Smooth scale effect on hover */
+    }
+
+    </style>
 @section('content')
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
