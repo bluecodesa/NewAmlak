@@ -108,9 +108,9 @@ class PaymentController extends Controller
 
         $redirectRoute = $officeData ? 'Office.home' : 'Broker.home';
         $redirectMessage = $officeData ? 'The subscription has been activated successfully' : 'The subscription has been activated successfully';
-        Auth::loginUsingId($data[1]);
         $this->MailActivateSubscription($user, $subscription, $subscriptionType, $invoice);
         $this->WhatsappActivateSubscription($user, $subscription, $subscriptionType, $invoice);
+        Auth::loginUsingId($data[1]);
         return redirect()->route($redirectRoute)->with('success', __($redirectMessage));
     }
 
