@@ -40,7 +40,7 @@
             </a>
         </li>
         @if (in_array(15, $sectionsIds))
-            <li class="menu-item">
+            <li class="menu-item" data-tour="project-management">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
                     <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
@@ -84,7 +84,7 @@
         @endif
 
         @if (in_array(14, $sectionsIds))
-            <li class="menu-item">
+            <li class="menu-item" data-tour="users-management">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
                     <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
@@ -101,7 +101,7 @@
         @endif
 
         @if (in_array(19, $sectionsIds) || in_array(16, $sectionsIds))
-            <li class="menu-item">
+            <li class="menu-item" data-tour="customer-management">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
                     <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
@@ -129,7 +129,7 @@
 
 
         @if (in_array(30, $sectionsIds))
-            <li class="menu-item">
+            <li class="menu-item" data-tour="contract-management">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
                     <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
@@ -158,7 +158,7 @@
         @endif
 
         @if (in_array(30, $sectionsIds))
-            <li class="menu-item">
+            <li class="menu-item" data-tour="financial-management">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
                     <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
@@ -200,7 +200,7 @@
         @endif
 
         @if (in_array(18, $sectionsIds))
-            <li class="menu-item">
+            <li class="menu-item" data-tour="gallary-management">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
                     <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
@@ -240,7 +240,7 @@
         @endif
 
         @if (in_array(33, $sectionsIds))
-            <li class="menu-item">
+            <li class="menu-item" data-tour="maintenance-operation-managment">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
                     <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
@@ -282,7 +282,7 @@
         @endif
 
         @if (in_array(12, $sectionsIds))
-        <li class="menu-item">
+        <li class="menu-item" data-tour="subscription-management">
             <a href="{{ route('Office.ShowSubscription') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
                 <div data-i18n="@lang('Subscription Management')">@lang('Subscription Management')</div>
@@ -331,7 +331,7 @@
 
 
         @if (in_array(9, $sectionsIds))
-            <li class="menu-item">
+            <li class="menu-item" data-tour="settings">
                 <a href="{{ route('Office.Setting.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-app-window"></i>
                     <div data-i18n="@lang('Settings')">@lang('Settings')</div>

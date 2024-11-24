@@ -63,6 +63,7 @@
                                 <th scope="col">@lang('Email')</th>
                                 <th scope="col">@lang('phone')</th>
                                 <th scope="col">@lang('city')</th>
+                                <th scope="col">@lang('Balance')</th>
                                 {{-- <th scope="col">@lang('Office')</th> --}}
                                 <th scope="col">@lang('Action')</th>
                             </tr>
@@ -75,6 +76,7 @@
                                     <td>{{ $owner->email }}</td>
                                     <td>{{ $owner->UserData->full_phone }}</td>
                                     <td>{{ $owner->CityData->name ?? '-' }}</td>
+                                    <td>{{ $owner->officeBrokers->first()->balance ?? '-' }}</td>
                                     {{-- <td>{{ $owner->OfficeData->name }}</td> --}}
                                     <td>
                                         <div class="dropdown">

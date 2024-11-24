@@ -244,6 +244,17 @@
                                             placeholder="@lang('Commissions Rate')">
                                     </div>
 
+                                    <div class="col-md-4 mb-3 col-12">
+                                        <label class="form-label">@lang('Bear the commission') <span class="required-color">*</span></label>
+                                        <select disabled class="form-select" required name="bear_commission" id="bearCommission">
+                                            @foreach (['Renter', 'owner'] as $type)
+                                            <option disabled value="{{ $type }}" {{ $contract->bear_commission == $type ? 'selected' : '' }}>
+                                                {{ __($type) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                     <!-- Collection Type -->
                                     <div class="col-md-4 mb-3 col-12">
                                         <label class="form-label">@lang('Collection Type') <span

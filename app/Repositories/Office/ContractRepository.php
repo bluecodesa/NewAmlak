@@ -46,6 +46,7 @@ class ContractRepository implements ContractRepositoryInterface
             'service_type_id' => 'required|exists:service_types,id',
             'commissions_rate' => 'nullable|numeric',
             'collection_type' => 'nullable|string',
+            'bear_commission' => 'required|string',
             'renter_id' => 'required|exists:renters,id',
             'calendarTypeSelect' => 'required|string|in:gregorian,hijri',
             'gregorian_contract_date' => 'nullable|date',
@@ -60,6 +61,7 @@ class ContractRepository implements ContractRepositoryInterface
         ];
         $messages = [
             'project_id.required' => 'The project ID field is required.',
+            'bear_commission.required' => 'The bear commission field is required.',
             'project_id.exists' => 'The selected project ID is invalid.',
             'property_id.required' => 'The property ID field is required.',
             'property_id.exists' => 'The selected property ID is invalid.',
@@ -138,6 +140,7 @@ class ContractRepository implements ContractRepositoryInterface
             'price' => $data['price'],
             'type' => $data['type'],
             'service_type_id' => $data['service_type_id'],
+            'bear_commission' => $data['bear_commission'],
             'commissions_rate' => $data['commissions_rate'],
             'total_commission' => $totalcommission, // Add commission total here
             'collection_type' => $data['collection_type'] ?? null,
@@ -311,13 +314,29 @@ class ContractRepository implements ContractRepositoryInterface
 
             // حساب السعر النهائي لكل قسط مع تضمين العمولة إذا كانت مطلوبة
             $finalPrice = $pricePerContract;
+            // if ($commissionPerContract !== 0) {
+            //     if ($data['collection_type'] === 'once with frist installment') {
+            //         if ($i === 0) {
+            //             $finalPrice += $commissionPerContract;
+            //         }
+            //     } else if ($data['collection_type'] === 'divided with all installments') {
+            //         $finalPrice += $commissionPerContract;
+            //     }
+            // }
+
             if ($commissionPerContract !== 0) {
-                if ($data['collection_type'] === 'once with frist installment') {
-                    if ($i === 0) {
-                        $finalPrice += $commissionPerContract;
+                if ($data['bear_commission'] === 'owner') {
+                    // Deduct commission from the first installment for owners
+                    if ($data['collection_type'] === 'once with frist installment') {
+                        $finalPrice = $finalPrice + 0; // Deduct commission
                     }
-                } else if ($data['collection_type'] === 'divided with all installments') {
-                    $finalPrice += $commissionPerContract;
+                } else if ($data['bear_commission'] === 'Renter') {
+                    // Add commission for renters
+                    if ($data['collection_type'] === 'once with frist installment') {
+                        $finalPrice += $commissionPerContract; // Add commission to first installment
+                    } else if ($data['collection_type'] === 'divided with all installments') {
+                        $finalPrice += $commissionPerContract; // Add commission to each installment
+                    }
                 }
             }
 

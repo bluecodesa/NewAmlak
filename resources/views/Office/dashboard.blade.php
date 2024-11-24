@@ -619,70 +619,46 @@
     @include('Office.inc._SubscriptionSuspend')
 
     @if ($subscriber->status === 'active' && \Carbon\Carbon::now()->isSameDay(\Carbon\Carbon::parse($subscriber->start_date)))
-        <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1" style="text-align: center;">
-            <div class="modal-dialog modal-dialog-centered">
-                <form class="modal-content">
-                    <div class="modal-header">
-                        <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h5 class="modal-title mb-4" id="backDropModalTitle">@lang('Welcome in Townapp you can strat your tour!')</h5>
-                        <button type="button" class="btn btn-primary" id="startTourButton">@lang('Start Tour')</button>
-                    </div>
-                </form>
-            </div>
+    <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1" style="text-align: center;">
+        <div class="modal-dialog modal-dialog-centered">
+            <form class="modal-content">
+                <div class="modal-header">
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="modal-title mb-4" id="backDropModalTitle">@lang('Welcome in Townapp you can strat your tour!')</h5>
+                    <button type="button" class="btn btn-primary" id="startTourButton">@lang('Start Tour')</button>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var modal = new bootstrap.Modal(document.getElementById('backDropModal'), {
-                    keyboard: false
-                });
-                modal.show();
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var modal = new bootstrap.Modal(document.getElementById('backDropModal'), {
+                keyboard: false
+            });
+            modal.show();
 
-                document.getElementById('startTourButton').addEventListener('click', function () {
-                    modal.hide();
+            document.getElementById('startTourButton').addEventListener('click', function () {
+                modal.hide();
 
-                    let tour = new Shepherd.Tour({
-                        defaultStepOptions: {
-                            classes: 'shadow-md bg-white',
-                            scrollTo: true,
-                            cancelIcon: {
-                                enabled: true
-                            },
-                            buttons: [
-                                {
-                                    text: '@lang("Skip")',
-                                    classes: 'btn btn-success',
-                                    action: () => tour.cancel()
-                                },
-                                {
-                                    text: '@lang("Next")',
-                                    classes: 'btn btn-info',
-                                    action: () => tour.next()
-                                }
-                            ]
+                // إعداد الجولة باستخدام Shepherd.js
+                let tour = new Shepherd.Tour({
+                    defaultStepOptions: {
+                        classes: 'shadow-md bg-white',
+                        scrollTo: true,
+                        cancelIcon: {
+                            enabled: true
                         },
-                        useModalOverlay: true
-                    });
-
-
-                    tour.addStep({
-                        id: 'technical-support',
-                        text: `@lang('Here you can get help or open a support ticket.')`,
-                        attachTo: {
-                            element: '[data-tour="technical-support"]',
-                            on: 'right'
-                        },
-                        title: `@lang('technical support')`,
                         buttons: [
                             {
                                 text: '@lang("Skip")',
-                                classes: 'btn btn-success',
+                                classes: 'btn btn-secondary',
                                 action: () => tour.cancel()
                             },
                             {
@@ -691,13 +667,127 @@
                                 action: () => tour.next()
                             }
                         ]
-                    });
-
-                    tour.start();
+                    },
+                    useModalOverlay: true
                 });
+
+                // الخطوة 1: إدارة المشاريع
+                tour.addStep({
+                    id: 'project-management',
+                    text: `@lang('Here you can manage your projects.')`,
+                    attachTo: {
+                        element: '[data-tour="project-management"]',
+                        on: 'right'
+                    },
+                    title: `@lang('project management')`
+                });
+
+                // الخطوة 2: إدارة المستخدمين
+                tour.addStep({
+                    id: 'users-management',
+                    text: `@lang('Manage users and permissions here.')`,
+                    attachTo: {
+                        element: '[data-tour="users-management"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Users management')`
+                });
+
+                // الخطوة 3: إدارة العملاء
+                tour.addStep({
+                    id: 'customer-management',
+                    text: `@lang('View and manage customer information here.')`,
+                    attachTo: {
+                        element: '[data-tour="customer-management"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Customer Management')`
+                });
+
+                // الخطوة 4: إدارة العقود
+                tour.addStep({
+                    id: 'contract-management',
+                    text: `@lang('Access and manage contracts in this section.')`,
+                    attachTo: {
+                        element: '[data-tour="contract-management"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Contract Management')`
+                });
+                     // الخطوة 4: إدارة المالية
+                     tour.addStep({
+                    id: 'financial-management',
+                    text: `@lang('Access and manage financial in this section.')`,
+                    attachTo: {
+                        element: '[data-tour="financial-management"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Financial Managment')`
+                });
+
+                                // الخطوة 4: إدارة المعرض
+                tour.addStep({
+                    id: 'gallary-management',
+                    text: `@lang('Access and manage Gallary in this section.')`,
+                    attachTo: {
+                        element: '[data-tour="gallary-management"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Gallary Mange')`
+                });
+
+                       // الخطوة 4: إدارة الصيانه والتشغيل
+                   tour.addStep({
+                    id: 'maintenance-operation-managment',
+                    text: `@lang('Access and manage Gallary in this section.')`,
+                    attachTo: {
+                        element: '[data-tour="maintenance-operation-managment"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Maintenance and operation management')`
+                });
+
+
+                // الخطوة 5: إدارة الاشتراكات
+                tour.addStep({
+                    id: 'subscription-management',
+                    text: `@lang('Manage subscription plans and details.')`,
+                    attachTo: {
+                        element: '[data-tour="subscription-management"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Subscription Management')`
+                });
+
+                // الخطوة 6: الدعم الفني
+                tour.addStep({
+                    id: 'technical-support',
+                    text: `@lang('Here you can get help or open a support ticket.')`,
+                    attachTo: {
+                        element: '[data-tour="technical-support"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Technical Support')`
+                });
+
+                // الخطوة 7: الإعدادات
+                tour.addStep({
+                    id: 'settings',
+                    text: `@lang('Customize your application settings here.')`,
+                    attachTo: {
+                        element: '[data-tour="settings"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Settings')`
+                });
+
+                // بدء الجولة
+                tour.start();
             });
-        </script>
-    @endif
+        });
+    </script>
+@endif
+
 
 
     @push('scripts')

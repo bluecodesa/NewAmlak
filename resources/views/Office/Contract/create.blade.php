@@ -258,17 +258,30 @@
                                                     id="button-addon2">@lang('%')</button>
                                             </div>
                                     </div>
+                                    <!-- Bear the Commission -->
+                                    <div class="col-md-4 mb-3 col-12">
+                                        <label class="form-label">@lang('Bear the commission') <span class="required-color">*</span></label>
+                                        <select class="form-select" required name="bear_commission" id="bearCommission">
+                                            @foreach (['Renter', 'owner'] as $type)
+                                                <option value="{{ $type }}">
+                                                    {{ __($type) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
                                     <!-- Collection Type -->
                                     <div class="col-md-4 mb-3 col-12">
-                                        <label class="form-label">@lang('Collection Type') <span
-                                                class="required-color">*</span></label>
-                                        <select class="form-select" required name="collection_type" id="type" >
+                                        <label class="form-label">@lang('Collection Type') <span class="required-color">*</span></label>
+                                        <select class="form-select" required name="collection_type" id="collectionType" disabled>
                                             @foreach (['once with frist installment', 'divided with all installments'] as $type)
                                                 <option value="{{ $type }}">
-                                                    {{ __($type) }}</option>
+                                                    {{ __($type) }}
+                                                </option>
                                             @endforeach
                                         </select>
+                                        <input type="hidden" name="collection_type" id="collectionTypeHidden">
+
                                     </div>
                                 </div>
 
@@ -668,13 +681,31 @@
 
                     // Add commission if applicable
                     var finalPrice = pricePerContract;
+                    // if (commissionPerContract !== 0) {
+                    //     if (formData.collection_type === 'once with frist installment' && i === 0) {
+                    //         finalPrice += commissionPerContract;
+                    //     } else if (formData.collection_type === 'divided with all installments') {
+                    //         finalPrice += commissionPerContract;
+                    //     }
+                    // }
+
                     if (commissionPerContract !== 0) {
-                        if (formData.collection_type === 'once with frist installment' && i === 0) {
-                            finalPrice += commissionPerContract;
-                        } else if (formData.collection_type === 'divided with all installments') {
-                            finalPrice += commissionPerContract;
+                        if (formData.bear_commission === 'owner') {
+                            // Deduct commission from the first installment for owners
+                            if (formData.collection_type === 'once with frist installment' && i === 0) {
+                                finalPrice -= commissionPerContract; // Deduct commission
+                            }
+                        } else if (formData.bear_commission === 'Renter') {
+                            // Add commission for renters
+                            if (formData.collection_type === 'once with frist installment' && i === 0) {
+                                finalPrice += commissionPerContract; // Add commission to first installment
+                            } else if (formData.collection_type === 'divided with all installments') {
+                                finalPrice += commissionPerContract; // Add commission to each installment
+                            }
                         }
                     }
+
+
 
                     // Set installment start and end dates based on payment cycle
                     var installmentEndDate = new Date(startDate);
@@ -734,6 +765,39 @@
                 $('#contractDetails').html(contractsHTML).show();
             });
         });
+
+
+        $(document).ready(function() {
+             // عند تغيير Bear the Commission
+            $('#bearCommission').on('change', function() {
+                var bearCommission = $(this).val(); // القيمة المختارة
+                var collectionType = $('#collectionType'); // قائمة Collection Type
+                var collectionTypeHidden = $('#collectionTypeHidden'); // الحقل المخفي
+
+                if (bearCommission === 'owner') {
+                    // إذا كان مالك
+                    collectionType.val('once with frist installment'); // تحديد "مع أول قسط" تلقائيًا
+                    collectionType.attr('disabled', true); // تعطيل الحقل
+                    collectionTypeHidden.val('once with frist installment'); // تحديث الحقل المخفي
+                } else {
+                    // إذا كان مستأجر
+                    collectionType.attr('disabled', false); // تمكين الحقل
+                    collectionTypeHidden.val(collectionType.val()); // تحديث الحقل المخفي بالقيمة الحالية
+                }
+            });
+
+            // مزامنة الحقل المخفي عند تغيير collectionType
+            $('#collectionType').on('change', function() {
+                $('#collectionTypeHidden').val($(this).val());
+            });
+
+            // تشغيل المراقبة عند تحميل الصفحة
+            $('#bearCommission').trigger('change');
+        });
+
+
+
+
     </script>
 
 
