@@ -625,6 +625,8 @@
                     service_type_id: parseInt($('select[name="service_type_id"]').val()), // Convert service type to integer
                     commissions_rate: parseFloat($('input[name="commissions_rate"]').val()), // Convert commissions rate to float
                     collection_type: $('select[name="collection_type"]').val(),
+                    bear_commission: $('select[name="bear_commission"]').val(),
+
                 };
 
                 // Calculate monthly rental price from annual price
@@ -690,17 +692,18 @@
                     // }
 
                     if (commissionPerContract !== 0) {
-                        if (formData.bear_commission === 'owner') {
-                            // Deduct commission from the first installment for owners
-                            if (formData.collection_type === 'once with frist installment' && i === 0) {
-                                finalPrice -= commissionPerContract; // Deduct commission
-                            }
-                        } else if (formData.bear_commission === 'Renter') {
+                      if (formData.bear_commission == 'Renter') {
                             // Add commission for renters
                             if (formData.collection_type === 'once with frist installment' && i === 0) {
-                                finalPrice += commissionPerContract; // Add commission to first installment
+                            finalPrice += commissionPerContract;
                             } else if (formData.collection_type === 'divided with all installments') {
-                                finalPrice += commissionPerContract; // Add commission to each installment
+                                finalPrice += commissionPerContract;
+                            }
+                        }
+                        else if (formData.bear_commission == 'owner') {
+                            // Deduct commission from the first installment for owners
+                            if (formData.collection_type === 'once with frist installment' && i === 0) {
+                                finalPrice = finalPrice; // Deduct commission
                             }
                         }
                     }

@@ -250,12 +250,58 @@ class VoucherController extends Controller
         }
 
         $installmentIds = $validatedData['installments'];
+        $remainingPrice = $request->total_price; // المبلغ المتبقي من سند الصرف
+
+        if ($contract->bear_commission === 'owner') {
+            foreach ($installmentIds as $installmentId) {
+                $installment = Installment::find($installmentId);
+
+                if ($installment) {
+                    $commission = $installment->commission; // العمولة على القسط
+
+                    if ($commission > $remainingPrice) {
+                        // العمولة أكبر من المبلغ المتبقي
+                        $excessCommission = $commission - $remainingPrice;
+
+                        // تحديث القسط الحالي
+                        $installment->update([
+                            'commission' => $remainingPrice, // تخصم العمولة المتاحة
+                            'status' => 'collected_and_payment', // القسط لم يكتمل
+                        ]);
+
+                        $remainingPrice = 0; // تم استخدام كامل المبلغ المتبقي
+
+                        // ترحيل العمولة المتبقية إلى القسط التالي
+                        $nextInstallment = Installment::where('contract_id', $contract->id)
+                            ->where('id', '>', $installment->id)
+                            ->first();
+
+                        if ($nextInstallment) {
+                            $nextInstallment->update([
+                                'commission' => $nextInstallment->commission + $excessCommission,
+                            ]);
+                        }
+
+                        break; // لا يمكن الاستمرار لأن المبلغ المتبقي = 0
+                    } else {
+                        // العمولة أقل أو مساوية للمبلغ المتبقي
+                        $remainingPrice -= $commission;
+
+                        // تحديث حالة القسط
+                        $installment->update([
+                            'status' => 'collected_and_payment', // القسط مكتمل
+                        ]);
+                    }
+                }
+            }
+        }
+
+
         $installmentNumbers = Installment::whereIn('id', $installmentIds)->pluck('installment_number')->toArray();
 
         $receiptCount = $contract->ReceiptData()->count();
 
         $voucherNumber =  $contract->contract_number . '-V' . ($receiptCount + 1);
-
         $voucher = Voucher::create([
             'voucher_number' => $voucherNumber,
             'release_date' => $request->release_date,
@@ -265,9 +311,10 @@ class VoucherController extends Controller
             'project_id' => $request->project_id,
             'property_id' => $request->property_id,
             'unit_id' => $request->unit_id,
-            'renter_id' => $request->renter_id,
+            'owner_id' => $request->owner_id,
             'payment_method' => $request->payment_method,
-            'total_price' => $request->total_price,
+            // 'total_price' => $request->total_price,
+            'total_price' => $remainingPrice, // السعر بعد الفحص
             'notes' => $request->notes,
             'mobile' => $request->mobile,
             'type' => 'payment_voucher',
@@ -276,25 +323,42 @@ class VoucherController extends Controller
             'wallet_id' => $request->wallet_id,
         ]);
 
-        foreach ($validatedData['installments'] as $installmentId) {
+        // foreach ($validatedData['installments'] as $installmentId) {
+        //     $voucher->installments()->attach($installmentId);
+
+        //     $installment = Installment::find($installmentId);
+        //     if ($installment) {
+        //         $installment->update(['status' => 'collected_and_payment']);
+        //     }
+        // }
+        foreach ($installmentIds as $installmentId) {
             $voucher->installments()->attach($installmentId);
-
-            $installment = Installment::find($installmentId);
-            if ($installment) {
-                $installment->update(['status' => 'collected_and_payment']);
-            }
         }
-
         // Update wallet balance
         $wallet = Wallet::find($request->wallet_id);
         if ($wallet) {
-            $wallet->balance -= $request->total_price;
+            // $wallet->balance -= $request->total_price;
+            $wallet->balance -= $remainingPrice;
             $wallet->save();
         }
         $owner = Owner::find($contract->owner_id);
+        // if ($owner) {
+        //     // $owner->balance -= $request->total_price;
+        //     $owner->balance -= $remainingPrice;
+        //     $owner->save();
+        // }
+
         if ($owner) {
-            $owner->balance -= $request->total_price;
-            $owner->save();
+            // البحث عن السجل المرتبط بالمالك في جدول owner_office_broker
+            $latestOfficeOwner = $owner->officeBrokers()
+                ->where('office_id', $contract->office_id) // ربط مع المكتب
+                ->latest('created_at') // أخذ أحدث سجل
+                ->first();
+
+            if ($latestOfficeOwner) {
+                $latestOfficeOwner->balance -= $remainingPrice; // تحديث الرصيد
+                $latestOfficeOwner->save();
+            }
         }
 
         return redirect()->back()->with('success', 'Receipt created successfully.');

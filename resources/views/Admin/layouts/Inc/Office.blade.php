@@ -273,7 +273,7 @@
         @endif
 
         @if (in_array(34, $sectionsIds))
-            <li class="menu-item">
+            <li class="menu-item" data-tour="reports-and-advanced-search">
                 <a href="{{ route('Office.ShowSubscription') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
                     <div data-i18n="@lang('Reports and advanced search')">@lang('Reports and advanced search')</div>

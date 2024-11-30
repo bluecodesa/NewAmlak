@@ -137,7 +137,8 @@ class ContractRepository implements ContractRepositoryInterface
             'unit_id' => $data['unit_id'],
             'owner_id' => $data['owner_id'],
             'employee_id' => $data['employee_id'] ?? null,
-            'price' => $data['price'],
+            // 'price' => $data['price'],
+            'price' => 0, // سنقوم بتحديث السعر لاحقًا
             'type' => $data['type'],
             'service_type_id' => $data['service_type_id'],
             'bear_commission' => $data['bear_commission'],
@@ -239,7 +240,11 @@ class ContractRepository implements ContractRepositoryInterface
         }
 
 
-        $this->createInstallments($contract, $data);
+        // $this->createInstallments($contract, $data);
+        $totalInstallmentsPrice = $this->createInstallments($contract, $data);
+
+        // تحديث سعر العقد بناءً على مجموع الأقساط
+        $contract->update(['price' => $totalInstallmentsPrice]);
 
         return $contract;
     }
@@ -298,6 +303,8 @@ class ContractRepository implements ContractRepositoryInterface
         }
 
         // إنشاء الأقساط
+        $totalInstallmentsPrice = 0;
+
         for ($i = 0; $i < $numberOfContracts; $i++) {
             $endDate = clone $startDate;
 
@@ -352,10 +359,14 @@ class ContractRepository implements ContractRepositoryInterface
 
             // Update start date for next installment
             $startDate = $endDate;
+            $totalInstallmentsPrice += $pricePerContract;
+
         }
 
         // Save installments to database
         Installment::insert($installments);
+        return $totalInstallmentsPrice;
+
     }
 
 

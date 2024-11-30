@@ -57,8 +57,8 @@
                     <div class="row g-3">
                         <div class="col-md-6 mb-3">
                             <label for="renterName" class="form-label">@lang('Beneficiary Name')</label>
-                            <input type="text" id="renterName" class="form-control" value="{{ $contract->renter->UserData->name ?? '' }}" readonly disabled />
-                            <input type="hidden" name="renter_id" value="{{ $contract->renter->id ?? '' }}">
+                            <input type="text" id="renterName" class="form-control" value="{{ $contract->owner->UserData->name ?? '' }}" readonly disabled />
+                            <input type="hidden" name="owner_id" value="{{ $contract->owner->id ?? '' }}">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="paymentMethod" class="form-label">@lang('Pay Method')</label>

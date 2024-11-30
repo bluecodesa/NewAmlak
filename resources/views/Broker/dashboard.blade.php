@@ -590,6 +590,7 @@
             document.getElementById('startTourButton').addEventListener('click', function () {
                 modal.hide();
 
+                // إعداد الجولة باستخدام Shepherd.js
                 let tour = new Shepherd.Tour({
                     defaultStepOptions: {
                         classes: 'shadow-md bg-white',
@@ -600,12 +601,12 @@
                         buttons: [
                             {
                                 text: '@lang("Skip")',
-                                classes: 'btn btn-success',
+                                classes: 'btn btn-secondary',
                                 action: () => tour.cancel()
                             },
                             {
                                 text: '@lang("Next")',
-                                classes: 'btn btn-info',
+                                classes: 'btn btn-primary',
                                 action: () => tour.next()
                             }
                         ]
@@ -613,34 +614,136 @@
                     useModalOverlay: true
                 });
 
+                // الخطوة 1: إدارة المشاريع
+                tour.addStep({
+                    id: 'project-management',
+                    text: `@lang('Here you can add and view property information.')`,
+                    attachTo: {
+                        element: '[data-tour="project-management"]',
+                        on: 'right'
+                    },
+                    title: `@lang('project management')`
+                });
 
+                // الخطوة 2: إدارة المستخدمين
+                tour.addStep({
+                    id: 'users-management',
+                    text: `@lang('Here you can add and view employee information.')`,
+                    attachTo: {
+                        element: '[data-tour="users-management"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Users management')`
+                });
+
+                // الخطوة 3: إدارة العملاء
+                tour.addStep({
+                    id: 'customer-management',
+                    text: `@lang('Here you can add and view your customers information.')`,
+                    attachTo: {
+                        element: '[data-tour="customer-management"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Customer Management')`
+                });
+
+                // الخطوة 4: إدارة العقود
+                tour.addStep({
+                    id: 'contract-management',
+                    text: `@lang('Here you can add and track the status of contracts.')`,
+                    attachTo: {
+                        element: '[data-tour="contract-management"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Contract Management')`
+                });
+                     // الخطوة 4: إدارة المالية
+                     tour.addStep({
+                    id: 'financial-management',
+                    text: `@lang('Here you can manage treasuries, invoices and issue bonds.')`,
+                    attachTo: {
+                        element: '[data-tour="financial-management"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Financial Managment')`
+                });
+
+                                // الخطوة 4: إدارة المعرض
+                tour.addStep({
+                    id: 'gallary-management',
+                    text: `@lang('Here you can post and share real estate ads, track interest requests and property requests and view an interactive map of properties.')`,
+                    attachTo: {
+                        element: '[data-tour="gallary-management"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Gallary Mange')`
+                });
+
+                       // الخطوة 4: إدارة الصيانه والتشغيل
+                   tour.addStep({
+                    id: 'maintenance-operation-managment',
+                    text: `@lang('Here you can add service providers and track maintenance and operation requests.')`,
+                    attachTo: {
+                        element: '[data-tour="maintenance-operation-managment"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Maintenance and operation management')`
+                });
+
+                    // الخطوة 4: التقارير والبحث المتقدم
+                    tour.addStep({
+                    id: 'reports-and-advanced-search',
+                    text: `@lang('Here you can access the most important reports you need with ease.')`,
+                    attachTo: {
+                        element: '[data-tour="reports-and-advanced-search"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Reports and advanced search')`
+                });
+
+
+
+
+                // الخطوة 5: إدارة الاشتراكات
+                tour.addStep({
+                    id: 'subscription-management',
+                    text: `@lang('Here you can view your current subscription information and bill or upgrade your subscription.')`,
+                    attachTo: {
+                        element: '[data-tour="subscription-management"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Subscription Management')`
+                });
+
+                // الخطوة 6: الدعم الفني
                 tour.addStep({
                     id: 'technical-support',
-                    text: `@lang('Here you can get help or open a support ticket.')`,
+                    text: `@lang('Here you can get help by contacting support directly or opening a technical support ticket.')`,
                     attachTo: {
                         element: '[data-tour="technical-support"]',
                         on: 'right'
                     },
-                    title: `@lang('technical support')`,
-                    buttons: [
-                        {
-                            text: '@lang("Skip")',
-                            classes: 'btn btn-success',
-                            action: () => tour.cancel()
-                        },
-                        {
-                            text: '@lang("Next")',
-                            classes: 'btn btn-primary',
-                            action: () => tour.next()
-                        }
-                    ]
+                    title: `@lang('Technical Support')`
                 });
 
+                // الخطوة 7: الإعدادات
+                tour.addStep({
+                    id: 'settings',
+                    text: `@lang('Here you can update your account information, add your real estate license, and more settings.')`,
+                    attachTo: {
+                        element: '[data-tour="settings"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Settings')`
+                });
+
+                // بدء الجولة
                 tour.start();
             });
         });
     </script>
 @endif
+
 
 
 

@@ -797,8 +797,17 @@
     "Skip":"تخطي",
     "Start Tour":"ابدا جولتك",
     "Welcome in Townapp you can strat your tour!":"مرحبا بك في تاون  تستطيع الان ان تبدا جولتك!",
-    "Bear the commission":"يتحمل العمولة"
-
-
+    "Bear the commission":"يتحمل العمولة",
+    "Here you can add and view property information.":"هنا يمكنك إضافة وعرض معلومات الوحدات العقارية",
+    "Here you can add and view your customers information.":"هنا يمكنك إضافة وعرض معلومات عملاءك",
+    "Here you can add and view employee information.":"هنا يمكنك إضافة وعرض معلومات الموظفين",
+    "Here you can add and track the status of contracts.":"هنا يمكنك إضافة ومتابعة حالة العقود",
+    "Here you can manage treasuries, invoices and issue bonds.":"هنا يمكنك إدارة الخزائن  والفواتير واصدار السندات",
+    "Here you can post and share real estate ads, track interest requests and property requests and view an interactive map of properties.":"هنا يمكنك نشر ومشاركة الاعلانات العقارية، متابعة طلبات الاهتمام والطلبات العقارية وعرض الخريطة التفاعلية للعقارات",
+    "Here you can add service providers and track maintenance and operation requests.":"هنا يمكنك إضافة مزودين الخدمات ومتابعة طلبات الصيانة والتشغيل",
+    "Here you can get help by contacting support directly or opening a technical support ticket.":"هنا يمكنك الحصول على المساعدة عبر التواصل مع الدعم مباشرة او فتح تذكرة دعم فني",
+    "Here you can view your current subscription information and bill or upgrade your subscription.":"هنا يمكنك عرض معلومات وفاتورة اشتراكك الحالي أو ترقية الاشتراك",
+    "Here you can update your account information, add your real estate license, and more settings.":"هنا يمكنك تحديث بيانات حسابك وإضافة  ترخيص هيئة العقار الخاص بك بالاضافة الى المزيد من اعدادات الضبط",
+    "Here you can access the most important reports you need with ease.":"هنا يمكنك الوصول لأهم التقارير التي تحتاجها بكل سهولة"
 
 }
