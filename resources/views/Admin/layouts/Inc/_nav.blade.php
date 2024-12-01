@@ -8,7 +8,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <!-- Search -->
-        <div class="navbar-nav align-items-center">
+        <div class="navbar-nav align-items-center" data-tour="search-wrapper">
             <div class="nav-item navbar-search-wrapper mb-0">
                 <a class="nav-item nav-link search-toggler d-flex align-items-center px-0" href="javascript:void(0);">
                     <i class="ti ti-search ti-md me-2"></i>
@@ -20,7 +20,7 @@
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
             <!-- Language -->
-            <li class="nav-item dropdown-language dropdown me-2 me-xl-0">
+            <li class="nav-item dropdown-language dropdown me-2 me-xl-0" data-tour="language">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <i class="ti ti-language rounded-circle ti-md"></i>
                 </a>
@@ -38,7 +38,7 @@
             <!--/ Language -->
 
             <!-- Style Switcher -->
-            <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+            <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0" data-tour="style-switcher">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <i class="ti ti-md"></i>
                 </a>
@@ -148,7 +148,7 @@
             <!-- Quick links -->
 
             <!-- Notification -->
-            <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
+            <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1" data-tour="notifications">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
                     data-bs-auto-close="outside" aria-expanded="false">
                     {{-- <i class="ti ti-bell ti-md"></i> --}}
@@ -209,7 +209,7 @@
             <!--/ Notification -->
 
             <!-- User -->
-            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+            <li class="nav-item navbar-dropdown dropdown-user dropdown" data-tour="avatar-online" >
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
                         @if (Auth::user()->is_broker)

@@ -247,6 +247,7 @@ protected function notifyRelatedAdmin( $newReceipt)
         //     Notification::send($user, new ReceiptStatusUpdatedNotification($receipt, $newStatus));
 
         // }
+        // dd($user);
         if ($user) {
             if ($newStatus === 'accepted') {
                 Notification::send($user, new ReceiptAcceptedNotification($receipt, $newStatus));

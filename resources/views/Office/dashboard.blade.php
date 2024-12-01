@@ -794,6 +794,67 @@
                     title: `@lang('Settings')`
                 });
 
+                                // الخطوة 7: البحث
+                tour.addStep({
+                    id: 'search-wrapper',
+                    text: `@lang('Allows searching for any keyword and displaying results matching that keyword')`,
+                    attachTo: {
+                        element: '[data-tour="search-wrapper"]',
+                        on: 'right'
+                    },
+                    title: `@lang('search...')`
+                });
+
+
+                //avatar
+
+                tour.addStep({
+                    id: 'avatar-online',
+                    text: `@lang('Here you can add a new account and navigate between your accounts easily.')`,
+                    attachTo: {
+                        element: '[data-tour="avatar-online"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Settings')`
+                });
+
+                //notification
+
+                tour.addStep({
+                    id: 'notifications',
+                    text: `@lang('Here you will receive new notifications and the most important alerts.')`,
+                    attachTo: {
+                        element: '[data-tour="notifications"]',
+                        on: 'right'
+                    },
+                    title: `@lang('Notifications')`
+                });
+
+                //style-switcher
+
+                tour.addStep({
+                    id: 'style-switcher',
+                    text: `@lang('Here you can enable/disable dark mode.')`,
+                    attachTo: {
+                        element: '[data-tour="style-switcher"]',
+                        on: 'right'
+                    },
+                    title: `@lang('style-switcher')`
+                });
+
+
+                //language
+
+                tour.addStep({
+                    id: 'language',
+                    text: `@lang('Click here to change your account language.')`,
+                    attachTo: {
+                        element: '[data-tour="language"]',
+                        on: 'right'
+                    },
+                    title: `@lang('languages')`
+                });
+
                 // بدء الجولة
                 tour.start();
             });

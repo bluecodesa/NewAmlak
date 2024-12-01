@@ -131,7 +131,7 @@
             </a>
         </li>
         @if (in_array(15, $sectionsIds))
-            <li class="menu-item">
+            <li class="menu-item" data-tour="project-management">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
                     <i class="menu-icon tf-icons ti ti-building"></i>
@@ -175,7 +175,7 @@
         @endif
 
         @if (in_array(18, $sectionsIds))
-            <li class="menu-item">
+            <li class="menu-item" data-tour="gallary-management">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
                     <i class="menu-icon tf-icons ti ti-camera"></i>
@@ -218,7 +218,7 @@
         @endif
 
         @if (in_array(16, $sectionsIds))
-        <li class="menu-item">
+        <li class="menu-item" data-tour="customer-management">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
                 <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
@@ -234,7 +234,7 @@
         </li>
         @endif
         @if (in_array(34, $sectionsIds))
-            <li class="menu-item">
+            <li class="menu-item" data-tour="reports-and-advanced-search">
                 <a href="{{ route('Broker.ShowSubscription') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
                     <div data-i18n="@lang('Reports and advanced search')">@lang('Reports and advanced search')</div>
@@ -242,7 +242,7 @@
             </li>
         @endif
         @if (in_array(12, $sectionsIds))
-            <li class="menu-item">
+            <li class="menu-item" data-tour="subscription-management">
                 <a href="{{ route('Broker.ShowSubscription') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-file-invoice"></i>
                     <div data-i18n="@lang('Subscription Management')">@lang('Subscription Management')</div>
@@ -288,7 +288,7 @@
             </li>
         @endif
         @if (in_array(9, $sectionsIds))
-            <li class="menu-item">
+            <li class="menu-item" data-tour="settings">
                 <a href="{{ route('Broker.Setting.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-settings"></i>
                     <div data-i18n="@lang('Settings')">@lang('Settings')</div>

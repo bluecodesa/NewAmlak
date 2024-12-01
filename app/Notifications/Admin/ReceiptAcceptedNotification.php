@@ -40,6 +40,7 @@ class ReceiptAcceptedNotification extends Notification
         return [
             'msg' => __( ($this->receipt->receipt_id)),
             'url' => route('Office.ShowSubscription'),
+            // 'url' => route('Office.Receipt.show', $this->receipt->id),
             'type_noty' => 'Your subscription is active now!',
             'service_name' => '',
             'created_at' => now(),
