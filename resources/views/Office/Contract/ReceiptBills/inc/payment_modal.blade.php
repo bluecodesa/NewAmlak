@@ -21,6 +21,8 @@
                         <p><strong>@lang('Release Date')</strong> {{ $receipt->release_date }}</p>
                         <p><strong>@lang('Beneficiary Name'):</strong> {{ $receipt->ContractData->renter->UserData->name ?? 'N/A' }}</p>
                         <p><strong>@lang('Pay Method'):</strong> {{ $receipt->payment_method }}</p>
+                        <p><strong>@lang('Commission'):</strong> {{ $receipt->payment_method }}</p>
+                        <p><strong>@lang('price'):</strong> {{ $receipt->payment_method }}</p>
                         <p><strong>@lang('total')</strong> {{ $receipt->total_price }} @lang('SAR')</p>
                         <p><strong>@lang('mobile')</strong> {{ $receipt->mobile }}</p>
                         <p><strong>@lang('#Ejar/REF:'):</strong> {{ $receipt->reference_number }}</p>

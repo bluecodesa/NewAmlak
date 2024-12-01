@@ -162,7 +162,7 @@ class VoucherController extends Controller
 
         $receiptCount = $contract->ReceiptData()->count();
 
-        $voucherNumber =  $contract->contract_number . 'V-' . ($receiptCount + 1);
+        $voucherNumber =  $contract->contract_number . '-V' . ($receiptCount + 1);
 
         $voucher = Voucher::create([
             'voucher_number' => $voucherNumber,
