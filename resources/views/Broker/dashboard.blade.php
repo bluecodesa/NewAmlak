@@ -733,6 +733,15 @@
                             },
                             title: `@lang('languages')`
                         }),
+                        tour.addStep({
+                        id: 'search-wrapper',
+                        text: `@lang('Allows searching for any keyword and displaying results matching that keyword')`,
+                        attachTo: {
+                            element: '[data-tour="search-wrapper"]',
+                            on: 'right'
+                        },
+                        title: `@lang('search...')`
+                    }),
                 ];
 
                 // إضافة الخطوات فقط إذا كانت موجودة في sectionsIds والعنصر موجود في DOM

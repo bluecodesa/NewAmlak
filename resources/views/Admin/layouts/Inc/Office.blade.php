@@ -4,10 +4,13 @@
         ->pluck('section_id')
         ->toArray();
 
-         $sectionsIds = Auth::user()
+
+@endphp --}}
+@php
+          $sectionsIds = Auth::user()
         ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
         ->toArray(); // ده الصح
-@endphp --}}
+@endphp
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">

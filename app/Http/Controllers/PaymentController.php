@@ -105,6 +105,7 @@ class PaymentController extends Controller
         if ($invoice) {
             $invoice->update(['status' => 'active']);
         }
+$user =auth()->user();
 
         $redirectRoute = $officeData ? 'Office.home' : 'Broker.home';
         $redirectMessage = $officeData ? 'The subscription has been activated successfully' : 'The subscription has been activated successfully';
@@ -250,6 +251,8 @@ class PaymentController extends Controller
 
         $redirectRoute = $officeData ? 'Office.home' : 'Broker.home';
         $redirectMessage = 'The subscription has been upgraded successfully';
+        $user =auth()->user();
+
         $this->MailActivateSubscription($user, $subscription, $SubscriptionType, $invoice);
         $this->WhatsappActivateSubscription($user, $subscription, $SubscriptionType, $invoice);
 
