@@ -28,7 +28,7 @@ class FalLicenseService
     public function create($data)
     {
         $rules = [
-            'for_gallery' => ['nullable', 'boolean'], 
+            'for_gallery' => ['nullable', 'boolean'],
         ];
         foreach (config('translatable.locales') as $locale) {
             $rules += [
@@ -44,14 +44,14 @@ class FalLicenseService
 
         if (isset($data['for_gallery']) && $data['for_gallery'] == 1) {
             $existingForGallery = Fal::where('for_gallery', 1)->exists();
-            
+
             if ($existingForGallery) {
                 return redirect()->back()
                     ->withErrors(['for_gallery' => __('A License with "for_gallery = 1" already exists. You cannot add another.')])
                     ->withInput();
             }
         }
-    
+
 
         return $this->FalLicenseRepository->create($data);
     }
@@ -84,5 +84,29 @@ class FalLicenseService
     public function delete($id)
     {
         return $this->FalLicenseRepository->delete($id);
+    }
+
+    public function createFalLicenseUser(array $data)
+    {
+        return $this->FalLicenseRepository->createFalLicenseUser($data);
+    }
+
+    public function updateFalLicenseUser($id, array $data)
+    {
+        return $this->FalLicenseRepository->updateFalLicenseUser($id, $data);
+    }
+
+        public function getUserLicenses($userId)
+    {
+        return $this->FalLicenseRepository->getUserLicenses($userId);
+    }
+    public function getLicensesAllValid()
+    {
+        return $this->FalLicenseRepository->getLicensesAllValid();
+    }
+
+    public function getUnusedLicenseTypes($userId)
+    {
+        return $this->FalLicenseRepository->getUnusedLicenseTypes($userId);
     }
 }

@@ -47,4 +47,10 @@ class UnitInterestService
     {
         return  $this->unitInterestRepository->getUnitInterestsByUnitId($id);
     }
+
+    public function checkUnitExistence(int $unitId): bool
+    {
+        $interestedId = auth()->id();
+        return $this->unitInterestRepository->checkUnitInterestExists($interestedId, $unitId);
+    }
 }

@@ -75,12 +75,12 @@ class SupportController extends Controller
     public function show(string $id)
     {
         //
-        //    $ticket = Ticket::findOrFail($id);
         $ticket = $this->ticketService->findTicketById($id);
         $formatted_id = "100{$ticket->id}";
         $user = auth()->user();
-        // Load ticket responses
-        $ticketResponses = TicketResponse::where('ticket_id', $id)->get();
+        // $ticketResponses = TicketResponse::where('ticket_id', $id)->get();
+        $ticketResponses = $this->SupportService->getTicketResponseById($id);
+
         return view('Admin.supports.Tickets.show', get_defined_vars());
     }
 
@@ -189,10 +189,9 @@ class SupportController extends Controller
             'key_support_phone' => ['nullable', 'string', 'max:255'],
         ]);
 
-        // Retrieve the settings record
-        $settings = Setting::first();
 
-        // Update the support contact information
+        $settings = $this->settingService->getFirstSetting();
+
         $settings->update([
             'support_email' => $validatedData['support_email'],
             'support_phone' => $validatedData['support_phone'],

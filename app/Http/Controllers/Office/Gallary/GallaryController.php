@@ -33,8 +33,7 @@ use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
 use App\Services\Office\ProjectService;
 use App\Services\Office\PropertyService;
-
-
+use App\Services\Office\UnitInterestService as OfficeUnitInterestService;
 
 class GallaryController extends Controller
 {
@@ -51,6 +50,7 @@ class GallaryController extends Controller
     protected $galleryService;
     protected $settingService;
     protected $unitInterestService;
+    protected $UnitInterestService;
     protected $SubscriptionTypeService;
 
     protected $subscriptionService;
@@ -78,6 +78,7 @@ class GallaryController extends Controller
         ServiceTypeService $ServiceTypeService,
         PropertyUsageService $propertyUsageService,
         UnitInterestService $unitInterestService,
+        OfficeUnitInterestService $UnitInterestService,
         SubscriptionTypeService $SubscriptionTypeService,
         SubscriptionService $subscriptionService,
         ProjectService $ProjectService,
@@ -99,6 +100,7 @@ class GallaryController extends Controller
         $this->galleryService = $galleryService;
         $this->settingService = $settingService;
         $this->unitInterestService = $unitInterestService;
+        $this->UnitInterestService = $UnitInterestService;
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
         $this->ProjectService = $ProjectService;
@@ -259,7 +261,8 @@ class GallaryController extends Controller
         }
         $broker = $data['broker'];
         if ($broker->license_validity == 'valid') {
-            $data['CheckUnitExist'] = UnitInterest::where(['interested_id' => Auth::id(), 'unit_id' => $id])->exists();
+            // $data['CheckUnitExist'] = UnitInterest::where(['interested_id' => Auth::id(), 'unit_id' => $id])->exists();
+            $data['CheckUnitExist'] = $this->UnitInterestService->checkUnitExistence($id);
             // return $data;
             return view('Home.Gallery.Unit.show', $data);
         } else {
@@ -287,10 +290,11 @@ class GallaryController extends Controller
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);
         }
         $districts = Gallery::where('id', $data['gallery']->id)->first()->BrokerData->BrokerHasUnits; // رجع دي في الفيو
-        $visitor = Visitor::where('gallery_id', $data['gallery']->id)
-            ->where('ip_address', $request->ip())
-            ->where('visited_at', '>=', now()->subHour())
-            ->first();
+        // $visitor = Visitor::where('gallery_id', $data['gallery']->id)
+        //     ->where('ip_address', $request->ip())
+        //     ->where('visited_at', '>=', now()->subHour())
+        //     ->first();
+        $visitor = $this->galleryService->findRecentVisitor($data['gallery']->id, $request->ip());
 
         if (!$visitor) {
             $newVisitor = new Visitor();
@@ -401,10 +405,11 @@ class GallaryController extends Controller
 
         $data = $this->galleryService->showAllGalleries($cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
         foreach ($data['galleries'] as $gallery) {
-            $visitor = Visitor::where('gallery_id', $gallery->id)
-                ->where('ip_address', $request->ip())
-                ->where('visited_at', '>=', now()->subHour())
-                ->first();
+            // $visitor = Visitor::where('gallery_id', $gallery->id)
+            //     ->where('ip_address', $request->ip())
+            //     ->where('visited_at', '>=', now()->subHour())
+            //     ->first();
+            $visitor = $this->galleryService->findRecentVisitor($data['gallery']->id, $request->ip());
 
             if (!$visitor) {
                 $newVisitor = new Visitor();

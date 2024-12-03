@@ -25,6 +25,12 @@ class SupportRepository implements SupportRepositoryInterface
         return TicketType::find($id);
     }
 
+    function getTicketResponseById($id)
+    {
+        return  TicketResponse::where('ticket_id', $id)->get();
+
+    }
+
     public function updateTicketType($id, $data)
     {
         $Section = TicketType::findOrFail($id);

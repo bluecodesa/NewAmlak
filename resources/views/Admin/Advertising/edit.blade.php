@@ -62,7 +62,7 @@
                             placeholder="https://townapp.sa/"
                             pattern="https:\/\/[a-zA-Z0-9-]+(\.[a-zA-Z]{2,}){1,}(\/?)"
                             title="Please enter a valid URL (e.g., https://townapp.sa/)"
-                            required>
+                            >
                     </div>
 
                     <div class="col-md-6 col-12 mb-3">

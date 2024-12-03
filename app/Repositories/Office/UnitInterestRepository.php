@@ -119,4 +119,9 @@ class UnitInterestRepository implements UnitInterestRepositoryInterface
     {
         return UnitInterest::where('unit_id', $id)->get();
     }
+
+    public function checkUnitInterestExists(int $interestedId, int $unitId): bool
+    {
+        return UnitInterest::where(['interested_id' => $interestedId, 'unit_id' => $unitId])->exists();
+    }
 }

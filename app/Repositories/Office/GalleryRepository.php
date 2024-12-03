@@ -4,6 +4,8 @@ namespace App\Repositories\Office;
 
 use App\Interfaces\Office\GalleryRepositoryInterface;
 use App\Models\Gallery;
+use App\Models\Visitor;
+use Illuminate\Support\Carbon;
 
 class GalleryRepository implements GalleryRepositoryInterface
 {
@@ -67,5 +69,13 @@ class GalleryRepository implements GalleryRepositoryInterface
     public function findByGalleryName($galleryName)
     {
         return Gallery::where('gallery_name', $galleryName)->firstOrFail();
+    }
+
+    public function findRecentVisitor(int $galleryId, string $ipAddress): ?Visitor
+    {
+        return Visitor::where('gallery_id', $galleryId)
+            ->where('ip_address', $ipAddress)
+            ->where('visited_at', '>=', Carbon::now()->subHour())
+            ->first();
     }
 }

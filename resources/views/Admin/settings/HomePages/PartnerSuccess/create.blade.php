@@ -36,9 +36,9 @@
                                 {{ __('save') }}
                             </button>
 
-                        </div>                    
+                        </div>
                     </form>
-                  
+
                 </div>
             </div>
             <!-- Modal to add new record -->

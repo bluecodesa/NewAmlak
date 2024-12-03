@@ -333,7 +333,7 @@
                                 </label>
                                 <select class="form-select" name="type" id="type" required>
                                     <option disabled value="" {{ old('type') == '' ? 'selected' : '' }}>@lang('Ad type') </option>
-                                    @foreach (['rent', 'sale', 'rent and sale'] as $type)
+                                    @foreach (['Rent', 'Sale', 'rent and sale'] as $type)
                                         <option value="{{ $type }}" {{ old('type') == $type ? 'selected' : '' }}>
                                             {{ __($type) }}</option>
                                     @endforeach
@@ -389,10 +389,14 @@
                             <div class="col-12 mb-3">
                                 <label class="form-label mb-2">@lang('Description')</label>
                                 <div>
-                                    {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
-                                    <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
-                                        {!! old('note') !!}
+                                    <button type="button" id="generateDescriptionBtn" class="btn btn-primary">@lang('Generate Description')</button>
+                                    <textarea id="descriptionOutput" class="form-control mt-2" rows="5" >
+                                    {!! old('note') !!}
                                     </textarea>
+                                    {{-- <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
+                                        {!! old('note') !!}
+                                    </textarea> --}}
+
                                 </div>
                             </div>
 
@@ -1040,6 +1044,40 @@ document.getElementById('show_in_gallery').addEventListener('change', function (
             });
         });
     });
+</script>
+
+<script>
+   $(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $('#generateDescriptionBtn').click(function () {
+        var formData = $('#unitForm').serialize();
+
+        $.ajax({
+            url: '{{ route("Office.generate-description") }}', // Your route for description generation
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                if (response.data && response.data.description) {
+                    $('#descriptionOutput').val(response.data.description);
+                    console.log(response.data.description); // Inspect the full description in the console
+
+                } else {
+                    alert('@lang("Description generation failed. Please check inputs.")');
+                }
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                alert('@lang("An error occurred while generating the description.")');
+            }
+        });
+    });
+});
+
 </script>
 
 

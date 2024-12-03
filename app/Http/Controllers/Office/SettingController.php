@@ -81,8 +81,10 @@ class SettingController extends Controller
         $UserSubscriptionTypes = $this->SubscriptionTypeService->getGallerySubscriptionTypes();
         $Faltypes = $this->FalLicenseService->getAll();
 
-        $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
-        $Licenses = FalLicenseUser::where('ad_license_status', 'valid')->get();
+        // $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
+        $falLicenses = $this->FalLicenseService->getUserLicenses(auth()->id());
+        $Licenses = $this->FalLicenseService->getLicensesAllValid();
+        // $Licenses = FalLicenseUser::where('ad_license_status', 'valid')->get();
 
         return view('Office.settings.index', get_defined_vars());
     }
@@ -138,12 +140,6 @@ class SettingController extends Controller
         return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully'));
     }
 
-    // public function updatePassword(Request $request, string $id)
-    // {
-    //     $data = $request->all();
-    //     $this->settingService->updatePassword($request, $id);
-    //     return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully'));
-    // }
 
     public function updatePassword(Request $request, $id)
     {
@@ -223,13 +219,13 @@ class SettingController extends Controller
 
     public function createFalLicense()
     {
-        //
-        // $Faltypes = $this->FalLicenseService->getAll();
-        $createdTypes = FalLicenseUser::where('user_id', auth()->user()->id)->pluck('fal_id');
-        $Faltypes = Fal::whereNotIn('id', $createdTypes)->get();
-        $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
+        // $createdTypes = FalLicenseUser::where('user_id', auth()->user()->id)->pluck('fal_id');
+        // $Faltypes = Fal::whereNotIn('id', $createdTypes)->get();
+        // $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
+        $Faltypes = $this->FalLicenseService->getUnusedLicenseTypes(auth()->id());
+        $falLicenses = $this->FalLicenseService->getUserLicenses(auth()->id());
+        $Licenses = $this->FalLicenseService->getLicensesAllValid();
 
-        // return Auth::user()->UserBrokerData->UserSubscription->subscription_type_id;
         return view('Office.settings.inc.FalLicense.create', get_defined_vars());
     }
 
@@ -269,11 +265,11 @@ class SettingController extends Controller
 
         $validatedData = $request->validate($rules, $messages);
 
-        FalLicenseUser::create([
-            'user_id' => $user->id,
-            'fal_id' => $validatedData['fal_id'],
+        $this->FalLicenseService->createFalLicenseUser([
+            'user_id' => auth()->id(),
             'ad_license_number' => $validatedData['ad_license_number'],
             'ad_license_expiry' => $validatedData['ad_license_expiry'],
+            'fal_id' => $validatedData['fal_id'],
             'ad_license_status' => 'valid',
         ]);
 

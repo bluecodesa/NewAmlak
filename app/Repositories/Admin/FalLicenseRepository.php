@@ -4,6 +4,7 @@ namespace App\Repositories\Admin;
 
 use App\Interfaces\Admin\FalLicenseRepositoryInterface;
 use App\Models\Fal;
+use App\Models\FalLicenseUser;
 
 class FalLicenseRepository implements FalLicenseRepositoryInterface
 {
@@ -38,5 +39,35 @@ class FalLicenseRepository implements FalLicenseRepositoryInterface
     public function delete($id)
     {
         return Fal::findOrFail($id)->delete();
+    }
+
+
+    public function createFalLicenseUser(array $data)
+    {
+        return FalLicenseUser::create($data);
+    }
+
+    public function updateFalLicenseUser($id, array $data)
+    {
+        $license = FalLicenseUser::findOrFail($id);
+        $license->update($data);
+        return $license;
+    }
+
+    public function getUserLicenses($userId)
+    {
+        return FalLicenseUser::where('user_id', $userId)->get();
+    }
+    public function getLicensesAllValid()
+    {
+         return FalLicenseUser::where('ad_license_status', 'valid')->get();
+
+    }
+
+
+    public function getUnusedLicenseTypes($userId)
+    {
+        $usedIds = FalLicenseUser::where('user_id', $userId)->pluck('fal_id');
+        return Fal::whereNotIn('id', $usedIds)->get();
     }
 }

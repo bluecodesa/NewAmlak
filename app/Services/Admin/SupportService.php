@@ -36,6 +36,11 @@ class SupportService
         return $this->SupportRepository->getTicketTypById($id);
     }
 
+    function getTicketResponseById($id)
+    {
+        return $this->SupportRepository->getTicketResponseById($id);
+    }
+
     public function createTicketType($data)
     {
 

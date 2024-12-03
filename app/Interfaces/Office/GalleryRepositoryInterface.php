@@ -18,6 +18,7 @@ interface GalleryRepositoryInterface
     public function updateCover(array $data);
     public function findByOfficeId($officeId);
     public function findByGalleryName($galleryName);
+    public function findRecentVisitor(int $galleryId, string $ipAddress);
 
 
 

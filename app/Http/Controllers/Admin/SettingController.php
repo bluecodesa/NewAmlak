@@ -378,21 +378,24 @@ class SettingController extends Controller
 
     function PrivacyPage()
     {
-        $setting = Setting::first();
+        // $setting = Setting::first();
+        $setting = $this->settingService->getFirstSetting();
         return view('Admin.settings.HomePages.Privacy', get_defined_vars());
     }
 
     function UpdatePrivacy(Request $request)
     {
         $request_data =  $request->except(['files']);
-        $setting = Setting::first();
+        // $setting = Setting::first();
+        $setting = $this->settingService->getFirstSetting();
         $setting->update($request_data);
         return back()->withSuccess(__('Update successfully'));
     }
 
     function TermsPage()
     {
-        $setting = Setting::first();
+        // $setting = Setting::first();
+        $setting = $this->settingService->getFirstSetting();
         return view('Admin.settings.HomePages.Terms', get_defined_vars());
     }
 
@@ -400,21 +403,24 @@ class SettingController extends Controller
     function UpdateTerms(Request $request)
     {
         $request_data =  $request->except(['files']);
-        $setting = Setting::first();
+        // $setting = Setting::first();
+        $setting = $this->settingService->getFirstSetting();
         $setting->update($request_data);
         return back()->withSuccess(__('Update successfully'));
     }
 
     function TermsAdvertising()
     {
-        $setting = Setting::first();
+        // $setting = Setting::first();
+        $setting = $this->settingService->getFirstSetting();
         return view('Admin.settings.HomePages.TermsAdvertising', get_defined_vars());
     }
 
     function UpdateTermsAdvertising(Request $request)
     {
         $request_data =  $request->except(['files']);
-        $setting = Setting::first();
+        // $setting = Setting::first();
+        $setting = $this->settingService->getFirstSetting();
         $setting->update($request_data);
         return back()->withSuccess(__('Update successfully'));
     }

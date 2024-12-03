@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Interfaces\Admin\AdvertisingRepositoryInterface;
 use App\Interfaces\Admin\CityRepositoryInterface;
 use App\Interfaces\Admin\DistrictRepositoryInterface;
 use App\Interfaces\Admin\FalLicenseRepositoryInterface;
+use App\Interfaces\Admin\PartnerSuccessRepositoryInterface;
 use App\Interfaces\Admin\PaymentGatewayInterface;
 use App\Interfaces\Admin\PaymentGatewayRepositoryInterface;
 use App\Interfaces\Admin\PermissionRepositoryInterface;
@@ -92,7 +94,9 @@ use App\Interfaces\Office\RenterRepositoryInterface;
 use App\Interfaces\Office\SettingRepositoryInterface as OfficeSettingRepositoryInterface;
 use App\Interfaces\Office\UnitInterestRepositoryInterface as OfficeUnitInterestRepositoryInterface;
 use App\Interfaces\Office\UnitRepositoryInterface as OfficeUnitRepositoryInterface;
+use App\Repositories\Admin\AdvertisingRepository;
 use App\Repositories\Admin\FalLicenseRepository;
+use App\Repositories\Admin\PartnerSuccessRepository;
 use App\Repositories\Admin\ProjectRepository;
 use App\Repositories\Office\WalletRepository;
 use App\Repositories\Admin\WalletTypeRepository;
@@ -201,7 +205,15 @@ class AppServiceProvider extends ServiceProvider
             HomeGalleryRepository::class
         );
 
+        $this->app->bind(
+            AdvertisingRepositoryInterface::class,
+            AdvertisingRepository::class
+        );
 
+        $this->app->bind(
+            PartnerSuccessRepositoryInterface::class,
+            PartnerSuccessRepository::class
+        );
 
         $this->app->bind(
             AdvisorRepositoryInterface::class,

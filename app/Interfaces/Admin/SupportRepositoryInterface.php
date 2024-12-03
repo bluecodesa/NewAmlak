@@ -16,6 +16,7 @@ interface SupportRepositoryInterface
     public function createTicketResponse(TicketResponse $response);
     public function closeTicket(int $ticketId);
     public function deleteTicket($id);
+    public function getTicketResponseById($data);
 
 
 }

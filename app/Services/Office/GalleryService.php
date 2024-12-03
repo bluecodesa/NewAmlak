@@ -323,4 +323,18 @@ class GalleryService
 
         return $allItems;
     }
+
+    public function findRecentVisitor(int $galleryId, string $ipAddress)
+    {
+        $visitor = $this->galleryRepository->findRecentVisitor($galleryId, $ipAddress);
+        return $visitor;
+    // if (!$visitor) {
+    //         $newVisitor = new Visitor();
+    //         $newVisitor->gallery_id = $galleryId;
+    //         $newVisitor->unit_id = null;
+    //         $newVisitor->ip_address = $ipAddress;
+    //         $newVisitor->visited_at = now();
+    //         $newVisitor->save();
+    //     }
+    }
 }
