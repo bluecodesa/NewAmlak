@@ -434,27 +434,31 @@ class ContractController extends Controller
         $renter = Renter::find($contract->renter_id);
         $owner = Owner::find($contract->owner_id);
         if ($renter) {
-            $latestOfficeRenter = $renter->latestOfficeRenter;
+            if ($contract->bear_commission === 'owner') {
+                $latestOfficeRenter = $renter->latestOfficeRenter;
             // $latestOfficeRenter->financial_Due -= $contract->price + $contract->total_commission;
             $latestOfficeRenter->financial_Due -= $contract->price;
             $latestOfficeRenter->save();
-        }
-        // if ($owner) {
-        //     $owner->balance += $contract->price;
-        //     $owner->save();
-        // }
-        if ($owner) {
-            // البحث عن السجل المرتبط بالمالك في جدول owner_office_broker
-            $latestOfficeOwner = $owner->officeBrokers()
-                ->where('office_id', $contract->office_id) // ربط مع المكتب
-                ->latest('created_at') // أخذ أحدث سجل
-                ->first();
-
-            if ($latestOfficeOwner) {
-                $latestOfficeOwner->balance += $contract->price; // تحديث الرصيد
-                $latestOfficeOwner->save();
+            }else{
+                $latestOfficeRenter = $renter->latestOfficeRenter;
+            $latestOfficeRenter->financial_Due -= $contract->price + $contract->total_commission;
+            $latestOfficeRenter->save();
             }
+
         }
+
+        // if ($owner) {
+        //     // البحث عن السجل المرتبط بالمالك في جدول owner_office_broker
+        //     $latestOfficeOwner = $owner->officeBrokers()
+        //         ->where('office_id', $contract->office_id) // ربط مع المكتب
+        //         ->latest('created_at') // أخذ أحدث سجل
+        //         ->first();
+
+        //     if ($latestOfficeOwner) {
+        //         $latestOfficeOwner->balance += $contract->price; // تحديث الرصيد
+        //         $latestOfficeOwner->save();
+        //     }
+        // }
         return response()->json(['success' => true]);
     }
 

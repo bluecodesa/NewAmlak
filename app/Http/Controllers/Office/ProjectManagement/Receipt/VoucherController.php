@@ -269,6 +269,8 @@ class VoucherController extends Controller
                             'status' => 'collected_and_payment', // القسط لم يكتمل
                         ]);
 
+                        $totalDeduction = $excessCommission ;
+
                         $remainingPrice = 0; // تم استخدام كامل المبلغ المتبقي
 
                         // ترحيل العمولة المتبقية إلى القسط التالي
@@ -292,6 +294,18 @@ class VoucherController extends Controller
                             'status' => 'collected_and_payment', // القسط مكتمل
                         ]);
                     }
+                }
+            }
+        }else {
+            // إذا لم تكن العمولة على المالك، يتم خصم قيمة القسط فقط
+            foreach ($installmentIds as $installmentId) {
+                $installment = Installment::find($installmentId);
+
+                if ($installment) {
+                    $installment->update([
+                        'status' => 'collected_and_payment',
+                    ]);
+
                 }
             }
         }
@@ -356,7 +370,7 @@ class VoucherController extends Controller
                 ->first();
 
             if ($latestOfficeOwner) {
-                $latestOfficeOwner->balance -= $remainingPrice; // تحديث الرصيد
+                $latestOfficeOwner->balance += $remainingPrice; // تحديث الرصيد
                 $latestOfficeOwner->save();
             }
         }

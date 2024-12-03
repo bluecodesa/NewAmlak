@@ -1042,5 +1042,105 @@ document.getElementById('show_in_gallery').addEventListener('change', function (
     });
 </script>
 
+
+{{-- <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // دالة لجمع البيانات وتوليد الوصف
+        function generateDescription() {
+            const projectSelect = document.getElementById('projectSelect');
+            const numberUnit = document.getElementById('numberUnit');
+            const propertySelect = document.getElementById('propertySelect');
+            const citySelect = document.getElementById('CityDiv');
+            const districtSelect = document.getElementById('DistrictDiv');
+            const locationInput = document.getElementById('myAddressBar');
+            const propertyTypeSelect = document.getElementById('propertyTypeSelect');
+            const propertyUsageSelect = document.getElementById('propertyUsageSelect');
+            const ownerSelect = document.getElementById('OwnersDiv');
+            const instrumentNumberInput = document.getElementById('instrumentNumber');
+            const serviceTypeSelect = document.getElementById('serviceTypeSelect');
+            const spaceInput = document.getElementById('space');
+            const roomsInput = document.getElementById('rooms');
+            const bathroomsInput = document.getElementById('bathrooms');
+            const statusSelect = document.getElementById('status');
+            const servicesSelect = document.getElementById('services');
+            const employeeSelect = document.getElementById('employeeSelect');
+            const latLongInput = document.getElementById('location_tag');
+            const noteTextarea = document.getElementById('textarea');
+
+            // جمع البيانات من عناصر النموذج
+            const data =
+            {
+
+    "type": "client",
+    "property_id": "123",
+    "productId": "1",
+    "productType": "property-description",
+    "language": "English",
+    "attributes": {
+        "advertisement_type": "Sale",
+        "property_usage": "Residential",
+        "property_type": "Apartment",
+        "project_name": "project test",
+        "country": "India",
+        "city": "gurugram",
+        "facing": "East",
+        "built_up_area": 10545,
+        "area_unit": "SQM",
+        "num_bedrooms": 3,
+        "amenities": "Gym, swimming pool",
+        "price": 544544,
+        "currency": "INR",
+        "target_country": "India",
+        "other_details": "Testing description",
+        "num_words": 200,
+        "address": "Sector 49",
+        "landmark": "near dlf mall",
+        "locality": "DLF",
+        "street_name": "Street 1",
+        "street_width": 20,
+        "num_bathrooms": 2,
+        "num_living_rooms": 1,
+        "num_guest_rooms": 1,
+        "property_floor_number": "3",
+        "total_floors": 4,
+        "fixtures_and_fittings": "Jaguar Sanitation",
+        "num_parking": 1,
+        "utilities": [
+            "Electricity"
+        ],
+        "property_age": 1,
+        "furnishing": "Semi-furnished",
+        "studio_apartment": false
+    }
+    }
+    ;
+
+            // إرسال البيانات إلى API لتوليد الوصف
+            fetch('{{ route('Office.generate-description') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(apiData => {
+                // تحديث منطقة النص بالوصف المستلم من API
+                noteTextarea.value = apiData.description; // تأكد من هيكلية الاستجابة
+            })
+            .catch(error => {
+                console.error('Error fetching description:', error);
+            });
+        }
+
+        // إضافة مستمعي الأحداث لعناصر النموذج لتوليد الوصف تلقائيًا عند التغيير
+        document.querySelectorAll('#projectSelect, #numberUnit, #propertySelect, #CityDiv, #DistrictDiv, #myAddressBar, #propertyTypeSelect, #propertyUsageSelect, #OwnersDiv, #instrumentNumber, #serviceTypeSelect, #space, #rooms, #bathrooms, #status, #services, #employeeSelect').forEach(element => {
+            element.addEventListener('change', generateDescription);
+            element.addEventListener('input', generateDescription);
+        });
+    });
+</script> --}}
+
     @endpush
 @endsection

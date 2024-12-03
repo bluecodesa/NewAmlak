@@ -134,6 +134,8 @@ Route::group(
             Route::get('property/details/{id}', [UnitController::class, 'getPropertyDetail'])->name('GetPropertyDetail');
             Route::get('GetProjectDetails/{projectId}', [UnitController::class, 'getProjectDetails'])->name('GetProjectDetails');
             Route::get('GetPropertyDetails/{propertyId}', [UnitController::class, 'getPropertyDetails'])->name('GetPropertyDetails');
+            Route::post('/generate-description', [UnitController::class, 'generateDescription'])->name('generate-description');
+            Route::get('/property-form', [UnitController::class, 'showForm']);
 
                //
                route::resource('Gallery', GallaryController::class)->middleware('CheckSubscription');
