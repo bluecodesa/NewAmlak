@@ -621,7 +621,7 @@
                         title: '@lang("project management")',
                         text: '@lang("Here you can add and view property information.")',
                         attachTo: '[data-tour="project-management"] right',
-                        sectionId: 100
+                        sectionId: 15
                     },
                     {
                         id: 'users-management',
