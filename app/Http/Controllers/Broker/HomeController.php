@@ -287,7 +287,7 @@ class HomeController extends Controller
             $districtsAll = $allItemsProperties->pluck('DistrictData')->unique();
         }
 
-        $sectionsIds = Auth::user()
+        $sectionsIds = auth()->user()
         ->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
         ->toArray();
 

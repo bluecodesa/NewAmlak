@@ -229,8 +229,8 @@
 
                         @endphp --}}
 
-                            @if($falLicense)
-                                <!-- Show the "Show in Gallery" switch if the user has a valid license -->
+                        @if($falLicense && in_array(18, $sectionsIds))
+                        <!-- Show the "Show in Gallery" switch if the user has a valid license -->
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                     <label class="switch switch-lg">
@@ -271,7 +271,7 @@
                                     </label>
                                     <!-- Add a message to indicate the license has expired -->
                                     <div class="alert alert-warning mt-2">
-                                        @lang('Show in Gallery is not available because your license has expired or is not valid.')
+                                        @lang('Show in Gallery is not available because your license has expired or is not valid or Not have Gallery section.')
                                     </div>
                                 </div>
                             @endif

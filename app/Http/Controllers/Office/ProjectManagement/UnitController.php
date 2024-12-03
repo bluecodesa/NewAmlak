@@ -256,6 +256,10 @@ class UnitController extends Controller
         ->where('ad_license_status', 'valid')
         ->first();
         $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+        $sectionsIds = auth()->user()
+        ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+        ->toArray();
+
         return view('Office.ProjectManagement.Project.Unit.edit', get_defined_vars());
     }
 

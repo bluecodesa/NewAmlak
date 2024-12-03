@@ -44,7 +44,7 @@
                                     class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">1</span>
                             </button>
                         </li>
-                   
+
                         <li class="nav-item">
                           <button
                             type="button"
@@ -226,7 +226,7 @@
                         </div>
 
                         <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
-                            @if($falLicense)
+                            @if($falLicense && in_array(18, $sectionsIds))
                             <!-- Show the "Show in Gallery" switch if the user has a valid license -->
                             <div class="col-sm-12 col-md-4 mb-3">
                                 <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
@@ -268,7 +268,7 @@
                                 </label>
                                 <!-- Add a message to indicate the license has expired -->
                                 <div class="alert alert-warning mt-2">
-                                    @lang('Show in Gallery is not available because your license has expired or is not valid.')
+                                    @lang('Show in Gallery is not available because your license has expired or is not valid or Not have Gallery section.')
                                 </div>
                             </div>
                         @endif

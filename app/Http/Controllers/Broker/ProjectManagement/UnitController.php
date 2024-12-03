@@ -187,6 +187,9 @@ class UnitController extends Controller
         ->first();
 
         $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+        $sectionsIds = auth()->user()
+        ->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+        ->toArray();
 
         return view('Broker.ProjectManagement.Project.Unit.create', get_defined_vars());
     }
@@ -286,6 +289,10 @@ class UnitController extends Controller
         ->where('ad_license_status', 'valid')
         ->first();
         $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+        $sectionsIds = auth()->user()
+        ->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+        ->toArray();
+
         return view('Broker.ProjectManagement.Project.Unit.edit', get_defined_vars());
     }
 
