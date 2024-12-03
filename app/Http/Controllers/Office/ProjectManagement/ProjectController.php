@@ -98,6 +98,9 @@ class ProjectController extends Controller
         ->where('ad_license_status', 'valid')
         ->first();
         $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+        $sectionsIds = auth()->user()
+        ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+        ->toArray();
 
         return view('Office.ProjectManagement.Project.create', get_defined_vars());
     }
@@ -178,6 +181,10 @@ class ProjectController extends Controller
         ->where('ad_license_status', 'valid')
         ->first();
         $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+        $sectionsIds = auth()->user()
+        ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+        ->toArray();
+
         return view('Office.ProjectManagement.Project.CreateProperty', get_defined_vars());
     }
 
@@ -210,6 +217,10 @@ class ProjectController extends Controller
         ->where('ad_license_status', 'valid')
         ->first();
         $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+        $sectionsIds = auth()->user()
+        ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+        ->toArray();
+
         return view('Office.ProjectManagement.Project.CreateUnit', get_defined_vars());
     }
 
