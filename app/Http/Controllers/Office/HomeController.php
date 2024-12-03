@@ -257,6 +257,9 @@ class HomeController extends Controller
         ->whereBetween('visited_at', [$start_date, $end_date]) // Filter by subscription dates
         ->count();
 
+        $sectionsIds = Auth::user()
+        ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+        ->toArray();
 
 
         Auth::user()->assignRole('Office-Admin');

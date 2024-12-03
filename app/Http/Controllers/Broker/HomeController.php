@@ -287,6 +287,10 @@ class HomeController extends Controller
             $districtsAll = $allItemsProperties->pluck('DistrictData')->unique();
         }
 
+        $sectionsIds = Auth::user()
+        ->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+        ->toArray();
+
         return view('Broker.dashboard',  get_defined_vars());
     }
 

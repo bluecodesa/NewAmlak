@@ -561,7 +561,7 @@
     @include('Broker.inc._SubscriptionSuspend')
 
 
-    @if ($subscriber->status === 'active' && \Carbon\Carbon::now()->isSameDay(\Carbon\Carbon::parse($subscriber->start_date)))
+@if ($subscriber->status === 'active' && \Carbon\Carbon::now()->isSameDay(\Carbon\Carbon::parse($subscriber->start_date)))
     <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1" style="text-align: center;">
         <div class="modal-dialog modal-dialog-centered">
             <form class="modal-content">
@@ -581,6 +581,8 @@
     </div>
 
     <script>
+        const sectionsIds = @json($sectionsIds); // الأقسام المسموح بها للمستخدم
+
         document.addEventListener('DOMContentLoaded', function () {
             var modal = new bootstrap.Modal(document.getElementById('backDropModal'), {
                 keyboard: false
@@ -590,7 +592,6 @@
             document.getElementById('startTourButton').addEventListener('click', function () {
                 modal.hide();
 
-                // إعداد الجولة باستخدام Shepherd.js
                 let tour = new Shepherd.Tour({
                     defaultStepOptions: {
                         classes: 'shadow-md bg-white',
@@ -614,188 +615,142 @@
                     useModalOverlay: true
                 });
 
-                // الخطوة 1: إدارة المشاريع
-                tour.addStep({
-                    id: 'project-management',
-                    text: `@lang('Here you can add and view property information.')`,
-                    attachTo: {
-                        element: '[data-tour="project-management"]',
-                        on: 'right'
+                const steps = [
+                    {
+                        id: 'project-management',
+                        title: '@lang("project management")',
+                        text: '@lang("Here you can add and view property information.")',
+                        attachTo: '[data-tour="project-management"] right',
+                        sectionId: 100
                     },
-                    title: `@lang('project management')`
-                });
-
-                // الخطوة 2: إدارة المستخدمين
-                tour.addStep({
-                    id: 'users-management',
-                    text: `@lang('Here you can add and view employee information.')`,
-                    attachTo: {
-                        element: '[data-tour="users-management"]',
-                        on: 'right'
+                    {
+                        id: 'users-management',
+                        title: '@lang("Users management")',
+                        text: '@lang("Here you can add and view employee information.")',
+                        attachTo: '[data-tour="users-management"] right',
+                        sectionId: 14
                     },
-                    title: `@lang('Users management')`
-                });
-
-                // الخطوة 3: إدارة العملاء
-                tour.addStep({
-                    id: 'customer-management',
-                    text: `@lang('Here you can add and view your customers information.')`,
-                    attachTo: {
-                        element: '[data-tour="customer-management"]',
-                        on: 'right'
+                    {
+                        id: 'customer-management',
+                        title: '@lang("Customer Management")',
+                        text: '@lang("Here you can add and view your customers information.")',
+                        attachTo: '[data-tour="customer-management"] right',
+                        sectionId: 19
                     },
-                    title: `@lang('Customer Management')`
-                });
-
-                // الخطوة 4: إدارة العقود
-                tour.addStep({
-                    id: 'contract-management',
-                    text: `@lang('Here you can add and track the status of contracts.')`,
-                    attachTo: {
-                        element: '[data-tour="contract-management"]',
-                        on: 'right'
+                    {
+                        id: 'contract-management',
+                        title: '@lang("Contract Management")',
+                        text: '@lang("Here you can add and track the status of contracts.")',
+                        attachTo: '[data-tour="contract-management"] right',
+                        sectionId: 30
                     },
-                    title: `@lang('Contract Management')`
-                });
-                     // الخطوة 4: إدارة المالية
-                     tour.addStep({
-                    id: 'financial-management',
-                    text: `@lang('Here you can manage treasuries, invoices and issue bonds.')`,
-                    attachTo: {
-                        element: '[data-tour="financial-management"]',
-                        on: 'right'
+                    {
+                        id: 'financial-management',
+                        title: '@lang("Financial Management")',
+                        text: '@lang("Here you can manage treasuries, invoices and issue bonds.")',
+                        attachTo: '[data-tour="financial-management"] right',
+                        sectionId: 30
                     },
-                    title: `@lang('Financial Managment')`
-                });
-
-                                // الخطوة 4: إدارة المعرض
-                tour.addStep({
-                    id: 'gallary-management',
-                    text: `@lang('Here you can post and share real estate ads, track interest requests and property requests and view an interactive map of properties.')`,
-                    attachTo: {
-                        element: '[data-tour="gallary-management"]',
-                        on: 'right'
+                    {
+                        id: 'gallary-management',
+                        title: '@lang("Gallery Management")',
+                        text: '@lang("Here you can post and share real estate ads, track interest requests and property requests and view an interactive map of properties.")',
+                        attachTo: '[data-tour="gallary-management"] right',
+                        sectionId: 18
                     },
-                    title: `@lang('Gallary Mange')`
-                });
-
-                       // الخطوة 4: إدارة الصيانه والتشغيل
-                   tour.addStep({
-                    id: 'maintenance-operation-managment',
-                    text: `@lang('Here you can add service providers and track maintenance and operation requests.')`,
-                    attachTo: {
-                        element: '[data-tour="maintenance-operation-managment"]',
-                        on: 'right'
+                    {
+                        id: 'maintenance-operation-managment',
+                        title: '@lang("Maintenance and Operation Management")',
+                        text: '@lang("Here you can add service providers and track maintenance and operation requests.")',
+                        attachTo: '[data-tour="maintenance-operation-managment"] right',
+                        sectionId: 33
                     },
-                    title: `@lang('Maintenance and operation management')`
-                });
-
-                    // الخطوة 4: التقارير والبحث المتقدم
-                    tour.addStep({
-                    id: 'reports-and-advanced-search',
-                    text: `@lang('Here you can access the most important reports you need with ease.')`,
-                    attachTo: {
-                        element: '[data-tour="reports-and-advanced-search"]',
-                        on: 'right'
+                    {
+                        id: 'reports-and-advanced-search',
+                        title: '@lang("Reports and Advanced Search")',
+                        text: '@lang("Here you can access the most important reports you need with ease.")',
+                        attachTo: '[data-tour="reports-and-advanced-search"] right',
+                        sectionId: 34
                     },
-                    title: `@lang('Reports and advanced search')`
-                });
-
-
-
-
-                // الخطوة 5: إدارة الاشتراكات
-                tour.addStep({
-                    id: 'subscription-management',
-                    text: `@lang('Here you can view your current subscription information and bill or upgrade your subscription.')`,
-                    attachTo: {
-                        element: '[data-tour="subscription-management"]',
-                        on: 'right'
+                    {
+                        id: 'subscription-management',
+                        title: '@lang("Subscription Management")',
+                        text: '@lang("Here you can view your current subscription information and bill or upgrade your subscription.")',
+                        attachTo: '[data-tour="subscription-management"] right',
+                        sectionId: 12
                     },
-                    title: `@lang('Subscription Management')`
-                });
-
-                // الخطوة 6: الدعم الفني
-                tour.addStep({
-                    id: 'technical-support',
-                    text: `@lang('Here you can get help by contacting support directly or opening a technical support ticket.')`,
-                    attachTo: {
-                        element: '[data-tour="technical-support"]',
-                        on: 'right'
+                    {
+                        id: 'settings',
+                        text: `@lang('Here you can update your account information, add your real estate license, and more settings.')`,
+                        title: `@lang('Settings')`,
+                        attachTo: '[data-tour="settings"] right',
+                        sectionId: 11
                     },
-                    title: `@lang('Technical Support')`
-                });
+                         //avatar
 
-                // الخطوة 7: الإعدادات
-                tour.addStep({
-                    id: 'settings',
-                    text: `@lang('Here you can update your account information, add your real estate license, and more settings.')`,
-                    attachTo: {
-                        element: '[data-tour="settings"]',
-                        on: 'right'
-                    },
-                    title: `@lang('Settings')`
-                });
+                        tour.addStep({
+                            id: 'avatar-online',
+                            text: `@lang('Here you can add a new account and navigate between your accounts easily.')`,
+                            attachTo: {
+                                element: '[data-tour="avatar-online"]',
+                                on: 'right'
+                            },
+                            title: `@lang('Settings')`
+                        }),
+                          //notification
 
-                                // الخطوة 7: البحث
-                tour.addStep({
-                    id: 'search-wrapper',
-                    text: `@lang('Allows searching for any keyword and displaying results matching that keyword')`,
-                    attachTo: {
-                        element: '[data-tour="search-wrapper"]',
-                        on: 'right'
-                    },
-                    title: `@lang('search...')`
-                });
+                        tour.addStep({
+                            id: 'notifications',
+                            text: `@lang('Here you will receive new notifications and the most important alerts.')`,
+                            attachTo: {
+                                element: '[data-tour="notifications"]',
+                                on: 'right'
+                            },
+                            title: `@lang('Notifications')`
+                        }),
 
+                        //style-switcher
 
-                //avatar
-
-                tour.addStep({
-                    id: 'avatar-online',
-                    text: `@lang('Here you can add a new account and navigate between your accounts easily.')`,
-                    attachTo: {
-                        element: '[data-tour="avatar-online"]',
-                        on: 'right'
-                    },
-                    title: `@lang('Settings')`
-                });
-
-                //notification
-
-                tour.addStep({
-                    id: 'notifications',
-                    text: `@lang('Here you will receive new notifications and the most important alerts.')`,
-                    attachTo: {
-                        element: '[data-tour="notifications"]',
-                        on: 'right'
-                    },
-                    title: `@lang('Notifications')`
-                });
-
-                //style-switcher
-
-                tour.addStep({
-                    id: 'style-switcher',
-                    text: `@lang('Here you can enable/disable dark mode.')`,
-                    attachTo: {
-                        element: '[data-tour="style-switcher"]',
-                        on: 'right'
-                    },
-                    title: `@lang('style-switcher')`
-                });
+                        tour.addStep({
+                            id: 'style-switcher',
+                            text: `@lang('Here you can enable/disable dark mode.')`,
+                            attachTo: {
+                                element: '[data-tour="style-switcher"]',
+                                on: 'right'
+                            },
+                            title: `@lang('style-switcher')`
+                        }),
 
 
-                //language
+                        //language
 
-                tour.addStep({
-                    id: 'language',
-                    text: `@lang('Click here to change your account language.')`,
-                    attachTo: {
-                        element: '[data-tour="language"]',
-                        on: 'right'
-                    },
-                    title: `@lang('languages')`
+                        tour.addStep({
+                            id: 'language',
+                            text: `@lang('Click here to change your account language.')`,
+                            attachTo: {
+                                element: '[data-tour="language"]',
+                                on: 'right'
+                            },
+                            title: `@lang('languages')`
+                        }),
+                ];
+
+                // إضافة الخطوات فقط إذا كانت موجودة في sectionsIds والعنصر موجود في DOM
+                steps.forEach((step) => {
+                    if (sectionsIds.includes(step.sectionId)) {
+                        const element = document.querySelector(step.attachTo.split(' ')[0]);
+                        if (element) {
+                            tour.addStep({
+                                id: step.id,
+                                text: step.text,
+                                attachTo: {
+                                    element: step.attachTo.split(' ')[0],
+                                    on: step.attachTo.split(' ')[1]
+                                },
+                                title: step.title
+                            });
+                        }
+                    }
                 });
 
                 // بدء الجولة
@@ -804,7 +759,6 @@
         });
     </script>
 @endif
-
 
 
 

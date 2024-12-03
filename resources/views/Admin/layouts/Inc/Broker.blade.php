@@ -1,8 +1,8 @@
-@php
+{{-- @php
     $sectionsIds = Auth::user()
         ->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
         ->toArray();
-@endphp
+@endphp --}}
 {{-- <div class="left side-menu" id="left-side-menu">
     <div class="slimscroll-menu" id="remove-scroll">
 
