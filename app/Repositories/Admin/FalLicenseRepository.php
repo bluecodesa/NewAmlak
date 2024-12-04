@@ -70,4 +70,14 @@ class FalLicenseRepository implements FalLicenseRepositoryInterface
         $usedIds = FalLicenseUser::where('user_id', $userId)->pluck('fal_id');
         return Fal::whereNotIn('id', $usedIds)->get();
     }
+
+    public function getValidFalLicenseForGallery(int $userId)
+    {
+        return FalLicenseUser::where('user_id', $userId)
+            ->whereHas('falData', function ($query) {
+                $query->where('for_gallery', 1);
+            })
+            ->where('ad_license_status', 'valid')
+            ->first();
+    }
 }

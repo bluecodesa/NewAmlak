@@ -62,8 +62,8 @@
                 <h5 class="mt-4">@lang('total'): {{ $receipt->total_price }} @lang('SAR')</h5>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="printReceipt({{ $receipt->id }})">Print</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('close')</button>
+                <button type="button" class="btn btn-primary" onclick="printReceipt({{ $receipt->id }})">@lang('print')</button>
             </div>
             @else
             <div class="modal-body" id="receiptModalBody">

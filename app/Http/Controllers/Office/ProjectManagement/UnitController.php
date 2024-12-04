@@ -8,10 +8,12 @@ use App\Models\Contract;
 use App\Models\FalLicenseUser;
 use App\Models\Project;
 use App\Models\Property;
+use App\Models\PropertyService;
 use App\Models\PropertyUsage;
 use App\Models\Unit;
 use App\Models\UnitImage;
 use App\Models\UnitInterest;
+use App\Services\Admin\FalLicenseService;
 use App\Services\Admin\SettingService;
 use App\Services\AllServiceService;
 use App\Services\CityService;
@@ -29,6 +31,7 @@ use Illuminate\Validation\Rule;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
 use App\Services\Office\EmployeeService;
+use App\Services\Office\PropertyService as OfficePropertyService;
 use App\Services\PropGeniusService;
 
 class UnitController extends Controller
@@ -51,6 +54,8 @@ class UnitController extends Controller
     protected $EmployeeService;
     protected $propGeniusService;
 
+    protected $falLicenseService;
+    protected $PropertyService;
 
 
 
@@ -70,7 +75,9 @@ class UnitController extends Controller
         SubscriptionTypeService $SubscriptionTypeService,
         SubscriptionService $subscriptionService,
         EmployeeService $EmployeeService,
-        PropGeniusService $propGeniusService
+        PropGeniusService $propGeniusService,
+        FalLicenseService $falLicenseService,
+        OfficePropertyService $PropertyService
     ) {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -88,6 +95,9 @@ class UnitController extends Controller
         $this->SubscriptionTypeService = $SubscriptionTypeService;
         $this->EmployeeService = $EmployeeService;
         $this->propGeniusService = $propGeniusService;
+        $this->falLicenseService = $falLicenseService;
+        $this->PropertyService = $PropertyService;
+
 
 
         //
@@ -144,13 +154,15 @@ class UnitController extends Controller
         $projects = $this->officeDataService->getProjects();
         $properties = $this->officeDataService->getProperties();
 
-        $falLicense = FalLicenseUser::where('user_id', auth()->id())
-        ->whereHas('falData', function ($query) {
-            $query->where('for_gallery', 1);
+        // $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        // ->whereHas('falData', function ($query) {
+        //     $query->where('for_gallery', 1);
 
-        })
-        ->where('ad_license_status', 'valid')
-        ->first();
+        // })
+        // ->where('ad_license_status', 'valid')
+        // ->first();
+        $falLicense = $this->falLicenseService->getValidLicenseForGallery();
+
         $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         $sectionsIds = auth()->user()
         ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
@@ -248,13 +260,15 @@ class UnitController extends Controller
         $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
         $projects = $this->officeDataService->getProjects();
         $properties = $this->officeDataService->getProperties();
-        $falLicense = FalLicenseUser::where('user_id', auth()->id())
-        ->whereHas('falData', function ($query) {
-            $query->where('for_gallery', 1);
+        // $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        // ->whereHas('falData', function ($query) {
+        //     $query->where('for_gallery', 1);
 
-        })
-        ->where('ad_license_status', 'valid')
-        ->first();
+        // })
+        // ->where('ad_license_status', 'valid')
+        // ->first();
+        $falLicense = $this->falLicenseService->getValidLicenseForGallery();
+
         $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         $sectionsIds = auth()->user()
         ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
@@ -335,7 +349,8 @@ class UnitController extends Controller
     public function getPropertyDetails($propertyId)
     {
 
-        $property = Property::findOrFail($propertyId);
+        // $property = Property::findOrFail($propertyId);
+        $property = $this->PropertyService->findById($propertyId);
 
         if ($property) {
             $property->load('CityData','CityData.RegionData', 'CityData.DistrictsCity');
@@ -358,7 +373,9 @@ class UnitController extends Controller
 
     public function destroyVideo($id)
     {
-        $unit = Unit::find($id);
+        // $unit = Unit::find($id);
+        $unit = $this->UnitService->findById($id);
+
         if ($unit && $unit->video) {
             $unit->video = null;
             $unit->save();

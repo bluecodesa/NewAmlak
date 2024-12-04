@@ -109,4 +109,10 @@ class FalLicenseService
     {
         return $this->FalLicenseRepository->getUnusedLicenseTypes($userId);
     }
+
+    public function getValidLicenseForGallery()
+    {
+        $userId = auth()->id();
+        return $this->FalLicenseRepository->getValidFalLicenseForGallery($userId);
+    }
 }

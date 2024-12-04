@@ -3,7 +3,11 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" id="receiptModalHeader{{$receipt->id }}">
+                @if ($receipt->type == 'receipt_voucher')
+                <h5 class="modal-title" id="receiptModalLabel">@lang('Receipt Voucher')</h5>
+                @else
                 <h5 class="modal-title" id="receiptModalLabel">@lang('Payment Voucher')</h5>
+                @endif
                 <img src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' && $setting->icon_ar ? $setting->icon_ar : ($setting->icon_en ? $setting->icon_en : '')) }}" alt="Logo" style="max-width: 100px; margin-bottom: 20px;">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -21,8 +25,6 @@
                         <p><strong>@lang('Release Date')</strong> {{ $receipt->release_date }}</p>
                         <p><strong>@lang('Beneficiary Name'):</strong> {{ $receipt->ContractData->renter->UserData->name ?? 'N/A' }}</p>
                         <p><strong>@lang('Pay Method'):</strong> {{ $receipt->payment_method }}</p>
-                        <p><strong>@lang('Commission'):</strong> {{ $receipt->payment_method }}</p>
-                        <p><strong>@lang('price'):</strong> {{ $receipt->payment_method }}</p>
                         <p><strong>@lang('total')</strong> {{ $receipt->total_price }} @lang('SAR')</p>
                         <p><strong>@lang('mobile')</strong> {{ $receipt->mobile }}</p>
                         <p><strong>@lang('#Ejar/REF:'):</strong> {{ $receipt->reference_number }}</p>
@@ -35,6 +37,8 @@
                         <tr>
                             <th>@lang('Installment Number')</th>
                             <th>@lang('price')</th>
+                            <th>@lang('Commission')</th>
+                            <th>@lang('Total')</th>
                             <th>@lang('status')</th>
                             <th>@lang('Contract Start Date')</th>
                             <th>@lang('Contract End Date')</th>
@@ -44,7 +48,10 @@
                         @foreach($receipt->installments as $installment)
                             <tr>
                                 <td>{{ $installment->Installment_number }}</td>
+                                {{-- <td>{{ $installment->total_price }}</td> --}}
                                 <td>{{ $installment->price }}</td>
+                                <td>{{ $installment->commission }}</td>
+                                <td>{{ $receipt->total_price }}</td>
                                 <td>{{ __($installment->status) }}</td>
                                 <td>{{ $installment->start_date }}</td>
                                 <td>{{ $installment->end_date }}</td>
@@ -55,8 +62,8 @@
                 <h5 class="mt-4">@lang('total'): {{ $receipt->total_price }} @lang('SAR')</h5>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="printReceipt({{ $receipt->id }})">Print</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('close')</button>
+                <button type="button" class="btn btn-primary" onclick="printReceipt({{ $receipt->id }})">@lang('print')</button>
             </div>
             @else
             <div class="modal-body" id="receiptModalBody">

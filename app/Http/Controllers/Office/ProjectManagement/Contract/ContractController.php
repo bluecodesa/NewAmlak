@@ -164,7 +164,8 @@ class ContractController extends Controller
         $properties=Property::where('office_id',$office_id)->get();
         $units=Unit::where('office_id',$office_id)->get();
         $renters = $this->RenterService->getAllByOfficeId($office_id);
-        $owners = $this->OwnerService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
+        // $owners = $this->OwnerService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
+        $owners = $this->officeDataService->getOwners();
         $contract =  $this->ContractService->getContractById($id);
         $receipt = null;
         $setting =   Setting::first();

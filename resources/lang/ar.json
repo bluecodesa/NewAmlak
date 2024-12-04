@@ -815,6 +815,9 @@
     "Here you can enable/disable dark mode.":"هنا يمكنك تفعيل/تعطيل الوضع الداكن",
     "style-switcher":"مبدل الالوان",
     "Click here to change your account language.":" اضغط هنا لتغيير لغة الحساب",
-    "languages":"اللغات"
+    "languages":"اللغات",
+    "print":"طباعة",
+    "Sale":"بيع",
+    "Rent":"ايجار"
 
 }

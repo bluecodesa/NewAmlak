@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use App\Models\FalLicenseUser;
 use App\Models\PropertyImage;
+use App\Services\Admin\FalLicenseService;
 use App\Services\AllServiceService;
 use App\Services\CityService;
 use App\Services\Office\OfficeDataService;
@@ -33,11 +34,13 @@ class PropertyController extends Controller
     protected $AllServiceService;
     protected $FeatureService;
     protected $EmployeeService;
+    protected $falLicenseService;
 
     public function __construct(PropertyService $PropertyService, AllServiceService $AllServiceService, FeatureService $FeatureService, RegionService $regionService, CityService $cityService, OfficeDataService $officeDataService, PropertyTypeService $propertyTypeService,
     ServiceTypeService $ServiceTypeService,
     PropertyUsageService $propertyUsageService,
-    EmployeeService $EmployeeService
+    EmployeeService $EmployeeService,
+    FalLicenseService $falLicenseService
     )
     {
         $this->regionService = $regionService;
@@ -50,6 +53,7 @@ class PropertyController extends Controller
         $this->AllServiceService = $AllServiceService;
         $this->FeatureService = $FeatureService;
         $this->EmployeeService = $EmployeeService;
+        $this->falLicenseService = $falLicenseService;
 
 
         $this->middleware(['role_or_permission:read-building'])->only(['index']);
@@ -75,13 +79,14 @@ class PropertyController extends Controller
         $developers = $this->officeDataService->getDevelopers();
         $owners = $this->officeDataService->getOwners();
         $services = $this->ServiceTypeService->getAllServiceTypes();
-        $falLicense = FalLicenseUser::where('user_id', auth()->id())
-        ->whereHas('falData', function ($query) {
-            $query->where('for_gallery', 1);
+        // $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        // ->whereHas('falData', function ($query) {
+        //     $query->where('for_gallery', 1);
 
-        })
-        ->where('ad_license_status', 'valid')
-        ->first();
+        // })
+        // ->where('ad_license_status', 'valid')
+        // ->first();
+        $falLicense = $this->falLicenseService->getValidLicenseForGallery();
 
         $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         $sectionsIds = auth()->user()
@@ -137,13 +142,15 @@ class PropertyController extends Controller
         $developers = $this->officeDataService->getDevelopers();
         $owners = $this->officeDataService->getOwners();
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
-        $falLicense = FalLicenseUser::where('user_id', auth()->id())
-        ->whereHas('falData', function ($query) {
-            $query->where('for_gallery', 1);
+        // $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        // ->whereHas('falData', function ($query) {
+        //     $query->where('for_gallery', 1);
 
-        })
-        ->where('ad_license_status', 'valid')
-        ->first();
+        // })
+        // ->where('ad_license_status', 'valid')
+        // ->first();
+        $falLicense = $this->falLicenseService->getValidLicenseForGallery();
+
         $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         $sectionsIds = auth()->user()
         ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
@@ -220,13 +227,15 @@ class PropertyController extends Controller
         $features = $this->FeatureService->getAllFeature();
         $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
 
-        $falLicense = FalLicenseUser::where('user_id', auth()->id())
-        ->whereHas('falData', function ($query) {
-            $query->where('for_gallery', 1);
+        // $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        // ->whereHas('falData', function ($query) {
+        //     $query->where('for_gallery', 1);
 
-        })
-        ->where('ad_license_status', 'valid')
-        ->first();
+        // })
+        // ->where('ad_license_status', 'valid')
+        // ->first();
+        $falLicense = $this->falLicenseService->getValidLicenseForGallery();
+
         $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         $sectionsIds = auth()->user()
         ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')

@@ -382,6 +382,47 @@
                                         @endforeach
                                     </select>
                                 </div>
+
+                                <div id="propertyManagementFields" class="row" style="display: none;">
+
+                                    <!-- Commissions Rate -->
+                                    <div class="col-md-4 mb-3 col-12">
+                                        <label class="form-label">@lang('Commissions Rate') <span
+                                                class="required-color">*</span></label>
+                                            <div class="input-group">
+                                                <input type="number" name="commissions_rate" step="0.01" class="form-control"
+                                                placeholder="@lang('Commissions Rate')">
+                                                <button class="btn btn-outline-primary waves-effect" type="button"
+                                                    id="button-addon2">@lang('%')</button>
+                                            </div>
+                                    </div>
+                                    <!-- Bear the Commission -->
+                                    <div class="col-md-4 mb-3 col-12">
+                                        <label class="form-label">@lang('Bear the commission') <span class="required-color">*</span></label>
+                                        <select class="form-select" required name="bear_commission" id="bearCommission">
+                                            @foreach (['Renter', 'owner'] as $type)
+                                                <option value="{{ $type }}">
+                                                    {{ __($type) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- Collection Type -->
+                                    <div class="col-md-4 mb-3 col-12">
+                                        <label class="form-label">@lang('Collection Type') <span class="required-color">*</span></label>
+                                        <select class="form-select" required name="collection_type" id="collectionType" disabled>
+                                            @foreach (['once with frist installment', 'divided with all installments'] as $type)
+                                                <option value="{{ $type }}">
+                                                    {{ __($type) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <input type="hidden" name="collection_type" id="collectionTypeHidden">
+
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 

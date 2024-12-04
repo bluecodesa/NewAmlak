@@ -16,5 +16,5 @@ interface FalLicenseRepositoryInterface
     public function getUserLicenses($userId);
     public function getUnusedLicenseTypes($userId);
     public function getLicensesAllValid();
-
+    public function getValidFalLicenseForGallery(int $userId);
 }
