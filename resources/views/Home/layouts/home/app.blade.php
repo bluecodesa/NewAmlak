@@ -49,25 +49,25 @@
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link fw-medium" aria-current="page"
-                                href="{{ route('welcome') }}#landingHero">عن تاون</a>
+                                href="{{ route('welcome') }}#landingHero">@lang('About Town')</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fw-medium" href="{{ route('welcome') }}#landingFeatures">المميزات</a>
+                            <a class="nav-link fw-medium" href="{{ route('welcome') }}#landingFeatures">@lang('Features')</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fw-medium" href="{{ route('welcome') }}#landingPricing">الباقات</a>
+                            <a class="nav-link fw-medium" href="{{ route('welcome') }}#landingPricing">@lang('Packages')</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link  fw-medium" href="{{ route('gallery.showAllGalleries') }}">المعرض</a>
+                            <a class="nav-link  fw-medium" href="{{ route('gallery.showAllGalleries') }}">@lang('Gallary')</a>
                         </li>
                         {{-- <li class="nav-item">
                             <a class="nav-link  fw-medium" href="{{ route('Home.showAllProjects') }}">المشاريع</a>
                         </li> --}}
                         <li class="nav-item">
-                            <a class="nav-link fw-medium" href="{{ route('brokers') }}">الوسطاء العقاريين</a>
+                            <a class="nav-link fw-medium" href="{{ route('brokers') }}">@lang('Real Estate Brokers')</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fw-medium" href="{{ route('welcome') }}#landingContact">تواصل معنا</a>
+                            <a class="nav-link fw-medium" href="{{ route('welcome') }}#landingContact">@lang('Contact us')</a>
                         </li>
 
 

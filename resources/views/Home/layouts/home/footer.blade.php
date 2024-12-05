@@ -12,14 +12,14 @@
                         {{-- <span class="app-brand-text demo footer-link fw-bold ms-2 ps-1">تاون</span> --}}
                     </a>
                     <p class="footer-text footer-logo-description mb-4">
-                        خيارك الأول لإدارة العقارات عبر منصة متكاملة تخدم مدراء العقارات، والملاك والمستأجرين
+                        @lang('Your first choice for property management through an integrated platform serving property managers, owners and tenants.')
                     </p>
                     <form class="footer-form">
-                        <label for="footer-email" class="small">سجل معنا ليصلك كل جديد
+                        <label for="footer-email" class="small">@lang('Register with us to receive all that is new')
                         </label>
                         <div class="d-flex mt-1">
                             <input type="email" class="form-control rounded-0 rounded-start-bottom rounded-start-top"
-                                id="footer-email" placeholder="بريدك الالكتروني" />
+                                id="footer-email" placeholder="@lang('Email')" />
                             <a href="{{ route('login') }}" type="submit"
                                 class="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top">
                                 سجل
@@ -32,25 +32,24 @@
                     <ul class="list-unstyled">
 
                         <li class="mb-3"><a href="{{ route('welcome') }}#landingFeatures"
-                                class="footer-link">المميزات</a></li>
+                                class="footer-link">@lang('fea')</a></li>
                         <li class="mb-3"><a href="{{ route('welcome') }}#landingPricing"
-                                class="footer-link">الباقات</a></li>
+                                class="footer-link">@lang('Packages')</a></li>
                         <li class="mb-3"><a href="{{ route('gallery.showAllGalleries') }}"
-                                class="footer-link">المعرض</a></li>
-                        <li class="mb-3"><a href="{{ route('brokers') }}" class="footer-link">الوسطاء العقاريين</a>
+                                class="footer-link">@lang('Gallary')</a></li>
+                        <li class="mb-3"><a href="{{ route('brokers') }}" class="footer-link">@lang('Real Estate Brokers')</a>
                         </li>
 
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-6">
-                    <h6 class="footer-title mb-4">روابط مهمة</h6>
+                    <h6 class="footer-title mb-4">@lang('Important Links')</h6>
                     <ul class="list-unstyled">
 
-                        <li class="mb-3"><a href="{{ route('Terms') }}" class="footer-link">الشروط
-                                والاحكام
+                        <li class="mb-3"><a href="{{ route('Terms') }}" class="footer-link">@lang('Terms and Conditions')
                             </a></li>
                         <li class="mb-3"><a href="{{ route('Privacy') }}" class="footer-link">
-                                سياسة الخصوصية</a></li>
+                                @lang('privacy policy')</a></li>
                         <li class="mb-3"><a href="{{ route('TermsAdvertising') }}" class="footer-link">
                                      @lang('Terms of advertising on the platform')</a></li>
                         {{-- <li class="mb-3"><a href="#" class="footer-link">
@@ -61,13 +60,13 @@
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-6">
-                    <h6 class="footer-title mb-4">تواصل معنا</h6>
+                    <h6 class="footer-title mb-4">@lang('Contact us')</h6>
                     <ul class="list-unstyled">
                         <li class="mb-3">
-                            <a href="payment-page.html" class="footer-link"><span class="ti ti-location"></span> المملكة
-                                العربية السعودية
+                            <a href="payment-page.html" class="footer-link"><span class="ti ti-location"></span>
+                                @lang('Kingdom of Saudi Arabia')
                                 <br />
-                                (الرياض - جدة - الدمام)</a>
+                                @lang('(Riyadh - Jeddah - Dammam)')</a>
                         </li>
                         <li class="mb-3">
                             <a href="mailto:{{ $sitting->email }}" class="footer-link"><span class="ti ti-mail"></span>
@@ -92,10 +91,10 @@
                         document.write(new Date().getFullYear());
                     </script>
                 </span>
-                جميع الحقوق محفوظه ©
-                <a href="{{ env('COMPANY_URL', 'https://bluecode.sa') }}" target="_blank" class="text-reset"> لشركة
-                    بلوكود</a> -
-                تاون {{ env('APP_VERSION', 'v2.3') }}</p>
+              @lang('All rights reserved ©')
+                <a href="{{ env('COMPANY_URL', 'https://bluecode.sa') }}" target="_blank" class="text-reset">
+                    @lang('BlueCode Company')</a> -
+                @lang('Town') {{ env('APP_VERSION', 'v2.3') }}</p>
             </div>
             <div>
                 <a href="https://github.com/pixinvent" class="footer-link me-3" target="_blank">

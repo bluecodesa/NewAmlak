@@ -20,17 +20,17 @@
                     data-speed="1" />
                 <div class="container">
                     <div class="hero-text-box text-center">
-                        <h1 class="text-primary hero-title display-6 fw-bold">تاون خيارك الأول لإدارة الأملاك العقارية
+                        <h1 class="text-primary hero-title display-6 fw-bold">@lang('Town is your first choice for real estate ownership')
                         </h1>
                         <h2 class="hero-sub-title h6 mb-4 pb-1">
-                            منصة متكاملة تخدم مدراء العقارات، والملاك، والمستأجرين<br class="d-none d-lg-block" />
+                            @lang('An integrated platform serving property managers, owners, and tenants')<br class="d-none d-lg-block" />
                         </h2>
                         <div class="landing-hero-btn d-inline-block position-relative">
-                            <span class="hero-btn-item position-absolute d-none d-md-flex text-heading">للتسجيل
+                            <span class="hero-btn-item position-absolute d-none d-md-flex text-heading">@lang('To register')
                                 <img src="{{ url('HOME_PAGE/img/front-pages/icons/Join-community-arrow.png') }}"
                                     style="filter: brightness(0) saturate(100%) invert(48%) sepia(100%) saturate(5105%) hue-rotate(347deg) brightness(95%) contrast(98%);"
                                     alt="Join community arrow" class="scaleX-n1-rtl" /></span>
-                            <a href="{{ route('login') }}" class="btn btn-primary btn-lg">سجل معنا الأن</a>
+                            <a href="{{ route('login') }}" class="btn btn-primary btn-lg">@lang('Register with us now')</a>
                         </div>
                     </div>
                     <div id="heroDashboardAnimation" class="hero-animation-img">
@@ -55,11 +55,11 @@
         <section id="landingFeatures" class="section-py landing-features">
             <div class="container">
                 <div class="text-center mb-3 pb-1">
-                    <span class="badge bg-label-primary">تاون نظام إدارة متطور
+                    <span class="badge bg-label-primary">@lang('Town Advanced Management System')
                     </span>
                 </div>
                 <h3 class="text-center mb-1">
-                    <span class="position-relative fw-bold z-1">تميز معنا في إدارة الأملاك والتسويق العقاري
+                    <span class="position-relative fw-bold z-1">@lang('Distinguish yourself with us in property management and real estate marketing')
 
                         <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
                             style="filter: brightness(0) saturate(100%) invert(48%) sepia(100%) saturate(5105%) hue-rotate(347deg) brightness(95%) contrast(98%);"
@@ -68,7 +68,7 @@
                     </span>
                 </h3>
                 <p class="text-center mb-3 mb-md-5 pb-3">
-                    حلول تقنية متطورة تلبي جميع أعمالك
+                    @lang('Advanced technology solutions to meet all your business needs')
                 </p>
                 <div class="features-icon-wrapper row gx-0 gy-4 g-sm-5">
                     <div class="col-lg-3 col-sm-6 text-center features-icon-box">
@@ -77,21 +77,20 @@
                                 style="filter: brightness(0) saturate(100%) invert(48%) sepia(100%) saturate(5105%) hue-rotate(347deg) brightness(95%) contrast(98%);" />
                         </div>
                         <h5 class="mb-3">
-                            لوحة تحكم احترافية
+                            @lang('Professional control panel')
                         </h5>
                         <p class="features-icon-description">
-                            توفر لك منصة تاون افضل الطرق الاحترافية لمتابعة نمو أعمالك</p>
+                            @lang('Town platform provides you with the best professional ways to follow up on the growth of your business')</p>
                     </div>
                     <div class="col-lg-3 col-sm-6 text-center features-icon-box">
                         <div class="text-center mb-3">
                             <img src="{{ url('HOME_PAGE/img/front-pages/icons/rocket.png') }}" alt="transition up"
                                 style="filter: brightness(0) saturate(100%) invert(48%) sepia(100%) saturate(5105%) hue-rotate(347deg) brightness(95%) contrast(98%);" />
                         </div>
-                        <h5 class="mb-3"> إدارة عقود العملاء
+                        <h5 class="mb-3"> @lang('Customer Contract Management')
                         </h5>
                         <p class="features-icon-description">
-                            من خلال لوحة التحكم الخاصة بك يمكنك متابعة جميع عقود عملائك ومعرفة عدد الأيام المتبقية لانتهاء
-                            العقد </p>
+                            @lang('Through your control panel you can follow all your clients contracts and know the number of days remaining until the contract expires') </p>
                     </div>
                     <div class="col-lg-3 col-sm-6 text-center features-icon-box">
                         <div class="text-center mb-3">
@@ -99,10 +98,10 @@
                                 style="filter: brightness(0) saturate(100%) invert(48%) sepia(100%) saturate(5105%) hue-rotate(347deg) brightness(95%) contrast(98%);"
                                 alt="edit" />
                         </div>
-                        <h5 class="mb-3"> التسويق والعروض العقارية
+                        <h5 class="mb-3"> @lang('Marketing and Real Estate Offers')
                         </h5>
                         <p class="features-icon-description">
-                            امتلك معرضك العقاري المميز من خلال منصة تاون و وسع نطاق أعمالك لتصل لأكبر عدد من العملاء
+                            @lang('Own your own distinctive real estate exhibition through the Town platform and expand your business to reach the largest number of customers')
 
                         </p>
                     </div>
@@ -112,10 +111,10 @@
                                 style="filter: brightness(0) saturate(100%) invert(48%) sepia(100%) saturate(5105%) hue-rotate(347deg) brightness(95%) contrast(98%);"
                                 alt="3d select solid" />
                         </div>
-                        <h5 class="mb-3">دعم فني متقدم 24/7
+                        <h5 class="mb-3">@lang('Advanced technical support 24/7')
                         </h5>
                         <p class="features-icon-description">
-                            تقدم تاون دعم فني متقدم خلال 24/7 لجميع التحديات التقنية التي تواجه أعمالك.
+                            @lang('Town offers 24/7 advanced technical support for all the technical challenges your business faces.')
 
                         </p>
                     </div>
@@ -134,10 +133,10 @@
                 <div class="row align-items-center gx-0 gy-4 g-lg-5">
                     <div class="col-md-6 col-lg-5 col-xl-3">
                         <div class="mb-3 pb-1">
-                            <span class="badge bg-label-primary">شركاء النجاح</span>
+                            <span class="badge bg-label-primary">@lang('Partners of Success')</span>
                         </div>
                         <h3 class="mb-1">
-                            <span class="position-relative fw-bold z-1">شركاء النجاح
+                            <span class="position-relative fw-bold z-1">@lang('Partners of Success')
                                 <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
                                     style="filter: brightness(0) saturate(100%) invert(48%) sepia(100%) saturate(5105%) hue-rotate(347deg) brightness(95%) contrast(98%);"
                                     alt="laptop charging"
@@ -145,7 +144,7 @@
                             </span>
                         </h3>
                         <p class="mb-3 mb-md-5">
-                            نتشرف بثقة و دعم العديد من المؤسسات حول المملكة
+                            @lang('We are honored by the trust and support of many institutions around the Kingdom')
                             <br class="d-none d-xl-block" />
                         </p>
                         <div class="landing-reviews-btns">
@@ -188,12 +187,11 @@
         <section id="landingPricing" class="section-py bg-body landing-pricing">
             <div class="container">
                 <div class="text-center mb-3 pb-1">
-                    <span class="badge bg-label-primary">باقات وأسعار تاون
+                    <span class="badge bg-label-primary">@lang('Town packages and prices')
                     </span>
                 </div>
                 <h3 class="text-center mb-1">
-                    <span class="position-relative fw-bold z-1">توفر لك منصة تاون باقات مميزة تمكنك من إدارة أعمالك بكل
-                        سهولة
+                    <span class="position-relative fw-bold z-1">@lang('Town platform provides you with distinctive packages that enable you to manage your business with ease')
 
                         <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
                             style="filter: brightness(0) saturate(100%) invert(48%) sepia(100%) saturate(5105%) hue-rotate(347deg) brightness(95%) contrast(98%);"
@@ -240,7 +238,7 @@
                                             <div class="d-flex align-items-center justify-content-center">
                                                 <p>
                                                     @foreach ($subscriptionType->roles as $role)
-                                                        <span> اشتراك {{ $role->name_ar }}</span>
+                                                        <span> @lang('Subscribe ') {{ $role->name_ar }}</span>
                                                     @endforeach
                                                 </p>
                                             </div>
@@ -319,7 +317,7 @@
                                             <div class="d-flex align-items-center justify-content-center">
                                                 <p>
                                                     @foreach ($subscriptionType->roles as $role)
-                                                        <span> اشتراك {{ $role->name_ar }}</span>
+                                                        <span> @lang('Subscribe ') {{ $role->name_ar }}</span>
                                                     @endforeach
                                                 </p>
                                             </div>
@@ -976,11 +974,11 @@
                     </div>
 
                     <div class="col-lg-5 text-center text-lg-start" style="    padding: 16px 0px;">
-                        <h6 class="h2 text-primary fw-bold mb-1">ماذا تنتظر !؟
+                        <h6 class="h2 text-primary fw-bold mb-1">@lang('What are you waiting for!?')
                         </h6>
-                        <h6 class="h2 text-primary fw-bold mb-1">اطلب عقارك الآن
+                        <h6 class="h2 text-primary fw-bold mb-1">@lang('Request your property now')
                         </h6>
-                        <p class="fw-medium mb-4">قم بتعبئة النموذج التالي وسيتواصل معك احد الوسطاء العقاريين لتنفيذ طلبك
+                        <p class="fw-medium mb-4">@lang('Fill out the following form and a real estate broker will contact you to fulfill your request')
 
                         </p>
                         @if (auth()->check() && (auth()->user()->is_renter || auth()->user()->is_property_finder || auth()->user()->is_owner))
@@ -999,11 +997,11 @@
         <section id="landingFAQ" class="section-py bg-body landing-faq">
             <div class="container">
                 <div class="text-center mb-3 pb-1">
-                    <span class="badge bg-label-primary"> الأسئلة الشائعة
+                    <span class="badge bg-label-primary"> @lang('Frequently Asked Questions')
                     </span>
                 </div>
                 <h3 class="text-center mb-1">
-                    <span class="position-relative fw-bold z-1"> الأسئلة الشائعة
+                    <span class="position-relative fw-bold z-1"> @lang('Frequently Asked Questions')
 
                         <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
                             style="filter: brightness(0) saturate(100%) invert(48%) sepia(100%) saturate(5105%) hue-rotate(347deg) brightness(95%) contrast(98%);"
@@ -1025,19 +1023,14 @@
                                 <h2 class="accordion-header" id="headingOne">
                                     <button type="button" class="accordion-button" data-bs-toggle="collapse"
                                         data-bs-target="#accordionOne" aria-expanded="true" aria-controls="accordionOne">
-                                        ماهي منصة تاون؟
+                                        @lang('What is Town Platform?')
                                     </button>
                                 </h2>
 
                                 <div id="accordionOne" class="accordion-collapse collapse show"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        هي منصة إلكترونية تم تصميمها بإتقان لتوفير حلول متكاملة لجميع الخدمات العقارية
-                                        بطريقة سهلة وشاملة لكافة المهام والإجراءات الخاصة بالمكاتب العقارية و إدارة العقارات
-                                        والوحدات السكنية والتجارية على السواء. تهدف تاون إلى إدارة جميع مستويات المشروعات
-                                        العقارية بدءا من الوحدات وصولا إلى المشروعات عبر نظام متطور وحلول تقنية مبتكرة تهدف
-                                        إلى القيام بجميع الاعمال عن بعد بجودة وموثوقية عالية، عبر استقطاب العديد من الخبرات
-                                        الإدارية و التسويقية والمحاسبية ذات الكفاءة العالية.
+                                        @lang('It is an electronic platform that has been carefully designed to provide integrated solutions for all real estate services in an easy and comprehensive way for all tasks and procedures related to real estate offices and real estate management, residential and commercial units alike. Town aims to manage all levels of real estate projects, starting from units to projects, through an advanced system and innovative technical solutions that aim to carry out all work remotely with high quality and reliability, by attracting many highly efficient administrative, marketing and accounting expertise.')
                                     </div>
                                 </div>
                             </div>
@@ -1046,20 +1039,18 @@
                                     <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
                                         data-bs-target="#accordionTwo" aria-expanded="false"
                                         aria-controls="accordionTwo">
-                                        ما هي خطط الأسعار المتاحة للاشتراك في منصة تاون؟
+                                        @lang('What pricing plans are available for Town Platform subscription?')
 
                                     </button>
                                 </h2>
                                 <div id="accordionTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        توفر منصة تاون مجموعة متنوعة من خطط الأسعار لتناسب منشأتك بشكل متكامل وتلبي جميع
-                                        الخدمات
-                                        التي تحتاجها.
+                                        @lang('Town platform provides a variety of pricing plans to suit your facility in an integrated manner and meet all the services you need.')
                                         <ul style="list-style:none">
-                                            <li>- اشتراك مجاني (فترة تجريبية)</li>
-                                            <li>- اشتراك شهري</li>
-                                            <li>- اشتراك سنوي (قريبا)</li>
+                                            <li>- @lang('Free Subscription (Trial Period)')</li>
+                                            <li>- @lang('Monthly subscription')</li>
+                                            <li>- @lang('Annual Subscription (Coming Soon)')</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -1069,23 +1060,21 @@
                                     <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
                                         data-bs-target="#accordionThree" aria-expanded="false"
                                         aria-controls="accordionThree">
-                                        ما هي الاجراءات اللازمة للتسجيل على منصة تاون؟
+                                        @lang('What are the procedures required to register on the Town platform?')
                                     </button>
                                 </h2>
                                 <div id="accordionThree" class="accordion-collapse collapse"
                                     aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        للتسجيل و الانضمام إلى نظام تاون يجب مليء فورم التسجيل عبر الضغط على زر "سجل معنا
-                                        الآن" و
-                                        ادخال بيانات شركتك:
-                                        <ul style="list-style:none;">
-                                            <li>-اسم الشركة</li>
-                                            <li>-البريد الإلكتروني</li>
-                                            <li>-شعار الشركة</li>
-                                            <li>-اسم ورقم هاتف ممثل الشركة</li>
-                                            <li>-اختيار نوع الاشتراك في النظام</li>
+                                            @lang('To register and join the Town system, you must fill out the registration form by clicking on the button (Register with us now) and enter your company’s data:')
+                                            <ul style="list-style:none;">
+                                            <li>-@lang('Company Name')</li>
+                                            <li>-@lang('Email')</li>
+                                            <li>-@lang('Company logo')</li>
+                                            <li>-@lang('Name and phone number of company representative')</li>
+                                            <li>-@lang('Select the type of subscription in the system')</li>
                                         </ul>
-                                        بعد ذلك سوف يكون حسابك جاهزاً لتبدأ تجربة متميزة ومبتكرة لإدارة مشروعك العقاري.
+                                        @lang('After that, your account will be ready to start a unique and innovative experience in managing your real estate project.')
                                     </div>
                                 </div>
                             </div>
@@ -1094,15 +1083,13 @@
                                     <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
                                         data-bs-target="#accordionFour" aria-expanded="false"
                                         aria-controls="accordionFour">
-                                        ماذا أفعل عندما تواجهني مشكلة أثناء استخدامي لمنصة تاون؟
+                                        @lang('What do I do when I encounter a problem while using the Town platform?')
                                     </button>
                                 </h2>
                                 <div id="accordionFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        عندما تواجهك مشكلة أو إذا كان لديك شكوى أو اقتراحات يمكنك فتح تذكرة دعم فني بسهولة
-                                        من خلال
-                                        حسابك على المنصة و سوف يصلك الرد من فريق الدعم في اسرع وقت.
+                                        @lang('When you encounter a problem or if you have a complaint or suggestions, you can easily open a technical support ticket through your account on the platform and you will receive a response from the support team as soon as possible.')
                                     </div>
                                 </div>
                             </div>
@@ -1124,18 +1111,18 @@
         <section id="landingContact" class="section-py bg-body landing-contact">
             <div class="container">
                 <div class="text-center mb-3 pb-1">
-                    <span class="badge bg-label-primary">توصل معنا</span>
+                    <span class="badge bg-label-primary">@lang('Contact us')</span>
                 </div>
                 <h3 class="text-center mb-1">
-                    <span class="position-relative fw-bold z-1">دعنا نعمل
+                    <span class="position-relative fw-bold z-1">@lang('Lets work')
                         <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
                             style="filter: brightness(0) saturate(100%) invert(48%) sepia(100%) saturate(5105%) hue-rotate(347deg) brightness(95%) contrast(98%);"
                             alt="laptop charging"
                             class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
                     </span>
-                    معا
+                    @lang('together')
                 </h3>
-                <p class="text-center mb-4 mb-lg-5 pb-md-3">أي سؤال أو ملاحظة؟ فقط اكتب لنا رسالة</p>
+                <p class="text-center mb-4 mb-lg-5 pb-md-3">@lang('Any question or comment? Just write us a message.')</p>
                 <div class="row gy-4">
                     <div class="col-lg-5">
                         <div class="contact-img-box position-relative border p-2 h-100">
@@ -1179,8 +1166,8 @@
                     <div class="col-lg-7">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="mb-1">ارسل لنا رسالة</h4>
-                                <p class="mb-4">إذا كان لديك اي استفسار / شكوى / اقتراح يسعدنا تواصلك معنا</p>
+                                <h4 class="mb-1">@lang('Send us a message')</h4>
+                                <p class="mb-4">@lang('If you have any questions/complaints/suggestions, we would be happy to hear from you.')</p>
                                 {{-- <p class="mb-4">
                                     إذا كنت ترغب في مناقشة أي شيء متعلق بالدفع والحساب والترخيص<br
                                         class="d-none d-lg-block" />
@@ -1239,7 +1226,7 @@
                                                 placeholder="@lang('content the message')"></textarea>
                                         </div>
                                         <div class="col-12">
-                                            <button type="submit" class="btn btn-primary">ارسال</button>
+                                            <button type="submit" class="btn btn-primary">@lang('send')</button>
                                         </div>
                                     </div>
                                 </form>
