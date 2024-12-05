@@ -233,6 +233,21 @@
         border-radius: 50%;
     }
 
+    .price-marker {
+        background-color: #ff5722;
+        color: white;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        text-align: center;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .price-marker:hover {
+        background-color: #e64a19;
+    }
 
     </style>
     <div id="map" style="height: 100vh;"></div>
@@ -277,21 +292,51 @@
         }
 
 
-        function addMarkers(filteredItems) {
-            filteredItems.forEach(function(item) {
-                if (item.lat_long) {
-                    const coordinates = item.lat_long.split(',').map(parseFloat);
-                    const popupHtml = generatePopupHtml(item);
+        // function addMarkers(filteredItems) {
+        //     filteredItems.forEach(function(item) {
+        //         if (item.lat_long) {
+        //             const coordinates = item.lat_long.split(',').map(parseFloat);
+        //             const popupHtml = generatePopupHtml(item);
 
-                    new mapboxgl.Marker()
-                        .setLngLat([coordinates[1], coordinates[0]])
-                        .setPopup(new mapboxgl.Popup({
-                            offset: 25
-                        }).setHTML(popupHtml))
-                        .addTo(map);
-                }
-            });
+        //             new mapboxgl.Marker()
+        //                 .setLngLat([coordinates[1], coordinates[0]])
+        //                 .setPopup(new mapboxgl.Popup({
+        //                     offset: 25
+        //                 }).setHTML(popupHtml))
+        //                 .addTo(map);
+        //         }
+        //     });
+        // }
+
+        function addMarkers(filteredItems) {
+    filteredItems.forEach(function(item) {
+        if (item.lat_long) {
+            const coordinates = item.lat_long.split(',').map(parseFloat);
+            const popupHtml = generatePopupHtml(item);
+
+            const translatedType = typeTranslations[item.type] || item.type;
+                // تحديد السعر بناءً على نوع الإيجار
+            const rentPrice = getRentPriceByType(item);
+            const translatedRentType = rentTypeTranslations[item.rent_type_show] || item.rent_type_show;
+
+            const rentPriceAndType = item.isGalleryUnit
+                ? `${rentPrice} @lang('SAR') / ${translatedRentType}`
+                : '';
+
+            // إنشاء عنصر HTML مخصص للـ Marker يعرض السعر
+            const priceMarker = document.createElement('div');
+            priceMarker.className = 'price-marker';
+            priceMarker.textContent = item.isGalleryUnit
+            ? rentPriceAndType  // إذا كانت وحدة، عرض السعر
+            : item.name;
+            new mapboxgl.Marker(priceMarker)
+                .setLngLat([coordinates[1], coordinates[0]])
+                .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHtml))
+                .addTo(map);
         }
+    });
+}
+
         const typeTranslations = {
             rent: "@lang('rent')",
             sale: "@lang('sale')",
@@ -320,7 +365,7 @@
 
             const imageUrl = item.unit_images?.[0]?.image
                         || item.project_images?.[0]?.image
-                        || item.property_image
+                        || item.property_images?.[0]?.image
                         || '{{ asset("Offices/Projects/default.svg") }}';
             let typeLabel = '';
             if (item.isGalleryUnit) {
@@ -343,7 +388,7 @@
                         <div style="display: flex; gap: 1rem;">
                             <img src="${imageUrl}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
                             <div class="d-flex flex-column align-items-center text-center">
-                                <h6>${item.name || item.ad_name}</h6>
+                               ${!item.isGalleryProject ? `<h6>${item.name || item.ad_name} - ${item.property_type_data?.name || ''} - ${item.space || ''} @lang('sq.m')</h6>`: `<h6>${item.name || item.ad_name} </h6>`}
                                 ${typeLabel}
                                 ${!item.isGalleryProject ? `<p>${item.property_type_data?.name || ''} / ${translatedType}</p>` : ''}
                                 ${item.isGalleryUnit ? `<p>${rentPriceAndType}</p>` : ''}
