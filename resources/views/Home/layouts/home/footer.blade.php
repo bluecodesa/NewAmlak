@@ -22,13 +22,13 @@
                                 id="footer-email" placeholder="@lang('Email')" />
                             <a href="{{ route('login') }}" type="submit"
                                 class="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top">
-                                سجل
+                                @lang('register')
                             </a>
                         </div>
                     </form>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-6">
-                    <h6 class="footer-title mb-4">تاون</h6>
+                    <h6 class="footer-title mb-4">@lang('Town')</h6>
                     <ul class="list-unstyled">
 
                         <li class="mb-3"><a href="{{ route('welcome') }}#landingFeatures"
