@@ -32,7 +32,7 @@
                     <ul class="list-unstyled">
 
                         <li class="mb-3"><a href="{{ route('welcome') }}#landingFeatures"
-                                class="footer-link">@lang('fea')</a></li>
+                                class="footer-link">@lang('Features')</a></li>
                         <li class="mb-3"><a href="{{ route('welcome') }}#landingPricing"
                                 class="footer-link">@lang('Packages')</a></li>
                         <li class="mb-3"><a href="{{ route('gallery.showAllGalleries') }}"
