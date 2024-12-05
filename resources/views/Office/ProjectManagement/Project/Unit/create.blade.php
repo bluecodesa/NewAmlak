@@ -165,7 +165,7 @@
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('Property type') <span class="required-color">*</span>
                                     </label>
-                                    <select class="form-select" name="property_type_id" required>
+                                    <select class="form-select" id="propertyTypeSelect" name="property_type_id" required>
                                         <option disabled selected value="" {{ old('property_type_id') == '' ? 'selected' : '' }}>@lang('Property type')</option>
                                         @foreach ($types as $type)
                                             <option value="{{ $type->id }}" {{ old('property_type_id') == $type->id ? 'selected' : '' }}>
@@ -177,7 +177,7 @@
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('Type use') <span class="required-color">*</span>
                                     </label>
-                                    <select class="form-select" name="property_usage_id" required>
+                                    <select class="form-select" id='propertyUsageSelect' name="property_usage_id" required>
                                         <option disabled selected value="" {{ old('property_usage_id') == '' ? 'selected' : '' }}>@lang('Type use')</option>
                                         @foreach ($usages as $usage)
                                             <option value="{{ $usage->id }}" {{ old('property_usage_id') == $usage->id ? 'selected' : '' }}>
@@ -214,7 +214,7 @@
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('offered service') <span class="required-color">*</span>
                                     </label>
-                                    <select class="form-select" name="service_type_id" required>
+                                    <select class="form-select" name="service_type_id" id="servicesSelect" required>
                                         <option disabled selected value="" {{ old('service_type_id') == '' ? 'selected' : '' }}>@lang('offered service')</option>
                                         @foreach ($servicesTypes as $service)
                                             <option value="{{ $service->id }}" {{ old('service_type_id') == $service->id ? 'selected' : '' }}>
@@ -226,14 +226,14 @@
 
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label">@lang('Area (square metres)')</label>
-                                    <input type="number" name="space" class="form-control"
+                                    <input type="number" name="space" id="space" class="form-control"
                                         placeholder="@lang('Area (square metres)')" value="{{ old('space') }}" />
                                 </div>
 
 
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label">@lang('number rooms') </label>
-                                    <input type="number" name="rooms" class="form-control"
+                                    <input type="number" name="rooms" class="form-control" id="rooms"
                                         placeholder="@lang('number rooms')" value="{{ old('rooms') }}" />
                                 </div>
 
@@ -241,7 +241,7 @@
 
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label">@lang('Number bathrooms') </label>
-                                    <input type="number" name="bathrooms" class="form-control"
+                                    <input type="number" name="bathrooms" id="bathrooms" class="form-control"
                                         placeholder="@lang('Number bathrooms')" value="{{ old('bathrooms') }}" />
                                 </div>
                                 <div class="col-12 mb-2 col-md-4">
@@ -386,7 +386,7 @@
                                     </div>
                                 </div>
                             @endif
-                            <div class="col-12 mb-3">
+                            {{-- <div class="col-12 mb-3">
                                 <label class="form-label mb-2">@lang('Description')</label>
                                 <div>
                                     <button type="button" id="generateDescriptionBtn" class="btn btn-primary">@lang('Generate Description')</button>
@@ -397,6 +397,17 @@
                                         {!! old('note') !!}
                                     </textarea> --}}
 
+                                {{-- </div>
+                            </div> --}}
+
+                            <div class="col-12 mb-3">
+                                <label class="form-label mb-2">@lang('Description')</label>
+                                <button class="btn btn-primary col-4 waves-effect waves-light" id="generate_button" type="button">@lang('Generate Description')</button>
+
+                                <div>
+                                    <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
+                                        {!! old('note') !!}
+                                    </textarea>
                                 </div>
                             </div>
 
@@ -1080,8 +1091,7 @@ document.getElementById('show_in_gallery').addEventListener('change', function (
 
 </script>
 
-
-{{-- <script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
         // دالة لجمع البيانات وتوليد الوصف
         function generateDescription() {
@@ -1099,60 +1109,58 @@ document.getElementById('show_in_gallery').addEventListener('change', function (
             const spaceInput = document.getElementById('space');
             const roomsInput = document.getElementById('rooms');
             const bathroomsInput = document.getElementById('bathrooms');
-            const statusSelect = document.getElementById('status');
+            const typeSelect = document.getElementById('type');
             const servicesSelect = document.getElementById('services');
             const employeeSelect = document.getElementById('employeeSelect');
             const latLongInput = document.getElementById('location_tag');
             const noteTextarea = document.getElementById('textarea');
 
             // جمع البيانات من عناصر النموذج
-            const data =
-            {
-
-    "type": "client",
-    "property_id": "123",
-    "productId": "1",
-    "productType": "property-description",
-    "language": "English",
-    "attributes": {
-        "advertisement_type": "Sale",
-        "property_usage": "Residential",
-        "property_type": "Apartment",
-        "project_name": "project test",
-        "country": "India",
-        "city": "gurugram",
-        "facing": "East",
-        "built_up_area": 10545,
-        "area_unit": "SQM",
-        "num_bedrooms": 3,
-        "amenities": "Gym, swimming pool",
-        "price": 544544,
-        "currency": "INR",
-        "target_country": "India",
-        "other_details": "Testing description",
-        "num_words": 200,
-        "address": "Sector 49",
-        "landmark": "near dlf mall",
-        "locality": "DLF",
-        "street_name": "Street 1",
-        "street_width": 20,
-        "num_bathrooms": 2,
-        "num_living_rooms": 1,
-        "num_guest_rooms": 1,
-        "property_floor_number": "3",
-        "total_floors": 4,
-        "fixtures_and_fittings": "Jaguar Sanitation",
-        "num_parking": 1,
-        "utilities": [
-            "Electricity"
-        ],
-        "property_age": 1,
-        "furnishing": "Semi-furnished",
-        "studio_apartment": false
-    }
-    }
-    ;
-
+            const data = {
+                type: 'client',
+                property_id: propertySelect.value,
+                productId: '1',
+                productType: 'property-description',
+                language: 'Arabic',
+                attributes: {
+                    advertisement_type: typeSelect.value,
+                    property_usage: propertyUsageSelect.options[propertyUsageSelect.selectedIndex].text,
+                    property_type: propertyTypeSelect.options[propertyTypeSelect.selectedIndex].text,
+                    project_name: projectSelect.options[projectSelect.selectedIndex].text,
+                    country: 'Saudi Arabia',
+                    city: citySelect.options[citySelect.selectedIndex].text,
+                    facing: 'East', // افتراض أن الاتجاه ثابت
+                    built_up_area: spaceInput.value,
+                    area_unit: 'SQM', // افتراض أن وحدة المساحة ثابتة
+                    num_bedrooms: roomsInput.value,
+                    // amenities: Array.from(servicesSelect.selectedOptions).map(option => option.text).join(', '),
+                    amenities: "Gym, swimming pool",
+                    price: document.querySelector('input[name="price"]').value,
+                    currency: 'INR', // افتراض أن العملة ثابتة
+                    target_country: 'Saudi Arabia',
+                    // other_details: noteTextarea.value,
+                    other_details: "Testing description",
+                    num_words: 300, // افتراض أن عدد الكلمات ثابت
+                    address: locationInput.value,
+                    landmark: 'near dlf mall', // افتراض أن المعلم ثابت
+                    // locality: districtSelect.options[districtSelect.selectedIndex].text,
+                    locality: "DLF",
+                    street_name: 'Street 1', // افتراض أن اسم الشارع ثابت
+                    street_width: 20, // افتراض أن عرض الشارع ثابت
+                    num_bathrooms: bathroomsInput.value,
+                    num_living_rooms: 1, // افتراض قيمة افتراضية
+                    num_guest_rooms: 1, // افتراض قيمة افتراضية
+                    property_floor_number: '3', // افتراض قيمة افتراضية
+                    total_floors: 4, // افتراض قيمة افتراضية
+                    fixtures_and_fittings: 'Jaguar Sanitation', // افتراض أن التجهيزات ثابتة
+                    num_parking: 1, // افتراض قيمة افتراضية
+                    utilities: ['Electricity'], // افتراض أن المرافق ثابتة
+                    property_age: 1, // افتراض قيمة افتراضية
+                    furnishing: 'Semi-furnished', // افتراض قيمة افتراضية
+                    studio_apartment: false // افتراض قيمة افتراضية
+                }
+            };
+            console.log(data);
             // إرسال البيانات إلى API لتوليد الوصف
             fetch('{{ route('Office.generate-description') }}', {
                 method: 'POST',
@@ -1166,6 +1174,7 @@ document.getElementById('show_in_gallery').addEventListener('change', function (
             .then(apiData => {
                 // تحديث منطقة النص بالوصف المستلم من API
                 noteTextarea.value = apiData.description; // تأكد من هيكلية الاستجابة
+                console.log(apiData.description); // تسجيل الوصف في وحدة التحكم
             })
             .catch(error => {
                 console.error('Error fetching description:', error);
@@ -1177,8 +1186,11 @@ document.getElementById('show_in_gallery').addEventListener('change', function (
             element.addEventListener('change', generateDescription);
             element.addEventListener('input', generateDescription);
         });
+
+        // إضافة مستمع لزر توليد الوصف
+        document.getElementById('generate_button').addEventListener('click', generateDescription);
     });
-</script> --}}
+</script>
 
     @endpush
 @endsection

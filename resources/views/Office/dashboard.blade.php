@@ -21,7 +21,7 @@
 
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
-            @if(!auth()->user()->UserOfficeData->city_id)
+            {{-- @if(!auth()->user()->UserOfficeData->city_id)
             <div class="alert alert-danger d-flex align-items-center" role="alert">
                 <span class="alert-icon text-danger me-2">
                     <i class="ti ti-ban ti-xs"></i>
@@ -36,7 +36,74 @@
                 </span>
                 @lang('الرجاء ادخال رخصة هيئه العقار الخاصة بكم لكي تتمكن من تفعيل المعرض واضافة العقارات')
             </div>
-            @endif
+            @endif --}}
+
+            <div>
+                <div class="alert alert-warning d-flex align-items-center" role="alert">
+                    <span class="alert-icon text-danger me-2">
+                        <i class="ti ti-list-check ti-xs"></i>
+                    </span>
+                    @lang('الرسم التوضيجي لخطوات اكمال البيانات/الخطوات المتبقية لاكمال بيانات الحساب')
+                </div>
+                <ul style="list-style-type: none; padding: 0; display: flex; gap: 10px;">
+                    <!-- Step 1: تحديث البيانات الشخصية -->
+                    <li style="padding: 10px; border: 1px solid {{ auth()->user()->UserOfficeData->city_id ? 'green' : 'red' }}; border-radius: 5px;">
+                        <span>
+                            @if(auth()->user()->UserOfficeData->city_id)
+                                <span style="color: green;">✔</span> @lang('1- تم تحديث البيانات الشخصية')
+                            @else
+                                <span style="color: red;">✖</span> @lang('1- تحديث البيانات الشخصية')
+                            @endif
+                        </span>
+                    </li>
+
+                    <!-- Step 2: تحديث ترخيص هيئة العقار -->
+                    <li style="padding: 10px; border: 1px solid {{ auth()->user()->UserFalData && auth()->user()->UserFalData->ad_license_status === 'valid' ? 'green' : 'red' }}; border-radius: 5px;">
+                        <span>
+                            @if(auth()->user()->UserFalData && auth()->user()->UserFalData->ad_license_status === 'valid')
+                                <span style="color: green;">✔</span> @lang('2- تم تحديث ترخيص هيئة العقار')
+                            @else
+                                <span style="color: red;">✖</span> @lang('2- تحديث ترخيص هيئة العقار')
+                            @endif
+                        </span>
+                    </li>
+
+                    <!-- Step 3: إضافة عميل -->
+                    <li style="padding: 10px; border: 1px solid {{ $numberOfowners ? 'green' : 'red' }}; border-radius: 5px;">
+                        <span>
+                            @if($numberOfowners)
+                                <span style="color: green;">✔</span> @lang('3- تم إضافة عميل')
+                            @else
+                                <span style="color: red;">✖</span> @lang('3- إضافة عميل')
+                            @endif
+                        </span>
+                    </li>
+
+                    <!-- Step 4: إضافة عقار -->
+                    <li style="padding: 10px; border: 1px solid {{ $numberOfUnits ? 'green' : 'red' }}; border-radius: 5px;">
+                        <span>
+                            @if($numberOfUnits)
+                                <span style="color: green;">✔</span> @lang('4- تم إضافة عقار')
+                            @else
+                                <span style="color: red;">✖</span> @lang('4- إضافة عقار')
+                            @endif
+                        </span>
+                    </li>
+
+                    <!-- Step 5: نشر إعلان عقاري -->
+                    <li style="padding: 10px; border: 1px solid {{ in_array(18, $sectionsIds) ? 'green' : 'red' }}; border-radius: 5px;">
+                        <span>
+                            @if (in_array(18, $sectionsIds))
+                                <span style="color: green;">✔</span> @lang('5- تم نشر إعلان عقاري')
+                            @else
+                                <span style="color: red;">✖</span> @lang('5- نشر إعلان عقاري')
+                            @endif
+                        </span>
+                    </li>
+
+                </ul>
+            </div>
+
 
             <div class="card">
                 <div class="card-body">

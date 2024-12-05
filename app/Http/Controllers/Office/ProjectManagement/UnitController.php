@@ -223,6 +223,7 @@ class UnitController extends Controller
     public function show($id)
     {
         $Unit = $this->UnitService->findById($id);
+        dd($Unit);
         $officeId = auth()->user()->UserOfficeData->id;
         $subscription = $this->subscriptionService->findSubscriptionByOfficeId($officeId);
         $unitInterests = collect();
@@ -419,162 +420,154 @@ class UnitController extends Controller
     }
 
 ///////////////////////////////////////////////
-    public function generateDescription(Request $request)
-    {
-        // $propertyDetails = $request->all();
-        // $propertyDetails = [
-        //     "type" => "client",
-        //     "property_id" => "123",
-        //     "productId" => "1",
-        //     "productType" => "property-description",
-        //     "language" => "English",
-        //     "attributes" => [
-        //         "advertisement_type" => "Sale",
-        //         "property_usage" => "Residential",
-        //         "property_type" => "Apartment",
-        //         "project_name" => "project test",
-        //         "country" => "India",
-        //         "city" => "gurugram",
-        //         "facing" => "East",
-        //         "built_up_area" => 10545,
-        //         "area_unit" => "SQM",
-        //         "num_bedrooms" => 3,
-        //         "amenities" => "Gym, swimming pool",
-        //         "price" => 544544,
-        //         "currency" => "INR",
-        //         "target_country" => "India",
-        //         "other_details" => "Testing description",
-        //         "num_words" => 200,
-        //         "address" => "Sector 49",
-        //         "landmark" => "near dlf mall",
-        //         "locality" => "DLF",
-        //         "street_name" => "Street 1",
-        //         "street_width" => 20,
-        //         "num_bathrooms" => 2,
-        //         "num_living_rooms" => 1,
-        //         "num_guest_rooms" => 1,
-        //         "property_floor_number" => "3",
-        //         "total_floors" => 4,
-        //         "fixtures_and_fittings" => "Jaguar Sanitation",
-        //         "num_parking" => 1,
-        //         "utilities" => ["Electricity"],
-        //         "property_age" => 1,
-        //         "furnishing" => "Semi-furnished",
-        //         "studio_apartment" => false
-        //     ]
-        // ];
-        $unit = Unit::findOrFail(305);
-// dd($unit->type);
-        if (!$unit) {
-            return response()->json(['error' => 'Unit not found'], 404);
-        }
+//     public function generateDescription(Request $request)
+//     {
+//         $propertyDetails = $request->all();
+//         // $propertyDetails = [
+//         //     "type" => "client",
+//         //     "property_id" => "123",
+//         //     "productId" => "1",
+//         //     "productType" => "property-description",
+//         //     "language" => "English",
+//         //     "attributes" => [
+//         //         "advertisement_type" => "Sale",
+//         //         "property_usage" => "Residential",
+//         //         "property_type" => "Apartment",
+//         //         "project_name" => "project test",
+//         //         "country" => "India",
+//         //         "city" => "gurugram",
+//         //         "facing" => "East",
+//         //         "built_up_area" => 10545,
+//         //         "area_unit" => "SQM",
+//         //         "num_bedrooms" => 3,
+//         //         "amenities" => "Gym, swimming pool",
+//         //         "price" => 544544,
+//         //         "currency" => "INR",
+//         //         "target_country" => "India",
+//         //         "other_details" => "Testing description",
+//         //         "num_words" => 200,
+//         //         "address" => "Sector 49",
+//         //         "landmark" => "near dlf mall",
+//         //         "locality" => "DLF",
+//         //         "street_name" => "Street 1",
+//         //         "street_width" => 20,
+//         //         "num_bathrooms" => 2,
+//         //         "num_living_rooms" => 1,
+//         //         "num_guest_rooms" => 1,
+//         //         "property_floor_number" => "3",
+//         //         "total_floors" => 4,
+//         //         "fixtures_and_fittings" => "Jaguar Sanitation",
+//         //         "num_parking" => 1,
+//         //         "utilities" => ["Electricity"],
+//         //         "property_age" => 1,
+//         //         "furnishing" => "Semi-furnished",
+//         //         "studio_apartment" => false
+//         //     ]
+//         // ];
+//         $unit = Unit::findOrFail(305);
+// // dd($unit->UnitServicesData);
+//         if (!$unit) {
+//             return response()->json(['error' => 'Unit not found'], 404);
+//         }
 
-         $propertyDetails = [
-                "type" => "client",
-                "property_id" => "$unit->id",
-                "productId" => "1",
-                "productType" => "property-description",
-                "language" => "Arabic",
-                "attributes" => [
-                    "advertisement_type" => $unit->type,
-                    "property_usage" => $unit->PropertyUsageData->name,
-                    // "property_usage" => "Residential",
-                    // "property_type" => $unit->PropertyTypeData->name,
-                    "property_type" => "Apartment",
-                    // "project_name" => $unit->ad_name,
-                    "project_name" => "project test",
-                    "country" => "Saudi Arabia",
-                    // "city" => $unit->CityData->name,
-                    "city" => "gurugram",
-                    "facing" => "East",
-                    "built_up_area" => 10545,
-                    "area_unit" => "SQM",
-                    "num_bedrooms" => 3,
-                    "amenities" => "Gym, swimming pool",
-                    "price" => 544544,
-                    "currency" => "INR",
-                    "target_country" => "India",
-                    "other_details" => "Testing description",
-                    "num_words" => 200,
-                    "address" => "Sector 49",
-                    "landmark" => "near dlf mall",
-                    "locality" => "DLF",
-                    "street_name" => "Street 1",
-                    "street_width" => 20,
-                    "num_bathrooms" => 2,
-                    "num_living_rooms" => 1,
-                    "num_guest_rooms" => 1,
-                    "property_floor_number" => "3",
-                    "total_floors" => 4,
-                    "fixtures_and_fittings" => "Jaguar Sanitation",
-                    "num_parking" => 1,
-                    "utilities" => ["Electricity"],
-                    "property_age" => 1,
-                    "furnishing" => "Semi-furnished",
-                    "studio_apartment" => false
-                ]
-            ];
-            // dd($propertyDetails);
-        $description = $this->propGeniusService->generateDescription($propertyDetails);
-        return response()->json($description);
-    }
+//          $propertyDetails = [
+//                 "type" => "client",
+//                 "property_id" => "$unit->id",
+//                 "productId" => "1",
+//                 "productType" => "property-description",
+//                 "language" => "Arabic",
+//                 "attributes" => [
+//                     "advertisement_type" => $unit->type,
+//                     "property_usage" => $unit->PropertyUsageData->name,
+//                     "property_type" => $unit->PropertyTypeData->name,
+//                     "project_name" => $unit->ad_name,
+//                     "country" => "Saudi Arabia",
+//                     "city" => $unit->CityData->name,
+//                     "facing" => "East",
+//                     "built_up_area" => 10545,
+//                     "area_unit" => "SQM",
+//                     "num_bedrooms" => $unit->rooms,
+//                     "amenities" => "$unit->UnitServicesData",
+//                     "price" => $unit->price,
+//                     "currency" => "INR",
+//                     "target_country" => "Saudi Arabia",
+//                     "other_details" => "Testing description",
+//                     "num_words" => 300,
+//                     "address" => "Sector 49",
+//                     "landmark" => "near dlf mall",
+//                     "locality" => "DLF",
+//                     "street_name" => "Street 1",
+//                     "street_width" => 20,
+//                     "num_bathrooms" => $unit->bathrooms,
+//                     "num_living_rooms" => 1,
+//                     "num_guest_rooms" => 1,
+//                     "property_floor_number" => "3",
+//                     "total_floors" => 4,
+//                     "fixtures_and_fittings" => "Jaguar Sanitation",
+//                     "num_parking" => 1,
+//                     "utilities" => ["Electricity"],
+//                     "property_age" => 1,
+//                     "furnishing" => "Semi-furnished",
+//                     "studio_apartment" => false
+//                 ]
+//             ];
+//             // dd($propertyDetails);
+//         $description = $this->propGeniusService->generateDescription($propertyDetails);
+//         return response()->json($description);
+//     }
 
     public function showForm()
     {
-
-        // $unit = Unit::find($id);
-
-        // if (!$unit) {
-        //     return response()->json(['error' => 'Unit not found'], 404);
-        // }
-
-        // $formattedData = [
-        //     "type" => "client",
-        //     "property_id" => $unit->property_id,
-        //     "productId" => "1",
-        //     "productType" => "property-description",
-        //     "language" => "Arabic",
-        //     "attributes" => [
-        //         "advertisement_type" => $unit->type,
-        //         "property_usage" => $unit->property_usage_id,
-        //         "property_type" => $unit->property_type_id,
-        //         "project_name" => $unit->project_id,
-        //         "country" => "India", // Assuming country is static
-        //         "city" => $unit->city_id,
-        //         "facing" => "East", // Assuming facing is static
-        //         "built_up_area" => $unit->space,
-        //         "area_unit" => "SQM", // Assuming area unit is static
-        //         "num_bedrooms" => $unit->rooms,
-        //         "amenities" => "Gym, swimming pool", // Assuming amenities are static
-        //         "price" => $unit->price,
-        //         "currency" => "INR", // Assuming currency is static
-        //         "target_country" => "India", // Assuming target country is static
-        //         "other_details" => $unit->note,
-        //         "num_words" => 200, // Assuming num_words is static
-        //         "address" => $unit->location,
-        //         "landmark" => "near dlf mall", // Assuming landmark is static
-        //         "locality" => $unit->district_id,
-        //         "street_name" => "Street 1", // Assuming street name is static
-        //         "street_width" => 20, // Assuming street width is static
-        //         "num_bathrooms" => $unit->bathrooms,
-        //         "num_living_rooms" => 1, // Assuming default value
-        //         "num_guest_rooms" => 1, // Assuming default value
-        //         "property_floor_number" => "3", // Assuming default value
-        //         "total_floors" => 4, // Assuming default value
-        //         "fixtures_and_fittings" => "Jaguar Sanitation", // Assuming fixtures and fittings are static
-        //         "num_parking" => 1, // Assuming default value
-        //         "utilities" => ["Electricity"], // Assuming utilities are static
-        //         "property_age" => 1, // Assuming default value
-        //         "furnishing" => "Semi-furnished", // Assuming default value
-        //         "studio_apartment" => false // Assuming default value
-        //     ]
-        // ];
-
-        //  $formattedData = response()->json($formattedData);
-
-
         return view('property');
     }
+    public function generateDescription(Request $request)
+    {
+        // Collect data from the request
+        $propertyDetails = [
+            "type" => "client",
+            "property_id" => $request->input('property_id'),
+            "productId" => "1",
+            "productType" => "property-description",
+            "language" => "Arabic",
+            "attributes" => [
+                "advertisement_type" => $request->input('advertisement_type'),
+                "property_usage" => $request->input('property_usage'),
+                "property_type" => $request->input('property_type'),
+                "project_name" => $request->input('project_name'),
+                "country" => "Saudi Arabia",
+                "city" => $request->input('city'),
+                "facing" => "East",
+                "built_up_area" => $request->input('built_up_area'),
+                "area_unit" => "SQM",
+                "num_bedrooms" => $request->input('num_bedrooms'),
+                "amenities" => $request->input('amenities'),
+                "price" => $request->input('price'),
+                "currency" => "INR",
+                "target_country" => "Saudi Arabia",
+                "other_details" => $request->input('other_details'),
+                "num_words" => 300,
+                "address" => $request->input('address'),
+                "landmark" => "near dlf mall",
+                "locality" => $request->input('locality'),
+                "street_name" => "Street 1",
+                "street_width" => 20,
+                "num_bathrooms" => $request->input('num_bathrooms'),
+                "num_living_rooms" => 1,
+                "num_guest_rooms" => 1,
+                "property_floor_number" => "3",
+                "total_floors" => 4,
+                "fixtures_and_fittings" => "Jaguar Sanitation",
+                "num_parking" => 1,
+                "utilities" => ["Electricity"],
+                "property_age" => 1,
+                "furnishing" => "Semi-furnished",
+                "studio_apartment" => false
+            ]
+        ];
 
+        $description = $this->propGeniusService->generateDescription($propertyDetails);
+
+        return response()->json($description);
+    }
 
 }
