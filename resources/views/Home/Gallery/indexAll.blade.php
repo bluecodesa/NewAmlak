@@ -98,10 +98,10 @@
             <div class="col-4">
 
                 <select id="sortDropdown" class="form-control" onchange="sortItems()">
-                    <option value="">ترتيب حسب...</option>
+                    {{-- <option value="">ترتيب حسب...</option> --}}
                     <option value="newest">الأحدث إلى الأقدم</option>
-                    <option value="highest_price">الأعلى سعر</option>
-                    <option value="lowest_price">الأقل سعر</option>
+                    <option value="highest_price">الأعلى سعر (ايجار شهري)</option>
+                    <option value="lowest_price">الأقل سعر (ايجار شهري)</option>
                     <option value="largest_space">الأكبر مساحة</option>
                     <option value="smallest_space">الأقل مساحة</option>
                 </select>
