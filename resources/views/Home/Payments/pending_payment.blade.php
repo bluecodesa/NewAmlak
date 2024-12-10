@@ -41,7 +41,7 @@
                                                     <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
                                                     @if ($type->discount_type == 'incentive')
                                                     @php
-                                                       
+
                                                         $publish_discount = 0;
                                                         $views_discount = 0;
 
@@ -55,6 +55,8 @@
 
                                                         $total_discount = $publish_discount + $views_discount; // إجمالي الخصم
                                                         $discounted_price = $type->price - ($type->price * $total_discount); // السعر بعد الخصم
+                                                        $discounted_price = $discounted_price < 0 ? 0 : $discounted_price; // إذا كان بالسالب يتم تعيين 0
+
                                                     @endphp
                                                     <h1 class="display-4 mb-0 text-primary">{{ $discounted_price }}</h1>
                                                     @else
