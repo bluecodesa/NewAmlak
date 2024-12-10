@@ -22,7 +22,7 @@
 
     <section class="section-py bg-body first-section-pt">
         <div class="container mt-2">
-            <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسيه</a>/ </span>حسابي
+            <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">@lang('dashboard')</a>/ </span>@lang('My Account')
             </h4>
             <div class="modal fade" id="basicModal7" tabindex="-1" aria-hidden="false">
                 <div class="modal-dialog" role="document">
@@ -87,7 +87,7 @@
                                                 @endif
                                             </li>
                                             <li class="list-inline-item d-flex gap-1">
-                                                <i class="ti ti-calendar"></i>عضو منذ {{ $finder->created_at }}
+                                                <i class="ti ti-calendar"></i>@lang('Member since') {{ $finder->created_at }}
                                             </li>
                                         </ul>
                                     </div>
@@ -143,7 +143,7 @@
                 <li class="nav-item" role="presentation">
                     <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                         data-bs-target="#navs-justified-home" aria-controls="navs-justified-home" aria-selected="true">
-                        <i class="tf-icons ti ti-user ti-xs me-1"></i> البروفايل
+                        <i class="tf-icons ti ti-user ti-xs me-1"></i> @lang('profile')
                         <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
                     </button>
                 </li>
@@ -153,7 +153,7 @@
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                             data-bs-target="#navs-justified-profile" aria-controls="navs-justified-profile"
                             aria-selected="false" tabindex="-1">
-                            <i class="tf-icons ti ti-heart ti-xs me-1"></i> المفضلة
+                            <i class="tf-icons ti ti-heart ti-xs me-1"></i> @lang('Favorites')
                         </button>
                     </li>
                 @endif
@@ -163,7 +163,7 @@
                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                         data-bs-target="#navs-justified-requests" aria-controls="navs-justified-requests"
                         aria-selected="false" tabindex="-1">
-                        <i class="tf-icons ti ti-heart ti-xs me-1"></i>الطلبات العقارية
+                        <i class="tf-icons ti ti-heart ti-xs me-1"></i>@lang('Real Estate Requests')
                     </button>
                 </li>
                 @endif
@@ -173,7 +173,7 @@
                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                         data-bs-target="#navs-justified-contract" aria-controls="navs-justified-contract"
                         aria-selected="false">
-                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('العقود التابعة')
+                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('Contracts')
                         <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1"></span>
                     </button>
                 </li>
@@ -181,7 +181,7 @@
                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                         data-bs-target="#navs-justified-installment" aria-controls="navs-justified-installment"
                         aria-selected="false">
-                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('الأقساط')
+                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('Installments')
                         <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1"></span>
                     </button>
                 </li>
@@ -189,7 +189,7 @@
                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                         data-bs-target="#navs-justified-payments" aria-controls="navs-justified-payments"
                         aria-selected="false">
-                        <i class="tf-icons ti ti-file ti-xs me-1"></i> @lang('المدفوعات')
+                        <i class="tf-icons ti ti-file ti-xs me-1"></i> @lang('Payments')
                         <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1"></span>
                     </button>
                 </li>
@@ -218,7 +218,7 @@
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                             data-bs-target="#navs-justified-Technical" aria-controls="navs-justified-Technical"
                             aria-selected="false" tabindex="-1">
-                            <i class="tf-icons ti ti-heart ti-xs me-1"></i>الدعم الفني
+                            <i class="tf-icons ti ti-heart ti-xs me-1"></i>@lang('technical support')
                         </button>
                     </li>
                 @if (Auth::user()->hasPermission('update-user-profile'))
@@ -226,7 +226,7 @@
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                             data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages"
                             aria-selected="false" tabindex="-1">
-                            <i class="tf-icons ti ti-lock ti-xs me-1 ti-xs me-1"></i> الحماية
+                            <i class="tf-icons ti ti-lock ti-xs me-1 ti-xs me-1"></i> @lang('Protection')
                         </button>
                     </li>
                 @endif
@@ -241,7 +241,7 @@
                             <span class="alert-icon text-danger me-2">
                                 <i class="ti ti-ban ti-xs"></i>
                             </span>
-                            @lang(' الرجاء اكمال البيانات الشخصية الخاصه بحسابكم')
+                            @lang('Please complete your account personal data.')
                         </div>
                         @endif
                     @endif
@@ -283,7 +283,7 @@
 
                     <div class="row p-1 mb-1">
                         <div class="col-12">
-                            <h5 class="card-header">@lang('العقود')</h5>
+                            <h5 class="card-header">@lang('Contracts')</h5>
                         </div>
                         <div class="col-12">
                             <hr>
@@ -412,7 +412,7 @@
 
                     <div class="row p-1 mb-1">
                         <div class="col-12">
-                            <h5 class="card-header">@lang('الاقساط')</h5>
+                            <h5 class="card-header">@lang('Installments')</h5>
                         </div>
                         <div class="col-12">
                             <hr>
@@ -498,7 +498,7 @@
 
                     <div class="row p-1 mb-1">
                         <div class="col-12">
-                            <h5 class="card-header">@lang('المدفوعات')</h5>
+                            <h5 class="card-header">@lang('Payments')</h5>
                         </div>
                         <div class="col-12">
                             <hr>
