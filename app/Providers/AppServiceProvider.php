@@ -81,6 +81,7 @@ use App\Repositories\Office\ProjectRepository as OfficeProjectRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use App\Interfaces\Admin\ProjectRepositoryInterface;
+use App\Interfaces\Admin\ProviderServiceRepositoryInterface;
 use App\Interfaces\Admin\WalletTypeRepositoryInterface;
 use App\Interfaces\Employee\ProjectRepositoryInterface as EmployeeProjectRepositoryInterface;
 use App\Interfaces\Employee\SettingRepositoryInterface as EmployeeSettingRepositoryInterface;
@@ -98,6 +99,7 @@ use App\Repositories\Admin\AdvertisingRepository;
 use App\Repositories\Admin\FalLicenseRepository;
 use App\Repositories\Admin\PartnerSuccessRepository;
 use App\Repositories\Admin\ProjectRepository;
+use App\Repositories\Admin\ProviderServiceRepository;
 use App\Repositories\Office\WalletRepository;
 use App\Repositories\Admin\WalletTypeRepository;
 use App\Repositories\Employee\ProjectRepository as EmployeeProjectRepository;
@@ -312,6 +314,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             WalletTypeRepositoryInterface::class,
             WalletTypeRepository::class
+        );
+
+        $this->app->bind(
+            ProviderServiceRepositoryInterface::class,
+            ProviderServiceRepository::class
         );
 
         $this->app->bind(

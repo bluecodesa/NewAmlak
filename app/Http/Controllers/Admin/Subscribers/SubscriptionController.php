@@ -350,4 +350,22 @@ class SubscriptionController extends Controller
 
         return view('Admin.subscribers.Clients.show', get_defined_vars());
     }
+
+
+    public function createServiceProvider()
+    {
+        $Regions = $this->regionService->getAllRegions();
+        $cities = $this->cityService->getAllCities();
+        $subscriptionTypes = $this->subscriptionService->getSubscriptionTypesForBroker();
+
+        return view('Admin.subscribers.ServiceProviders.create_service_provider', get_defined_vars());
+    }
+
+    public function storeServiceProvider(Request $request)
+    {
+        $this->subscriptionService->createServiceProvider($request->all());
+
+        return redirect()->route('Admin.Subscribers.index')->withSuccess(__('Service Provider created successfully.'));
+    }
+
 }

@@ -61,6 +61,11 @@
                                                                         href="{{ route('Admin.Subscribers.CreateBroker') }}">@lang('Add')
                                                                         @lang('Broker')</a>
                                                                 </li>
+
+                                                                <li><a class="dropdown-item"
+                                                                    href="{{ route('Admin.CreateServiceProvider') }}">@lang('Add')
+                                                                    @lang('Service Provider')</a>
+                                                            </li>
                                                             @endif
                                                         </ul>
                                                     </div>

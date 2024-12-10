@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\ProjectManagement\DeveloperController;
 use App\Http\Controllers\Admin\ProjectManagement\EmployeeController;
 use App\Http\Controllers\Admin\ProjectManagement\OwnerController;
 use App\Http\Controllers\Admin\ProjectManagement\ProjectController;
+use App\Http\Controllers\Admin\ProviderServiceController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SettingController;
@@ -161,6 +162,7 @@ Route::group(
                 'settings' => SettingController::class,
                 'Sections' => SectionController::class,
                 'WalletTypes' => WalletTypeController::class,
+                'ProviderServices' => ProviderServiceController::class,
                 'Region' => RegionController::class,
                 'City' => CityController::class,
                 'District' => DistrictController::class,
@@ -187,6 +189,8 @@ Route::group(
             Route::post('Subscribers.SuspendSubscription/{id}', [SubscriptionController::class, 'SuspendSubscription'])->name('Subscribers.SuspendSubscription');
             Route::get('LoginByUser/{id}', 'Subscribers\SubscriptionController@LoginByUser')->name('Subscribers.LoginByUser');
             Route::get('CreateUser', 'RoleController@CreateUser')->name('roles.CreateUser');
+            Route::get('Subscribers.CreateServiceProvider', [SubscriptionController::class, 'createServiceProvider'])->name('CreateServiceProvider');
+            Route::post('Subscribers.CreateServiceProvider', [SubscriptionController::class, 'storeServiceProvider'])->name('CreateServiceProvider');
         });
     }
 );

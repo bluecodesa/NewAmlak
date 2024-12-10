@@ -356,6 +356,12 @@
                     </a>
                 </li>
 
+                <li class="menu-item">
+                    <a href="{{ route('Admin.ProviderServices.index') }}" class="menu-link">
+                        <div data-i18n="@lang('Service Providers Services')">@lang('Service Providers Services')</div>
+                    </a>
+                </li>
+
                 @if (Auth::user()->hasPermission('read-regions-cities-districts'))
                     <li class="menu-item" style="">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">

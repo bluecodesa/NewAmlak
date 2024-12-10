@@ -7,6 +7,7 @@ use App\Interfaces\Admin\SubscriptionRepositoryInterface;
 use App\Models\Broker;
 use App\Models\Gallery;
 use App\Models\Office;
+use App\Models\ServiceProvider;
 use App\Models\SubscriptionHistory;
 use App\Models\SubscriptionSection;
 use App\Models\SubscriptionType;
@@ -22,10 +23,16 @@ use App\Services\BrokerCreationService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
+use App\Models\Role;
+use Str;
+use App\Http\Traits\Email\MailOwnerCredentials;
+use App\Http\Traits\WhatsApp\WhatsAppAccountCredentials;
 
 class SubscriptionService
 {
     use MailWelcomeBroker;
+    use MailOwnerCredentials;
+    use WhatsAppAccountCredentials;
 
     protected $subscriptionRepository;
     protected $userCreationService;
@@ -450,4 +457,113 @@ class SubscriptionService
             })
             ->get();
     }
+
+    public function createServiceProvider(array $data)
+    {
+            // Validation rules
+            $rules = [
+                'name' => 'required|string|max:255',
+                'city_id' => 'required|exists:cities,id',
+                'id_number' => [
+                    'required',
+                    'string',
+                    'max:10', // Ensures the maximum length is 10
+                    function ($attribute, $value, $fail) {
+                        if (!preg_match('/^7\d{9}$/', $value)) {
+                            $fail(__('The National number must start with 7 and be exactly 10 digits long.'));
+                        }
+                    },
+                ],
+
+                'email' => [
+                    'required',
+                    'email',
+                    'max:255',
+                    Rule::unique('users', 'email')->ignore($data['id_number'], 'id_number'),
+                ],
+                'full_phone' => [
+                    'required',
+                    'max:25',
+                    Rule::unique('users', 'full_phone')->ignore($data['id_number'], 'id_number'),
+                ],
+                'CRN' => [
+                    'required',
+                    Rule::unique('service_providers'),
+                    'max:10'
+                ],
+            ];
+
+            $messages = [
+                'name.required' => __('The name field is required.'),
+                'name.string' => __('The name must be a string.'),
+                'name.max' => __('The name may not be greater than :max characters.'),
+                'city_id.required' => __('The city field is required.'),
+                'city_id.exists' => __('The selected city is invalid.'),
+                'id_number.required' => __('The ID number is required.'),
+                'id_number.string' => __('The ID number must be a string.'),
+                'id_number.max' => __('The ID number may not be greater than :max characters.'),
+                'email.required' => __('The email field is required.'),
+                'email.email' => __('The email must be a valid email address.'),
+                'email.unique' => __('The email has already been taken.'),
+                'email.max' => __('The email may not be greater than :max characters.'),
+                'full_phone.required' => __('The phone field is required.'),
+                'full_phone.unique' => __('The phone has already been taken.'),
+                'full_phone.max' => __('The phone may not be greater than :max characters.'),
+                'balance.numeric' => __('The balance must be a number.'),
+                'balance.min' => __('The balance must be at least 0.'),
+                'CRN.required' => __('The CRN field is required.'),
+                'CRN.unique' => __('The CRN has already been taken.'),
+                'CRN.max' => __('The CRN may not be greater than :max characters.'),
+            ];
+
+            // Validate the data
+            validator($data, $rules, $messages)->validate();
+
+            $user = User::where('id_number', $data['id_number'])->first();
+
+            $password = Str::random(8);
+                $Last_customer_id = User::where('customer_id', '!=', null)->latest()->value('customer_id');
+                $delimiter = '-';
+                $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
+
+                if (!$Last_customer_id) {
+                    $new_customer_id = 'AMK1-0001';
+                } else {
+                    $result = explode($delimiter, $Last_customer_id);
+                    $number = (int)$result[1] + 1;
+                    $tag_index = min(intval($number / 1000), count($prefixes) - 1);
+                    $tag = $prefixes[$tag_index];
+                    $new_customer_id = $tag . str_pad($number % 1000, 4, '0', STR_PAD_LEFT);
+                }
+                $user = User::create([
+                    'is_service_provider' => 1,
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'phone' => $data['phone'],
+                    'key_phone' => $data['key_phone'],
+                    'full_phone' => $data['full_phone'],
+                    'id_number' => $data['id_number'],
+                    'customer_id' => $new_customer_id,
+                    'password' => Hash::make($password),
+                ]);
+
+                $serviceProvider = ServiceProvider::create([
+                    'user_id' => $user->id,
+                    'CRN' => $data['CRN'],
+                    'city_id' => $data['city_id'],
+                ]);
+
+                $RolesIds = Role::whereIn('name', ['service-povider'])->pluck('id')->toArray();
+                $user->assignRole('service-povider');
+
+                $this->MailOwnerCredentials($user, $password);
+                $this->WhatsAppAccountCredentials($user, $password);
+
+
+                return $serviceProvider;
+
+    }
+
+
+
 }

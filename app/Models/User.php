@@ -74,6 +74,12 @@ class User extends Authenticatable
         return $this->hasOne(Renter::class, 'user_id');
     }
 
+    public function UserServiceProviderData()
+    {
+        return $this->hasOne(ServiceProvider::class, 'user_id');
+    }
+
+
     public function UserFalData()
     {
         return $this->hasOne(FalLicenseUser::class, 'user_id');
