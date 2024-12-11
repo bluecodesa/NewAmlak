@@ -85,15 +85,17 @@
                     </li>
 
                     <!-- Step 5: نشر إعلان عقاري -->
-                    <li style="padding: 10px; border: 1px solid {{ in_array(18, $sectionsIds) ? 'green' : 'red' }}; border-radius: 5px;">
+                    @if(in_array(18, $sectionsIds))
+                    <li style="padding: 10px; border: 1px solid {{ $x ? 'green' : 'red' }}; border-radius: 5px;">
                         <span>
-                            @if (in_array(18, $sectionsIds))
+                            @if ($x)
                                 <span style="color: green;">✔</span> @lang('5- تم نشر إعلان عقاري')
                             @else
                                 <span style="color: red;">✖</span> @lang('5- نشر إعلان عقاري')
                             @endif
                         </span>
                     </li>
+                    @endif
 
                 </ul>
             </div>

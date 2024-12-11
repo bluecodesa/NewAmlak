@@ -182,7 +182,8 @@ $user =auth()->user();
         }
 
         $endDate = $SubscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
-        $sections = $subscription->SubscriptionTypeData->sections()->get();
+        // $sections = $subscription->SubscriptionTypeData->sections()->get();
+        $sections = $SubscriptionType->sections()->get();
         $subscription->SubscriptionSectionData()->delete();
 
         foreach ($sections as $section_id) {
@@ -204,12 +205,11 @@ $user =auth()->user();
             // Check if section 18 exists
             $hasSection18 = $sections->contains('id', 18);
 
-            // Check if a gallery exists for the relevant ID
             $hasGallery = Gallery::where('broker_id', $galleryId)->orWhere('office_id', $galleryId)->exists();
 
             if ($hasSection18 && !$hasGallery) {
-                // Create a new gallery if section 18 exists but there is no gallery
-                $galleryName = explode('@', auth()->user()->email)[0];
+                // $galleryName = explode('@', auth()->user()->email)[0];
+                    $galleryName = auth()->user()->customer_id;
                 $defaultCoverImage = '/Gallery/cover/cover.png';
 
                 Gallery::create([

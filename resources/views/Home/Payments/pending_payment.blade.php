@@ -46,11 +46,11 @@
                                                         $views_discount = 0;
 
                                                         if ($type->ads_count != 0) {
-                                                            $publish_discount = ($x / $type->ads_count) * $type->ads_discount; // خصم النشر
+                                                            $publish_discount = ($numOfAds / $type->ads_count) * $type->ads_discount; // خصم النشر
                                                         }
 
                                                         if ($type->views_count != 0) {
-                                                            $views_discount = ($y / $type->views_count) * $type->views_discount; // خصم المشاهدات
+                                                            $views_discount = ($numOfViews / $type->views_count) * $type->views_discount; // خصم المشاهدات
                                                         }
 
                                                         $total_discount = $publish_discount + $views_discount; // إجمالي الخصم
