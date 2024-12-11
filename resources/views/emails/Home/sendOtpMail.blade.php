@@ -46,7 +46,7 @@
                             <td class=""
                                 style="font-family: system-ui; box-sizing: border-box; font-size: 16px; vertical-align: top; color: #fff; border-bottom: 1px solid #e8e8e8;font-weight: 500; text-align: center; border-radius: 3px 3px 0 0; background-color: #fff; margin: 0; padding: 20px;"
                                 align="center" bgcolor="#71b6f9" valign="top">
-                                <a href="#"> <img src="{{ url($sitting->icon) }}" height="100"
+                                <a href="#"> <img src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' && $sitting->icon_ar ? $sitting->icon_ar : ($sitting->icon_en ? $sitting->icon_en : '')) }}" height="100"
                                         alt="logo" /></a> <br />
 
                             </td>

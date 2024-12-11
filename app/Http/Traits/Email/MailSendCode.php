@@ -12,6 +12,7 @@ trait MailSendCode
 {
     public function MailSendCode($email, $code)
     {
+
         $notification_id = DB::table('notification_settings')->where('notification_name', 'add-new-property-finder')->where('email',1)->value('id');
         $EmailTemplate =  EmailTemplate::where('notification_setting_id', $notification_id)->first();
         $user = User::where('email', $email)->first();
@@ -25,6 +26,7 @@ trait MailSendCode
                 $placeholder = '$data[' . $key . ']';
                 $content = str_replace($placeholder, $value, $content);
             }
+
             try {
                 Mail::to($email)->send(new SendOtpMail($data, $content, $subject, $EmailTemplate, $code)); // Pass $code to ForgotPassword Mailable
             } catch (\Throwable $th) {
