@@ -34,6 +34,7 @@
                       <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1"></span>
                     </button>
                   </li>
+                  @if (!$subscriber->is_service_provider)
                   <li class="nav-item">
                     <button
                       type="button"
@@ -46,6 +47,7 @@
                       <i class="tf-icons ti ti-file-invoice ti-xs me-1"></i> @lang('Record subscription history')
                     </button>
                   </li>
+                  @endif
                   @if ($subscriber->is_office)
                   <li class="nav-item">
                     <button
@@ -70,6 +72,16 @@
                     </button>
                 </li>
                 @endif
+                @if ($subscriber->is_service_provider)
+                <li class="nav-item">
+                  <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                      data-bs-target="#navs-justified-Services" aria-controls="navs-justified-Services"
+                      aria-selected="false">
+                      <i class="tf-icons ti ti-hotel-service ti-xs me-1"></i>
+                      @lang('Services')
+                  </button>
+              </li>
+              @endif
 
                 </ul>
                 <div class="tab-content">
@@ -703,7 +715,9 @@
                         </div>
 
                     </div>
-
+                    <div class="tab-pane fade" id="navs-justified-Services" role="tabpanel">
+                        @include('Admin.subscribers._inc._services')
+                    </div>
                 </div>
               </div>
 

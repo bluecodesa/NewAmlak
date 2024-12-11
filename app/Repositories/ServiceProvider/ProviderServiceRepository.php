@@ -12,6 +12,10 @@ class ProviderServiceRepository implements ProviderServiceRepositoryInterface
     {
         return ProviderService::all();
     }
+    public function getAllByServiceProviderId($serviceProviderId)
+    {
+        return ProviderService::where('service_provider_id', $serviceProviderId)->get();
+    }
 
     public function create($data)
     {

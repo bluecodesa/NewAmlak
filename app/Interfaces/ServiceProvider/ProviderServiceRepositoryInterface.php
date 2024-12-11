@@ -6,6 +6,7 @@ namespace App\Interfaces\ServiceProvider;
 interface ProviderServiceRepositoryInterface
 {
     public function getAll();
+    public function getAllByServiceProviderId($serviceProviderId);
 
     public function create($data);
 

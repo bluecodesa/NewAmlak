@@ -20,6 +20,11 @@ class ProviderServiceService
         return $this->ProviderServiceRepository->getAll();
     }
 
+    public function getAllByServiceProviderId($serviceProviderId)
+    {
+        return $this->ProviderServiceRepository->getAllByServiceProviderId($serviceProviderId);
+    }
+
     function getById($id)
     {
         return $this->ProviderServiceRepository->getById($id);

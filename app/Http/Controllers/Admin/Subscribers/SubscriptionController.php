@@ -26,6 +26,7 @@ use App\Services\Office\EmployeeService;
 use App\Services\Broker\TicketService;
 use App\Services\Office\ProjectService as OfficeProjectService;
 use App\Services\Office\PropertyService as OfficePropertyService;
+use App\Services\ServiceProvider\ProviderServiceService;
 
 class SubscriptionController extends Controller
 {
@@ -43,11 +44,14 @@ class SubscriptionController extends Controller
     protected $ticketService;
     protected $OfficeProjectService;
     protected $OfficePropertyService;
+    protected $ProviderServiceService;
+
 
 
 
     public function __construct(
         SystemInvoiceRepositoryInterface $systemInvoiceRepository,
+        ProviderServiceService $ProviderServiceService,
         UnitService $UnitService,
         OwnerService $ownerService,
         SubscriptionService $subscriptionService,
@@ -75,6 +79,8 @@ class SubscriptionController extends Controller
         $this->ProjectService = $ProjectService;
         $this->OfficePropertyService = $OfficePropertyService;
         $this->OfficeProjectService = $OfficeProjectService;
+        $this->ProviderServiceService = $ProviderServiceService;
+
 
 
 
@@ -132,6 +138,10 @@ class SubscriptionController extends Controller
         $residentialCount = 0;
         $nonResidentialCount = 0;
         $galleryItems = collect();
+        if ($subscriber->is_service_provider) {
+        $providerServices = $this->ProviderServiceService->getAllByServiceProviderId($subscriber->UserServiceProviderData->id);
+
+        }
 
         // Get user type and set specific data
         if ($subscriber->is_broker) {
