@@ -95,6 +95,8 @@ use App\Interfaces\Office\RenterRepositoryInterface;
 use App\Interfaces\Office\SettingRepositoryInterface as OfficeSettingRepositoryInterface;
 use App\Interfaces\Office\UnitInterestRepositoryInterface as OfficeUnitInterestRepositoryInterface;
 use App\Interfaces\Office\UnitRepositoryInterface as OfficeUnitRepositoryInterface;
+use App\Interfaces\ServiceProvider\ProviderServiceRepositoryInterface as ServiceProviderProviderServiceRepositoryInterface;
+use App\Interfaces\ServiceProvider\SettingRepositoryInterface as ServiceProviderSettingRepositoryInterface;
 use App\Repositories\Admin\AdvertisingRepository;
 use App\Repositories\Admin\FalLicenseRepository;
 use App\Repositories\Admin\PartnerSuccessRepository;
@@ -114,7 +116,8 @@ use App\Repositories\Office\UnitInterestRepository as OfficeUnitInterestReposito
 use App\Repositories\Office\UnitRepository as OfficeUnitRepository;
 
 use App\Repositories\Home\GalleryRepository as homeGalleryRepository;
-
+use App\Repositories\ServiceProvider\ProviderServiceRepository as ServiceProviderProviderServiceRepository;
+use App\Repositories\ServiceProvider\SettingRepository as ServiceProviderSettingRepository;
 use App\Services\NafathService;
 
 
@@ -186,6 +189,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             EmployeeSettingRepositoryInterface::class,
             EmployeeSettingRepository::class
+        );
+
+        $this->app->bind(
+            ServiceProviderSettingRepositoryInterface::class,
+            ServiceProviderSettingRepository::class
         );
         $this->app->bind(
             PaymentGatewayRepositoryInterface::class,
@@ -320,6 +328,12 @@ class AppServiceProvider extends ServiceProvider
             ProviderServiceRepositoryInterface::class,
             ProviderServiceRepository::class
         );
+
+        $this->app->bind(
+            ServiceProviderProviderServiceRepositoryInterface::class,
+            ServiceProviderProviderServiceRepository::class
+        );
+
 
         $this->app->bind(
             WalletRepositoryInterface::class,

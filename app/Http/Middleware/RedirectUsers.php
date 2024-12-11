@@ -48,7 +48,7 @@ class RedirectUsers
                 return redirect()->route('Employee.home');
             }
             elseif (auth()->user()->is_service_provider) {
-                return redirect()->route('ServicePovider.home');
+                return redirect()->route('ServiceProvider.home');
             }
             elseif (auth()->user()->is_property_finder) {
                 return redirect()->route('PropertyFinder.home');

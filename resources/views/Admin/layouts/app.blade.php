@@ -186,7 +186,7 @@
                 @include('Admin.layouts.Inc.Broker', ['sectionNames' => $sectionNames])
             @endif
             @if (Auth::user()->is_service_provider)
-                @include('Admin.layouts.Inc.ServicePovider')
+                @include('Admin.layouts.Inc.ServiceProvider')
             @endif
             <div class="layout-page">
                 @include('Admin.layouts.Inc._nav')

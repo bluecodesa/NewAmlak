@@ -2,8 +2,8 @@
 <div class="card mb-4 card shadow-none bg-transparent">
     <h5 class="card-header">@lang('Set new password')</h5>
     <div class="card-body">
-        @if($office->userData->password)
-        <form id="formChangePassword" method="POST" action="{{ route('Office.Setting.updatePassword', $office->id) }}">
+        @if($serviceProvider->userData->password)
+        <form id="formChangePassword" method="POST" action="{{ route('Office.Setting.updatePassword', $serviceProvider->UserData->id) }}">
             @csrf
             @method('PUT')
             <div class="row">
@@ -53,7 +53,7 @@
             </div>
         </form>
         @else
-        <form id="formChangePassword" method="POST" action="{{ route('Office.Setting.createPassword', $office->id) }}">
+        <form id="formChangePassword" method="POST" action="{{ route('Office.Setting.createPassword', $serviceProvider->UserData->id) }}">
             @csrf
             @method('PUT')
             <div class="row">

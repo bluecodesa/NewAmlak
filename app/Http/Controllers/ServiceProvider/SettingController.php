@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Office;
+namespace App\Http\Controllers\ServiceProvider;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fal;
@@ -8,6 +8,7 @@ use App\Models\FalLicenseUser;
 use App\Models\Gallery;
 use App\Models\NotificationSetting;
 use App\Models\Office;
+use App\Models\ServiceProvider;
 use App\Models\Subscription;
 use App\Services\Admin\EmailSettingService;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ use App\Services\CityService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Services\Broker\UnitService;
-use App\Services\Office\SettingService;
+use App\Services\ServiceProvider\SettingService;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
 use App\Services\Admin\FalLicenseService;
@@ -64,29 +65,12 @@ class SettingController extends Controller
         $EmailSettingService = $this->EmailSettingService->getAll();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
-        $office = auth()->user()->UserOfficeData;
-        $settings = $this->settingService->getOfficeSettings($office);
-        $city = $office->CityData;
+        $serviceProvider = auth()->user()->UserServiceProviderData;
+        $settings = $this->settingService->getSetting($serviceProvider);
+        $city = $serviceProvider->CityData;
         $region = $city->RegionData ?? [];
-        $gallery = $settings['gallery'];
-        $NotificationSetting = $settings['notificationSettings'];
-        $subscriber = $this->subscriptionService->findSubscriptionByOfficeId(auth()->user()->UserOfficeData->id);
-        $sectionNames = [];
-        if ($subscriber) {
-            $subscriptionType = $this->SubscriptionTypeService->getSubscriptionTypeById($subscriber->subscription_type_id);
-            $hasRealEstateGallerySection = $subscriptionType->sections()->get();
-            $sectionNames = $hasRealEstateGallerySection->pluck('name')->toArray();
-        }
 
-        $UserSubscriptionTypes = $this->SubscriptionTypeService->getGallerySubscriptionTypes();
-        $Faltypes = $this->FalLicenseService->getAll();
-
-        // $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
-        $falLicenses = $this->FalLicenseService->getUserLicenses(auth()->id());
-        $Licenses = $this->FalLicenseService->getLicensesAllValid();
-        // $Licenses = FalLicenseUser::where('ad_license_status', 'valid')->get();
-
-        return view('Office.settings.index', get_defined_vars());
+        return view('ServiceProvider.settings.index', get_defined_vars());
     }
 
 
@@ -129,8 +113,8 @@ class SettingController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->all();
-        $this->settingService->updateOffice($data, $id);
-        return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully'));
+        $this->settingService->updateProfileSetting($request, $id);
+        return redirect()->route('ServiceProvider.Setting.index')->withSuccess(__('Update successfully'));
     }
 
     public function updateProfileSetting(Request $request, string $id)
@@ -143,9 +127,9 @@ class SettingController extends Controller
 
     public function updatePassword(Request $request, $id)
     {
-        $office = Office::findOrFail($id);
+        $serviceProvider = ServiceProvider::findOrFail($id);
 
-        $user = $office->userData;
+        $user = $serviceProvider->userData;
 
         $rules = [
             'current_password' => 'required|string',
@@ -170,14 +154,14 @@ class SettingController extends Controller
         ]);
 
         // Redirect with success message
-        return redirect()->route('Office.Setting.index')->withSuccess(__('Password updated successfully.'));
+        return redirect()->route('ServiceProvider.Setting.index')->withSuccess(__('Password updated successfully.'));
     }
 
     public function createPassword(Request $request, $id)
     {
-        $office = Office::findOrFail($id);
+        $serviceProvider = ServiceProvider::findOrFail($id);
 
-        $user = $office->userData;
+        $user = $serviceProvider->userData;
 
         $rules = [
             'password' => 'required|string|min:8|confirmed',
@@ -197,7 +181,7 @@ class SettingController extends Controller
         ]);
 
         // Redirect with success message
-        return redirect()->route('Office.Setting.index')->withSuccess(__('Password updated successfully.'));
+        return redirect()->route('ServiceProvider.Setting.index')->withSuccess(__('Password updated successfully.'));
     }
 
 

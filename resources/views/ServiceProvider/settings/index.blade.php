@@ -12,12 +12,6 @@
                 </div>
             </div>
             <!-- DataTable with Buttons -->
-            @php
-                $sectionsIds = Auth::user()
-                    ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
-                    ->toArray();
-            @endphp
-
 
             <div class="col-12">
 
@@ -26,41 +20,15 @@
 
                     <div class="nav-align-top nav-tabs-shadow mb-4">
                         <ul class="nav nav-tabs nav-fill" role="tablist">
-                            @if (Auth::user()->hasPermission('update-user-profile'))
                                 <li class="nav-item">
                                     <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                                         data-bs-target="#navs-justified-home" aria-controls="navs-justified-home"
-                                        aria-selected="true">
-                                        <i class="tf-icons ti ti-user ti-xs me-1"></i>@lang('ملف المنشأة')
-                                        {{-- <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span> --}}
-                                    </button>
-                                </li>
-                                <li class="nav-item">
-                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                        data-bs-target="#navs-justified-profile" aria-controls="navs-justified-profile"
                                         aria-selected="true">
                                         <i class="tf-icons ti ti-user ti-xs me-1"></i>@lang('profile')
                                         {{-- <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span> --}}
                                     </button>
                                 </li>
-                               @endif
 
-                               <li class="nav-item">
-                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                    data-bs-target="#navs-justified-fal" aria-controls="navs-justified-fal"
-                                    aria-selected="false">
-                                    <i class="tf-icons ti ti-picture-in-picture ti-xs me-1"></i>
-                                    @lang('REGA License')
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                    data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
-                                    aria-selected="false">
-                                    <i class="tf-icons ti ti-picture-in-picture ti-xs me-1"></i>
-                                    @lang('Gallary Mange')
-                                </button>
-                            </li>
 
                             @if (Auth::user()->hasPermission('update-user-profile'))
                             <li class="nav-item" role="presentation">
@@ -78,43 +46,13 @@
                         <div class="tab-content">
                             {{-- @if (Auth::user()->hasPermission('update-user-profile')) --}}
                             <div class="tab-pane fade active show" id="navs-justified-home" role="tabpanel">
-                                @include('Office.settings.inc._GeneralSetting')
-                            </div>
-                            <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
-                                @include('Office.settings.inc._ProfileSetting')
+                                @include('ServiceProvider.settings.inc._GeneralSetting')
                             </div>
                             <div class="tab-pane fade" id="navs-justified-security" role="tabpanel">
-                                @include('Office.settings.inc._security')
+                                @include('ServiceProvider.settings.inc._security')
                             </div>
-                            {{-- @endif --}}
-                            <div class="tab-pane fade" id="navs-justified-fal" role="tabpanel">
-                                @include('Office.settings.inc.FalLicense.index')
 
-                            </div>
-                            @if ($gallery)
-                                <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
-                                    @include('Office.settings.inc._GalleryMange')
-                                </div>
-                            @else
-                                <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
 
-                                    <div class="col-lg-12">
-                                        <div class="card timeline shadow">
-                                            <div class="card-header">
-                                                <h5 class="card-title">@lang('لا يوجد معرض')</h5>
-                                            </div>
-                                            <div class="card-body">
-                                                <p>@lang(' الاشتراك الحالي لا يحتوي ع المعرض ')</p>
-                                                <a href="{{ route('Broker.ShowSubscription') }}" type="submit" class="btn btn-primary">@lang('Upgrade subscription')</a>
-
-                                                {{-- <button type="button" data-toggle="modal" data-target="#exampleModal"
-                                                    class="btn btn-primary">@lang('Subscription upgrade')</button> --}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{-- @include('Office.settings.inc._upgradePackage') --}}
-                            @endif
                         </div>
                     </div>
                 </div>

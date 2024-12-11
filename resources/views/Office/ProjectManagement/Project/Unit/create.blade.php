@@ -333,7 +333,7 @@
                                 </label>
                                 <select class="form-select" name="type" id="type" required>
                                     <option disabled value="" {{ old('type') == '' ? 'selected' : '' }}>@lang('Ad type') </option>
-                                    @foreach (['Rent', 'Sale', 'rent and sale'] as $type)
+                                    @foreach (['rent', 'sale', 'rent and sale'] as $type)
                                         <option value="{{ $type }}" {{ old('type') == $type ? 'selected' : '' }}>
                                             {{ __($type) }}</option>
                                     @endforeach
@@ -1057,7 +1057,7 @@ document.getElementById('show_in_gallery').addEventListener('change', function (
     });
 </script>
 
-<script>
+{{-- <script>
    $(document).ready(function () {
     $.ajaxSetup({
         headers: {
@@ -1089,9 +1089,9 @@ document.getElementById('show_in_gallery').addEventListener('change', function (
     });
 });
 
-</script>
+</script> --}}
 
-<script>
+{{-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         // دالة لجمع البيانات وتوليد الوصف
         function generateDescription() {
@@ -1190,7 +1190,7 @@ document.getElementById('show_in_gallery').addEventListener('change', function (
         // إضافة مستمع لزر توليد الوصف
         document.getElementById('generate_button').addEventListener('click', generateDescription);
     });
-</script>
+</script> --}}
 
     @endpush
 @endsection

@@ -25,7 +25,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $employee_namespace = 'App\Http\Controllers\Employee';
 
     protected $propertyFinder_namespace = 'App\Http\Controllers\Property_Finder';
-    protected $servicePovider_namespace = 'App\Http\Controllers\ServicePovider';
+    protected $serviceProvider_namespace = 'App\Http\Controllers\ServiceProvider';
 
 
     protected $broker_namespace = 'App\Http\Controllers\Broker';
@@ -70,8 +70,8 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/propertyFinder.php'));
 
                 Route::middleware('web')
-                ->namespace($this->servicePovider_namespace)
-                ->group(base_path('routes/servicePovider.php'));
+                ->namespace($this->serviceProvider_namespace)
+                ->group(base_path('routes/serviceProvider.php'));
 
 
             Route::middleware('web')

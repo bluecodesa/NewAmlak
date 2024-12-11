@@ -29,7 +29,7 @@ class ProviderServiceService
         $rules = [];
         foreach (config('translatable.locales') as $locale) {
             $rules += [
-                $locale . '.name' => ['required', Rule::unique('provider_service_translations', 'name')],
+                $locale . '.name' => ['required', Rule::unique('provider_service_type_translations', 'name')],
             ];
         }
         $messages = [
@@ -49,7 +49,7 @@ class ProviderServiceService
         $rules = [];
         foreach (config('translatable.locales') as $locale) {
             $rules += [
-                $locale . '.name' => ['required', Rule::unique('provider_service_translations', 'name')->ignore($id, 'provider_service_id')],
+                $locale . '.name' => ['required', Rule::unique('provider_service_type_translations', 'name')->ignore($id, 'provider_service_id')],
 
             ];
         }

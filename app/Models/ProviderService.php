@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Astrotomic\Translatable\Translatable;
-
 
 class ProviderService extends Model
 {
-    use Translatable;
-    public $translatedAttributes = ['name'];
+    use HasFactory;
     protected $guarded = [];
 
 
+    public function providerServiceType()
+    {
+        return $this->belongsTo(ProviderServiceType::class);
+    }
 }

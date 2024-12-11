@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('provider_services', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('provider_service_type_id');
+            $table->decimal('price', 10, 2);
+            $table->text('description');
             $table->timestamps();
+
+            $table->foreign('provider_service_type_id')
+                ->references('id')
+                ->on('provider_service_types')
+                ->onDelete('cascade');
         });
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminProviderServiceController;
 use App\Http\Controllers\Office\Gallary\RealEstateRequestController;
 use App\Http\Controllers\Office\ProjectManagement\AdvisorController;
 use App\Http\Controllers\Office\ProjectManagement\DeveloperController;
@@ -9,16 +10,17 @@ use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\Home\UnitInterestController;
 use App\Http\Controllers\Office\FinancialManagment\WalletController;
 use App\Http\Controllers\Office\Gallary\GallaryController;
-use App\Http\Controllers\ServicePovider\HomeController;
+use App\Http\Controllers\ServiceProvider\HomeController;
 use App\Http\Controllers\Office\ProjectManagement\Contract\ContractController;
 use App\Http\Controllers\Office\ProjectManagement\ProjectController;
 use App\Http\Controllers\Office\ProjectManagement\PropertyController;
 use App\Http\Controllers\Office\ProjectManagement\Receipt\VoucherController;
 use App\Http\Controllers\Office\ProjectManagement\Renter\RenterController;
 use App\Http\Controllers\Office\ProjectManagement\UnitController;
-use App\Http\Controllers\Office\SettingController;
+use App\Http\Controllers\ServiceProvider\SettingController;
 use App\Http\Controllers\Office\TicketController;
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\ServiceProvider\MaintenanceOperationManagement\ProviderServiceController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -41,7 +43,7 @@ Route::group(
         'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'checkUserRole:service-povider']
     ],
     function () {
-        Route::prefix('servicePovider')->name('ServicePovider.')->group(function () {
+        Route::prefix('serviceProvider')->name('ServiceProvider.')->group(function () {
             Route::get('/', 'HomeController@index')->name('home');
             Route::get('ViewInvoice', 'HomeController@ViewInvoice')->name('ViewInvoice');
             Route::get('UpdateSubscription/{id}', 'HomeController@UpdateSubscription')->name('UpdateSubscription');
@@ -50,7 +52,7 @@ Route::group(
             Route::post('/search', [HomeController::class, 'searchByIdNumber'])->name('searchByIdNumber');
 
        //resources
-       Route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');
+       Route::resource('ProviderService', ProviderServiceController::class);
        Route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');
        Route::resource('Wallet', WalletController::class)->middleware('CheckSubscription');
        route::resource('RealEstateRequest', RealEstateRequestController::class)->middleware('CheckSubscription');
@@ -112,7 +114,7 @@ Route::group(
         Route::post('create-payment-voucher', [VoucherController::class, 'creatPaymentVoucher'])->name('create-payment-voucher')->middleware('CheckSubscription');
 
 
-       Route::resource('Setting', SettingController::class)->middleware('CheckSubscription');
+       Route::resource('Setting', SettingController::class);
        route::get('createFalLicense', [SettingController::class, 'createFalLicense'])->name('Setting.createFalLicense')->middleware('CheckSubscription');
        route::post('createFalLicense', [SettingController::class, 'storeFalLicense'])->name('Setting.createFalLicense')->middleware('CheckSubscription');
        route::get('editFalLicense/{id}', [SettingController::class, 'editFalLicense'])->name('Setting.editFalLicense')->middleware('CheckSubscription');

@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('provider_service_translations', function (Blueprint $table) {
+        Schema::create('provider_service_type_translations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('provider_service_id');
             $table->string('locale')->index();
             $table->string('name');
             $table->unique(['provider_service_id', 'locale']);
 
-            $table->foreign('provider_service_id')->references('id')->on('provider_services')->onDelete('cascade');
+            $table->foreign('provider_service_id')->references('id')->on('provider_service_types')->onDelete('cascade');
 
         });
     }

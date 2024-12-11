@@ -1,18 +1,18 @@
-<form action="{{ route('Office.Setting.update', $office->id) }}" class="row" method="POST"
+<form action="{{ route('ServiceProvider.Setting.update', $serviceProvider->UserData->id) }}" class="row" method="POST"
     enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
     @include('Admin.layouts.Inc._errors')
 
-    <input type="text" name="key_phone" hidden id="key_phone1" value="{{ $office->key_phone ?? '966' }}">
+    <input type="text" name="key_phone" hidden id="key_phone1" value="{{ $serviceProvider->UserData->key_phone ?? '966' }}">
     <input type="text" hidden name="full_phone" id="full_phone1"
-    value="{{ $office->full_phone ?? ($office->key_phone ?? '966') }}">
+    value="{{ $serviceProvider->UserData->full_phone ?? ($serviceProvider->UserData->key_phone ?? '966') }}">
     <div class="col-md-4 col-12 mb-3">
         <label class="form-label" for="company_name"> @lang('Company Name')<span
             class="text-danger">*</span></label>
 
-        <input type="text" class="form-control" id="company_name" name="company_name" value="{{ $office->company_name }}"
+        <input type="text" class="form-control" id="company_name" name="name" value="{{ $serviceProvider->UserData->name }}"
             required>
     </div>
 
@@ -20,20 +20,42 @@
 
     <div class="col-md-4 col-12 mb-3">
         <label for="company_email">@lang('Email')<span class="text-danger">*</span></label>
-
-        <input type="email" class="form-control" id="company_email" name="company_email" value="{{ $office->company_email }}">
+        <input type="email" class="form-control" id="company_email" name="email" value="{{ $serviceProvider->UserData->email }}">
     </div>
+    <div class="col-md-4 col-12 mb-3">
+        <label for="id_number" class="form-label">@lang('National number') <span class="text-danger">*</span></label>
+        <input type="text" value="{{ $serviceProvider->UserData->id_number }}"
+               class="form-control"
+               id="id_number"
+               name="id_number"
+               oninput="validateIdNumber(this)">
+    </div>
+
+    <script>
+        function validateIdNumber(input) {
+            // Ensure only digits are allowed
+            input.value = input.value.replace(/[^0-9]/g, '');
+
+            // Enforce max length of 10
+            input.value = input.value.slice(0, 10);
+
+            // Check if the first digit is 7; if not, clear the input
+            if (input.value.length > 0 && input.value[0] !== '7') {
+                input.value = '';
+            }
+        }
+    </script>
 
 
     <div class="col-12 mb-3 col-md-4">
         <label for="color" class="form-label">@lang('Company Mobile')<span class="required-color">*</span></label>
         <div class="input-group">
-            <input type="text" placeholder="123456789" name="company_number" id="company_number"
-            value="{{ $office->company_number }}" class="form-control" maxlength="9" pattern="\d{1,9}"
+            <input type="text" placeholder="123456789" name="phone" id="company_number"
+            value="{{ $serviceProvider->UserData->phone }}" class="form-control" maxlength="9" pattern="\d{1,9}"
                 oninput="updateFullPhone1(this)" aria-label="Text input with dropdown button">
             {{-- <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                {{$office->key_phone ?? '966' }}
+                {{$serviceProvider->key_phone ?? '966' }}
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
@@ -41,7 +63,7 @@
             </ul> --}}
             <button class="btn btn-outline-primary dropdown-toggle waves-effect"
             type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{$office->key_phone ?? config('translatable.phones')[0] }}
+            {{$serviceProvider->UserData->key_phone ?? config('translatable.phones')[0] }}
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
                 @foreach (config('translatable.phones') as $phone)
@@ -59,7 +81,7 @@
         <label class="form-label" for="name"> @lang('Commercial Registration No')<span
             class="text-danger">*</span></label>
                 <input type="text" class="form-control" placeholder="@lang('Commercial Registration No')" id="CR_number"
-                 name="CRN"  value="{{ $office->CRN }}" required>
+                 name="CRN"  value="{{ $serviceProvider->CRN }}" required>
 
     </div>
 
@@ -86,7 +108,7 @@
 
     <div class="col-md-4 col-12 mb-3">
         <div class="d-flex align-items-start align-items-sm-center gap-4">
-            <img src="{{ $office->company_logo ? asset($office->company_logo) : asset('HOME_PAGE/img/avatars/14.png') }}"
+            <img src="{{ $serviceProvider->UserData->avatar ? asset($serviceProvider->UserData->avatar) : asset('HOME_PAGE/img/avatars/14.png') }}"
                 alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
             <div class="button-wrapper">
                 <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">

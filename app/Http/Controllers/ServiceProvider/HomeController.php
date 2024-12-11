@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\ServicePovider;
+namespace App\Http\Controllers\ServiceProvider;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
@@ -113,7 +113,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $ServicePoviderId = auth()->user()->UserServiceProviderData->id;
+        $ServiceProviderId = auth()->user()->UserServiceProviderData->id;
         $numberOfowners = 0;
         $numberOfUnits = 0;
         $numberOfVacantUnits  = 0;
@@ -123,7 +123,7 @@ class HomeController extends Controller
 
         Auth::user()->assignRole('service-povider');
         session(['active_role' => 'service-povider']);
-        return view('ServicePovider.dashboard',  get_defined_vars());
+        return view('ServiceProvider.dashboard',  get_defined_vars());
     }
 
     public function GetCitiesByRegion($id)

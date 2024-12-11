@@ -2,7 +2,7 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
 
-    <a href="{{ route('ServicePovider.home') }}" class="app-brand-link">
+    <a href="{{ route('ServiceProvider.home') }}" class="app-brand-link">
                 <img src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}" width="80" alt="">
     </a>
 
@@ -18,7 +18,7 @@
     <ul class="menu-inner py-1">
         <!-- Page -->
         <li class="menu-item ">
-            <a href="{{ route('ServicePovider.home') }}" class="menu-link">
+            <a href="{{ route('ServiceProvider.home') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
                 <div data-i18n="Page 1">@lang('dashboard')</div>
             </a>
@@ -61,7 +61,7 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="#" class="menu-link">
+                        <a href="{{ route('ServiceProvider.ProviderService.index') }}" class="menu-link">
                             <div data-i18n="@lang('Requests List')">@lang('Services')</div>
                         </a>
                     </li>
@@ -107,7 +107,7 @@
 
 
             <li class="menu-item" data-tour="settings">
-                <a href="{{ route('Office.Setting.index') }}" class="menu-link">
+                <a href="{{ route('ServiceProvider.Setting.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-app-window"></i>
                     <div data-i18n="@lang('Settings')">@lang('Settings')</div>
                 </a>
