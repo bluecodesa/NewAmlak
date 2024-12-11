@@ -28,7 +28,7 @@ class OwnerRepository implements OwnerRepositoryInterface
     public function getAllByOfficeId($officeId)
     {
 
-        return Owner::where('office_id', $officeId)->get();
+        return OwnerOfficeBroker::where('office_id', $officeId)->get();
     }
 
     // public function create($data)
