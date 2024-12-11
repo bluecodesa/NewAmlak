@@ -50,9 +50,9 @@
                     <li style="padding: 10px; border: 1px solid {{ auth()->user()->UserOfficeData->city_id ? 'green' : 'red' }}; border-radius: 5px;">
                         <span>
                             @if(auth()->user()->UserOfficeData->city_id)
-                                <span style="color: green;">✔</span> @lang(' تم تحديث البيانات الشخصية')
+                                <span style="color: green;">✔</span> @lang('Personal data updated')
                             @else
-                                <span style="color: red;">✖</span> @lang(' تحديث البيانات الشخصية')
+                                <span style="color: red;">✖</span> @lang('Update personal data')
                             @endif
                         </span>
                     </li>
@@ -61,9 +61,9 @@
                     <li style="padding: 10px; border: 1px solid {{ auth()->user()->UserFalData && auth()->user()->UserFalData->ad_license_status === 'valid' ? 'green' : 'red' }}; border-radius: 5px;">
                         <span>
                             @if(auth()->user()->UserFalData && auth()->user()->UserFalData->ad_license_status === 'valid')
-                                <span style="color: green;">✔</span> @lang(' تم تحديث ترخيص هيئة العقار')
+                                <span style="color: green;">✔</span> @lang('Real Estate Fal License Updated')
                             @else
-                                <span style="color: red;">✖</span> @lang(' تحديث ترخيص هيئة العقار')
+                                <span style="color: red;">✖</span> @lang('Update Real Estate Fal License')
                             @endif
                         </span>
                     </li>
@@ -72,9 +72,9 @@
                     <li style="padding: 10px; border: 1px solid {{ $numberOfowners ? 'green' : 'red' }}; border-radius: 5px;">
                         <span>
                             @if($numberOfowners)
-                                <span style="color: green;">✔</span> @lang(' تم إضافة عميل')
+                                <span style="color: green;">✔</span> @lang('Customer added')
                             @else
-                                <span style="color: red;">✖</span> @lang(' إضافة عميل')
+                                <span style="color: red;">✖</span> @lang('Add a client')
                             @endif
                         </span>
                     </li>
@@ -83,9 +83,9 @@
                     <li style="padding: 10px; border: 1px solid {{ $numberOfUnits ? 'green' : 'red' }}; border-radius: 5px;">
                         <span>
                             @if($numberOfUnits)
-                                <span style="color: green;">✔</span> @lang(' تم إضافة عقار')
+                                <span style="color: green;">✔</span> @lang('Property added')
                             @else
-                                <span style="color: red;">✖</span> @lang(' إضافة عقار')
+                                <span style="color: red;">✖</span> @lang('Add property')
                             @endif
                         </span>
                     </li>
@@ -95,9 +95,9 @@
                     <li style="padding: 10px; border: 1px solid {{ $numOfAds ? 'green' : 'red' }}; border-radius: 5px;">
                         <span>
                             @if ($numOfAds)
-                                <span style="color: green;">✔</span> @lang(' تم نشر إعلان عقاري')
+                                <span style="color: green;">✔</span> @lang('Real estate ad posted')
                             @else
-                                <span style="color: red;">✖</span> @lang(' نشر إعلان عقاري')
+                                <span style="color: red;">✖</span> @lang('Post a real estate ad')
                             @endif
                         </span>
                     </li>
@@ -792,7 +792,7 @@
                     },
                     {
                         id: 'reports-and-advanced-search',
-                        title: '@lang("Reports and Advanced Search")',
+                        title: '@lang("Reports and advanced search")',
                         text: '@lang("Here you can access the most important reports you need with ease.")',
                         attachTo: '[data-tour="reports-and-advanced-search"] right',
                         sectionId: 34
