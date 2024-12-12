@@ -17,7 +17,7 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
                 <div class="col-4">
-                    <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
+                    <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">@lang('Home')</a>/
                         </span><span class="text-muted fw-light"><a href="{{ route('gallery.showAllGalleries') }}">المعرض</a>/
                         </span>
                         {{ $user->name }}</h4>
@@ -131,7 +131,7 @@
                                                     @lang('Office')</li>
                                             @endif
                                             <li class="list-inline-item d-flex gap-1">
-                                                <i class="ti ti-color-swatch"></i>رقم رخصة فال:
+                                                <i class="ti ti-color-swatch"></i>@lang('Fal License') :
                                                 {{ $broker->UserData->UserFalData->ad_license_number ?? $office->UserData->UserFalData->ad_license_number }}
                                             </li>
 
@@ -160,7 +160,7 @@
                                                     }
 
                                                 @endphp
-                                                <i class="ti ti-calendar"></i> عضو منذ {{ $monthName }}
+                                                <i class="ti ti-calendar"></i> @lang('Member since') {{ $monthName }}
                                                 {{ $numDay }} {{ $yearName }}
                                             </li>
                                         </ul>
@@ -168,13 +168,13 @@
                                     @guest
                                         <a href="{{ route('login') }}" target="_blank" class="btn btn-primary"
                                             style="color: white;">
-                                            <i class="ti ti-phone me-1"></i>تواصل
+                                            <i class="ti ti-phone me-1"></i>@lang('Contact')
                                         </a>
                                     @endguest
                                     @auth
                                         <a href="tel:+{{ $user->key_phone }} {{ $user->phone }}" target="_blank"
                                             style="color: white;" class="btn btn-primary">
-                                            <i class="ti ti-phone me-1"></i>تواصل
+                                            <i class="ti ti-phone me-1"></i>@lang('Contact')
                                         </a>
                                     @endauth
                                 </div>
@@ -292,7 +292,7 @@
                                                 onchange="reloadUnits()" />
                                         </div>
                                         <div class="col-5 p-0">
-                                            <input class="form-control" name="price_to" id="price_to" placeholder="الي"
+                                            <input class="form-control" name="price_to" id="price_to" placeholder="@lang('To')"
                                                 value="{{ request()->input('price_to', null) }}"
                                                 onchange="reloadUnits()" />
                                         </div>
@@ -665,7 +665,7 @@
                                             @endif
                                             @if ($unit->daily_rent)
                                                 <a href="javascript:;" class="me-1">
-                                                    <span class="badge bg-label-secondary">متاح
+                                                    <span class="badge bg-label-secondary">@lang('Available')
                                                         @lang('Daily Rent')</span></a>
                                             @endif
                                         </div>
@@ -683,7 +683,7 @@
                                                 <span>@lang('Area (m²)')</span>
                                             </div>
                                             <div data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="عدد المشاهدات اخر 7 ايام">
+                                                title="@lang('Number of views last 7 days')">
                                                 <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
                                                 <span class="ti ti-eye"></span>
                                             </div>
@@ -710,7 +710,7 @@
                                             </div>
 
                                             <div data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="عدد المشاهدات اخر 7 ايام">
+                                                title="@lang('Number of views last 7 days')">
                                                 <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
                                                 <span class="ti ti-eye"></span>
                                             </div>
@@ -733,7 +733,7 @@
                                             </div>
 
                                             <div data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="عدد المشاهدات اخر 7 ايام">
+                                                title="@lang('Number of views last 7 days')">
                                                 <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
                                                 <span class="ti ti-eye"></span>
                                             </div>
@@ -747,12 +747,12 @@
                                                 <a href="tel:+{{ $user->key_phone }} {{ $user->mobile }}"
                                                     target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                                     style="color: white;"><i
-                                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                             @else
                                                 <a @disabled(true) target="_blank"
                                                     class="btn btn-primary d-flex align-items-center me-3"
                                                     style="color: white;"><i
-                                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                             @endif
                                             @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                                     Auth::user()->hasPermission('Send-message-to-broker-admin'))
@@ -775,7 +775,7 @@
                                             data-bs-target="#modalToggle"><i class="ti ti-message ti-sm"></i></a> --}}
                                             <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                                 style="color: white;" href="{{ route('login') }}"><i
-                                                    class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                    class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                             <a target="_blank" class="btn btn-label-secondary btn-icon"
                                                 href="{{ route('login') }}"><i class="ti ti-message ti-sm"></i></a>
                                         </div>

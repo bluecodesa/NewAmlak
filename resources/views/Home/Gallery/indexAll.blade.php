@@ -14,7 +14,7 @@
 
     <section class="section-py first-section-pt">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="py-3 mb-1"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
+            <h4 class="py-3 mb-1"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">@lang('Home')</a>/
                 </span>المعرض</h4>
 
             @if ($advertisings->isNotEmpty())
@@ -99,7 +99,7 @@
 
                 <select id="sortDropdown" class="form-control" onchange="sortItems()">
                     {{-- <option value="">ترتيب حسب...</option> --}}
-                    <option value="newest">الأحدث إلى الأقدم</option>
+                    <option value="newest">@lang('Newest to Oldest')</option>
                     <option value="highest_price">الأعلى سعر (ايجار شهري)</option>
                     <option value="lowest_price">الأقل سعر (ايجار شهري)</option>
                     <option value="largest_space">الأكبر مساحة</option>

@@ -4,7 +4,7 @@
       <!-- About User -->
       <div class="card mb-4">
         <div class="card-body">
-          <small class="card-text text-uppercase">معلوماتي</small>
+          <small class="card-text text-uppercase">@lang('My informations')</small>
           <ul class="list-unstyled mb-4 mt-3">
             <li class="d-flex align-items-center mb-3">
               <i class="ti ti-user text-heading"></i
@@ -19,7 +19,7 @@
             </li>
 
             <li class="d-flex align-items-center mb-3">
-              <i class="ti ti-mail"></i><span class="fw-medium mx-2 text-heading">@lang('البريد'):</span>
+              <i class="ti ti-mail"></i><span class="fw-medium mx-2 text-heading">@lang('Email'):</span>
               <span>{{ $finder->email }}</span>
             </li>
           </ul>
@@ -52,7 +52,7 @@
       <!-- Activity Timeline -->
       <div class="card card-action mb-4">
         <div class="card-header align-items-center">
-          <h5 class="card-action-title mb-0">تعديل البيانات الشخصية</h5>
+          <h5 class="card-action-title mb-0">@lang('Edit personal data')</h5>
           {{-- <div class="card-action-element">
             <div class="dropdown">
               <button
@@ -171,7 +171,7 @@
                                 alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
                             <div class="button-wrapper">
                                 <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
-                                    <span class="d-none d-sm-block">اختر صورة شخصيه</span>
+                                    <span class="d-none d-sm-block">@lang('Choose a profile picture')</span>
                                     <i class="ti ti-upload d-block d-sm-none"></i>
                                     <input type="file" id="upload" class="account-file-input" name="avatar" hidden
                                         accept="image/png, image/jpeg" />

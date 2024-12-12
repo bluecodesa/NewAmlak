@@ -223,7 +223,6 @@ class UnitController extends Controller
     public function show($id)
     {
         $Unit = $this->UnitService->findById($id);
-        dd($Unit);
         $officeId = auth()->user()->UserOfficeData->id;
         $subscription = $this->subscriptionService->findSubscriptionByOfficeId($officeId);
         $unitInterests = collect();

@@ -44,9 +44,9 @@
                     <li style="padding: 10px; border: 1px solid {{ auth()->user()->UserOfficeData->city_id ? 'green' : 'red' }}; border-radius: 5px;">
                         <span>
                             @if(auth()->user()->UserOfficeData->city_id)
-                                <span style="color: green;">✔</span> @lang('Personal data updated')
+                                <span style="color: green;">✔</span> @lang('Account data updated')
                             @else
-                                <span style="color: red;">✖</span> @lang('Update personal data')
+                                <span style="color: red;">✖</span> @lang('Update Account data')
                             @endif
                         </span>
                     </li>
@@ -104,13 +104,13 @@
             <div class="card">
                 <div class="card-body">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal5">
-                        @lang('استعلام')
+                        @lang('inquiry')
                     </button>
                     <div class="modal fade" id="basicModal5" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel1"> @lang('برجاء ادخال رقم الهوية')
+                                    <h5 class="modal-title" id="exampleModalLabel1"> @lang('Please enter your ID number')
                                     </h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>

@@ -1,6 +1,6 @@
 <!-- Change Password -->
 <div class="card mb-4">
-    <h5 class="card-header">تغير كلمة المرور</h5>
+    <h5 class="card-header">@lang('Change password')</h5>
     <div class="card-body">
          <!-- Change Password -->
          @if($finder->password)
