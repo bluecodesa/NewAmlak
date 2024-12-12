@@ -40,6 +40,7 @@ use App\Services\Broker\TicketService;
 use App\Services\RealEstateRequestService;
 use App\Services\Office\ProjectService;
 use App\Services\Office\PropertyService;
+use App\Services\ServiceProvider\ProviderServiceService;
 use Illuminate\Support\Facades\Notification;
 
 class HomeController extends Controller
@@ -64,6 +65,8 @@ class HomeController extends Controller
 
     protected $ProjectService;
     protected $PropertyService;
+    protected $ProviderServiceService;
+
 
 
 
@@ -85,7 +88,8 @@ class HomeController extends Controller
         TicketService $ticketService,
         RealEstateRequestService $RealEstateRequestService,
         ProjectService $ProjectService,
-        PropertyService $PropertyService
+        PropertyService $PropertyService,
+        ProviderServiceService $ProviderServiceService
 
     ) {
         $this->subscriptionService = $subscriptionService;
@@ -103,6 +107,7 @@ class HomeController extends Controller
         $this->SectionService = $SectionService;
         $this->ticketService = $ticketService;
         $this->RealEstateRequestService = $RealEstateRequestService;
+        $this->ProviderServiceService = $ProviderServiceService;
 
         $this->ProjectService = $ProjectService;
         $this->PropertyService = $PropertyService;
@@ -120,8 +125,8 @@ class HomeController extends Controller
         $tickets = null;
         $sectionsIds = [];
         $numberOfRentedUnits =0;
-        $numOfServices =0;
-
+        $serviceProviderId = auth()->user()->UserServiceProviderData->id;
+        $numOfServices = $this->ProviderServiceService->getAllByServiceProviderId($serviceProviderId)->count();
         Auth::user()->assignRole('service-povider');
         session(['active_role' => 'service-povider']);
         return view('ServiceProvider.dashboard',  get_defined_vars());

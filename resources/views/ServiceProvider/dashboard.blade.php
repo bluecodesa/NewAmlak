@@ -59,200 +59,7 @@
                 </div>
             @endif
 
-
-            <hr>
             <div class="row">
-
-                <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <a href="{{ route('Office.Unit.IndexByStatus', 'vacant') }}" class="card h-100">
-                        <div class="card-header pb-3">
-                            <div class="d-flex align-items-center mb-2 pb-1">
-                                <div class="avatar me-2">
-                                    <span class="avatar-initial rounded bg-label-success"><i
-                                            class="ti ti-building  ti-md"></i></span>
-                                </div>
-                                <h4 class="ms-1 mb-0">@lang('Units') @lang('vacant')</h4>
-                            </div>
-                            <small class="text-muted"></small>
-                        </div>
-                        <div class="card-body">
-                            <div id="ordersLastWeek"></div>
-                            @if ($numberOfUnits > 0)
-                                @php
-                                    $occupiedPercentage = number_format(
-                                        ($numberOfVacantUnits / $numberOfUnits) * 100,
-                                        1,
-                                    );
-                                @endphp
-                                <div class="d-flex justify-content-between align-items-center gap-3">
-                                    <h4 class="mb-0 text-muted">{{ $numberOfVacantUnits }}</h4>
-                                    <span class="text-success">{{ $occupiedPercentage }}%</span>
-                                </div>
-                                <div class="d-flex align-items-center mt-1">
-                                    <div class="progress w-100" style="height: 8px">
-                                        <div class="progress-bar bg-primary" style="width: {{ $occupiedPercentage }}%"
-                                            role="progressbar" aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0"
-                                            aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="d-flex justify-content-between align-items-center gap-3">
-                                    <h4 class="mb-0">{{ $numberOfVacantUnits }}</h4>
-                                    <span class="text-danger">0%</span>
-                                </div>
-                                <div class="d-flex align-items-center mt-1">
-                                    <div class="progress w-100" style="height: 8px">
-                                        <div class="progress-bar bg-primary" style="width: 0%" role="progressbar"
-                                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <a href="{{ route('Office.Unit.IndexByStatus', 'rented') }}" class="card h-100">
-                        <div class="card-header pb-3">
-                            <div class="d-flex align-items-center mb-2 pb-1">
-                                <div class="avatar me-2">
-                                    <span class="avatar-initial rounded bg-label-success"><i
-                                            class="ti ti-building ti-md"></i></span>
-                                </div>
-                                <h4 class="ms-1 mb-0">@lang('Units') @lang('rented')</h4>
-                            </div>
-                            <small class="text-muted"></small>
-                        </div>
-                        <div class="card-body">
-                            <div id="ordersLastWeek"></div>
-                            @if ($numberOfUnits > 0)
-                                @php
-                                    $occupiedPercentage = number_format(
-                                        ($numberOfRentedUnits / $numberOfUnits) * 100,
-                                        1,
-                                    );
-                                @endphp
-                                <div class="d-flex justify-content-between align-items-center gap-3">
-                                    <h4 class="mb-0">{{ $numberOfRentedUnits }}</h4>
-                                    <span class="text-success">{{ $occupiedPercentage }}%</span>
-                                </div>
-                                <div class="d-flex align-items-center mt-1">
-                                    <div class="progress w-100" style="height: 8px">
-                                        <div class="progress-bar bg-primary" style="width: {{ $occupiedPercentage }}%"
-                                            role="progressbar" aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0"
-                                            aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="d-flex justify-content-between align-items-center gap-3">
-                                    <h4 class="mb-0">{{ $numberOfVacantUnits }}</h4>
-                                    <span class="text-danger">0%</span>
-                                </div>
-                                <div class="d-flex align-items-center mt-1">
-                                    <div class="progress w-100" style="height: 8px">
-                                        <div class="progress-bar bg-primary" style="width: 0%" role="progressbar"
-                                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <a href="{{ route('Office.Unit.IndexByUsage', '5') }}" class="card h-100">
-                        <div class="card-header pb-3">
-                            <div class="d-flex align-items-center mb-2 pb-1">
-                                <div class="avatar me-2">
-                                    <span class="avatar-initial rounded bg-label-success"><i
-                                            class="ti ti-building ti-md"></i></span>
-                                </div>
-                                <h4 class="ms-1 mb-0">@lang('Units') @lang('NonResidential')</h4>
-                            </div>
-                            <small class="text-muted"></small>
-                        </div>
-                        <div class="card-body">
-                            <div id="ordersLastWeek"></div>
-                            @if ($numberOfUnits > 0)
-                                @php
-
-                                    $occupiedPercentage = number_format(
-                                        ($nonResidentialCount / $numberOfUnits) * 100,
-                                        1,
-                                    );
-                                @endphp
-                                <div class="d-flex justify-content-between align-items-center gap-3">
-                                    <h4 class="mb-0">{{ $nonResidentialCount }}</h4>
-                                    <span class="text-success">{{ $occupiedPercentage }}%</span>
-                                </div>
-                                <div class="d-flex align-items-center mt-1">
-                                    <div class="progress w-100" style="height: 8px">
-                                        <div class="progress-bar bg-primary" style="width: {{ $occupiedPercentage }}%"
-                                            role="progressbar" aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0"
-                                            aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="d-flex justify-content-between align-items-center gap-3">
-                                    <h4 class="mb-0">{{ $numberOfVacantUnits }}</h4>
-                                    <span class="text-danger">0%</span>
-                                </div>
-                                <div class="d-flex align-items-center mt-1">
-                                    <div class="progress w-100" style="height: 8px">
-                                        <div class="progress-bar bg-primary" style="width: 0%" role="progressbar"
-                                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <a href="{{ route('Office.Unit.IndexByUsage', '4') }}" class="card h-100">
-                        <div class="card-header pb-3">
-                            <div class="d-flex align-items-center mb-2 pb-1">
-                                <div class="avatar me-2">
-                                    <span class="avatar-initial rounded bg-label-success"><i
-                                            class="ti ti-building ti-md"></i></span>
-                                </div>
-                                <h4 class="ms-1 mb-0">@lang('Units') @lang('Residential')</h4>
-                            </div>
-                            <small class="text-muted"></small>
-                        </div>
-                        <div class="card-body">
-                            <div id="ordersLastWeek"></div>
-                            @if ($numberOfUnits > 0)
-                                @php
-
-                                    $occupiedPercentage = number_format(($residentialCount / $numberOfUnits) * 100, 1);
-                                @endphp
-                                <div class="d-flex justify-content-between align-items-center gap-3">
-                                    <h4 class="mb-0">{{ $residentialCount }}</h4>
-                                    <span class="text-success">{{ $occupiedPercentage }}%</span>
-                                </div>
-                                <div class="d-flex align-items-center mt-1">
-                                    <div class="progress w-100" style="height: 8px">
-                                        <div class="progress-bar bg-primary" style="width: {{ $occupiedPercentage }}%"
-                                            role="progressbar" aria-valuenow="{{ $occupiedPercentage }}"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="d-flex justify-content-between align-items-center gap-3">
-                                    <h4 class="mb-0">{{ $numberOfVacantUnits }}</h4>
-                                    <span class="text-danger">0%</span>
-                                </div>
-                                <div class="d-flex align-items-center mt-1">
-                                    <div class="progress w-100" style="height: 8px">
-                                        <div class="progress-bar bg-primary" style="width: 0%" role="progressbar"
-                                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    </a>
-                </div>
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
                     <a href="{{ route('Office.Owner.index') }}" class="card h-100">
@@ -262,14 +69,14 @@
                                     <span class="avatar-initial rounded bg-label-primary"><i
                                             class="ti ti-users ti-md"></i></span>
                                 </div>
-                                <h4 class="ms-1 mb-0">@lang('owners')</h4>
+                                <h4 class="ms-1 mb-0">@lang('Services')</h4>
                             </div>
                             <small class="text-muted"></small>
                         </div>
                         <div class="card-body">
                             <div id="ordersLastWeek"></div>
                             <div class="d-flex justify-content-between align-items-center gap-3">
-                                <h4 class="mb-0">{{ $numberOfowners }}</h4>
+                                <h4 class="mb-0">{{ $numOfServices }}</h4>
                                 <span class="text-success"></span>
                             </div>
                             <div class="d-flex align-items-center mt-1">
