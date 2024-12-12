@@ -49,7 +49,7 @@
                                                     tabindex="0" aria-controls="DataTables_Table_0"
                                                     type="button"><span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                                         <span
-                                                            class="d-none d-sm-inline-block">@lang('Add New service')</span></span></a>
+                                                            class="d-none d-sm-inline-block">@lang('Add Service')</span></span></a>
 
 
 
@@ -64,6 +64,7 @@
                                 <tr>
                                     <th scope="col">@lang('Name')</th>
                                     <th scope="col">@lang('price')</th>
+                                    <th scope="col">@lang('status')</th>
                                     <th scope="col">@lang('Description')</th>
 
                                     <th scope="col">@lang('Action')</th>
@@ -74,6 +75,7 @@
                                     <tr>
                                         <td>{{ $providerService->providerServiceType->name }}</td>
                                         <td>{{ $providerService->price }}</td>
+                                        <td>{{ __($providerService->status) }}</td>
                                         <td>{{ $providerService->description }}</td>
                                         <td>
                                             <div class="dropdown">

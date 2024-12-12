@@ -32,72 +32,79 @@
             </div>
             @endif --}}
 
+            @if(auth()->user()->UserOfficeData->city_id && auth()->user()->UserFalData && auth()->user()->UserFalData->ad_license_status === 'valid' && $numberOfowners && $numberOfUnits && $numOfAds)
+            @else
             <div>
-                <div class="alert alert-warning d-flex align-items-center" role="alert">
-                    <span class="alert-icon text-danger me-2">
+                <div class=" d-flex flex-column" role="alert">
+                   <p>
+                     <span class="alert-icon text-danger me-2">
                         <i class="ti ti-list-check ti-xs"></i>
                     </span>
                     @lang('Lets get started !..')
+                   </p>
+
+                    <ul style="list-style-type: none; padding: 0; display: flex; gap: 10px;">
+                        <!-- Step 1: تحديث البيانات الشخصية -->
+                        <li style="padding: 10px; border: 1px solid {{ auth()->user()->UserOfficeData->city_id ? 'green' : 'red' }}; border-radius: 5px;">
+                            <span>
+                                @if(auth()->user()->UserOfficeData->city_id)
+                                    <span style="color: green;">✔</span> @lang('Account data updated')
+                                @else
+                                    <span style="color: red;">✖</span> @lang('Update Account data')
+                                @endif
+                            </span>
+                        </li>
+
+                        <!-- Step 2: تحديث ترخيص هيئة العقار -->
+                        <li style="padding: 10px; border: 1px solid {{ auth()->user()->UserFalData && auth()->user()->UserFalData->ad_license_status === 'valid' ? 'green' : 'red' }}; border-radius: 5px;">
+                            <span>
+                                @if(auth()->user()->UserFalData && auth()->user()->UserFalData->ad_license_status === 'valid')
+                                    <span style="color: green;">✔</span> @lang('Real Estate Fal License Updated')
+                                @else
+                                    <span style="color: red;">✖</span> @lang('Update Real Estate Fal License')
+                                @endif
+                            </span>
+                        </li>
+
+                        <!-- Step 3: إضافة عميل -->
+                        <li style="padding: 10px; border: 1px solid {{ $numberOfowners ? 'green' : 'red' }}; border-radius: 5px;">
+                            <span>
+                                @if($numberOfowners)
+                                    <span style="color: green;">✔</span> @lang('Customer added')
+                                @else
+                                    <span style="color: red;">✖</span> @lang('Add a client')
+                                @endif
+                            </span>
+                        </li>
+
+                        <!-- Step 4: إضافة عقار -->
+                        <li style="padding: 10px; border: 1px solid {{ !empty($allItems) && count($allItems) > 0  ? 'green' : 'red' }}; border-radius: 5px;">
+                            <span>
+                                @if(!empty($allItems) && count($allItems) > 0 )
+                                    <span style="color: green;">✔</span> @lang('Property added')
+                                @else
+                                    <span style="color: red;">✖</span> @lang('Add property')
+                                @endif
+                            </span>
+                        </li>
+
+                        <!-- Step 5: نشر إعلان عقاري -->
+                        @if(in_array(18, $sectionsIds))
+                        <li style="padding: 10px; border: 1px solid {{ $x ? 'green' : 'red' }}; border-radius: 5px;">
+                            <span>
+                                @if ($x)
+                                    <span style="color: green;">✔</span> @lang('Real estate ad posted')
+                                @else
+                                    <span style="color: red;">✖</span> @lang('Post a real estate ad')
+                                @endif
+                            </span>
+                        </li>
+                        @endif
+                    </ul>
                 </div>
-                <ul style="list-style-type: none; padding: 0; display: flex; gap: 10px;">
-                    <!-- Step 1: تحديث البيانات الشخصية -->
-                    <li style="padding: 10px; border: 1px solid {{ auth()->user()->UserOfficeData->city_id ? 'green' : 'red' }}; border-radius: 5px;">
-                        <span>
-                            @if(auth()->user()->UserOfficeData->city_id)
-                                <span style="color: green;">✔</span> @lang('Account data updated')
-                            @else
-                                <span style="color: red;">✖</span> @lang('Update Account data')
-                            @endif
-                        </span>
-                    </li>
 
-                    <!-- Step 2: تحديث ترخيص هيئة العقار -->
-                    <li style="padding: 10px; border: 1px solid {{ auth()->user()->UserFalData && auth()->user()->UserFalData->ad_license_status === 'valid' ? 'green' : 'red' }}; border-radius: 5px;">
-                        <span>
-                            @if(auth()->user()->UserFalData && auth()->user()->UserFalData->ad_license_status === 'valid')
-                                <span style="color: green;">✔</span> @lang('Real Estate Fal License Updated')
-                            @else
-                                <span style="color: red;">✖</span> @lang('Update Real Estate Fal License')
-                            @endif
-                        </span>
-                    </li>
-
-                    <!-- Step 3: إضافة عميل -->
-                    <li style="padding: 10px; border: 1px solid {{ $numberOfowners ? 'green' : 'red' }}; border-radius: 5px;">
-                        <span>
-                            @if($numberOfowners)
-                                <span style="color: green;">✔</span> @lang('Customer added')
-                            @else
-                                <span style="color: red;">✖</span> @lang('Add a client')
-                            @endif
-                        </span>
-                    </li>
-
-                    <!-- Step 4: إضافة عقار -->
-                    <li style="padding: 10px; border: 1px solid {{ $numberOfUnits ? 'green' : 'red' }}; border-radius: 5px;">
-                        <span>
-                            @if($numberOfUnits)
-                                <span style="color: green;">✔</span> @lang('Property added')
-                            @else
-                                <span style="color: red;">✖</span> @lang('Add property')
-                            @endif
-                        </span>
-                    </li>
-
-                    <!-- Step 5: نشر إعلان عقاري -->
-                    @if(in_array(18, $sectionsIds))
-                    <li style="padding: 10px; border: 1px solid {{ $x ? 'green' : 'red' }}; border-radius: 5px;">
-                        <span>
-                            @if ($x)
-                                <span style="color: green;">✔</span> @lang('Real estate ad posted')
-                            @else
-                                <span style="color: red;">✖</span> @lang('Post a real estate ad')
-                            @endif
-                        </span>
-                    </li>
-                    @endif
-                </ul>
             </div>
+            @endif
 
 
 

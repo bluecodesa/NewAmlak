@@ -32,10 +32,13 @@ class ProviderServiceService
 
     public function create($data)
     {
+        $data['status'] = isset($data['status']) && $data['status'] === 'on' ? 'active' : 'inactive';
+
         $rules = [
             'provider_service_type_id' => 'required|exists:provider_service_types,id',
             'price' => 'required|numeric|min:0',
             'description' => 'string',
+            'status' => 'required|in:active,inactive',
         ];
 
         validator($data, $rules)->validate();
@@ -44,11 +47,15 @@ class ProviderServiceService
 
     public function update($id, $data)
     {
+        $data['status'] = isset($data['status']) && $data['status'] === 'on' ? 'active' : 'inactive';
+
         $rules = [
             'provider_service_type_id' => 'required|exists:provider_service_types,id',
             'price' => 'required|numeric|min:0',
             'description' => 'string',
+            'status' => 'required|in:active,inactive',
         ];
+
 
 
 

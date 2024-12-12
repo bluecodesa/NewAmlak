@@ -111,15 +111,16 @@ class SupportService
     protected function notifyBroker(TicketResponse $response)
     {
         $ticket_id = $response->ticket_id;
-
+        $ticket = $response->TicketData;
+        // dd( $ticket->UserData);
+        $user =$ticket->UserData;
         // Find all brokers who have shown interest in this unit
-        $brokers = User::whereHas('ticketResponses', function ($query) use ($ticket_id) {
-            $query->where('ticket_id', $ticket_id);
-        })->where('is_broker', true)->get();
+        // $brokers = User::whereHas('ticketResponses', function ($query) use ($ticket_id) {
+        //     $query->where('ticket_id', $ticket_id);
+        // });
 
-        foreach ($brokers as $broker) {
-            Notification::send($broker, new ResponseTicketNotification($response));
-        }
+            Notification::send($user, new ResponseTicketNotification($response));
+
     }
 
 

@@ -9,7 +9,7 @@
 
                     <h4 class=""><a href="{{ route('ServiceProvider.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         <a href="{{ route('ServiceProvider.ProviderService.index') }}" class="text-muted fw-light">@lang('Services') </a> /
-                        @lang('Add New service')
+                        @lang('Add Service')
                     </h4>
                 </div>
 
@@ -24,6 +24,7 @@
                                 @csrf
                                 @method('post')
 
+                                <input hidden name="service_provider_id" value="{{ auth()->user()->UserServiceProviderData->id }}" required>
 
                                 <div class="col-md-6 col-12 mb-3">
                                     <label class="form-label">@lang('service type') <span class="required-color">*</span>
@@ -46,12 +47,21 @@
 
                                 </div>
 
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label" style="display: block !important;">@lang('active') / @lang('inactive')</label>
+                                    <label class="switch switch-lg">
+                                        <input type="checkbox" name="status" class="switch-input" id="status" required/>
+                                        <span class="switch-toggle-slider">
+                                            <span class="switch-on"><i class="ti ti-check"></i></span>
+                                            <span class="switch-off"><i class="ti ti-x"></i></span>
+                                        </span>
+                                    </label>
+                                </div>
 
-                                <div class="col-md-6 col-12 mb-3">
+                                <div class="col-md-8 col-12 mb-3">
                                     <label class="form-label"> @lang('Description')</label>
                                             <textarea id="textarea"  name="description" class="form-control"
                                             placeholder="@lang('Description')"></textarea>
-
                                 </div>
 
 

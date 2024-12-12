@@ -34,13 +34,23 @@ class ResponseTicketNotification extends Notification
         $ticket_id=$this->response->ticket_id;
         $formattedId = "100{$this->response->ticket_id}";
         $ticket=Ticket::where('id',$ticket_id)->first();
-        $user=User::where('id',$user_id)->first();
         $type=$ticket->ticketType->name;
-        $user_name=$user->name;
+        $ticket = $this->response->TicketData;
+        $user =$ticket->UserData;
+        if($user->is_broker){
+            $url ='Broker.Tickets.show';
+        }elseif($user->is_office){
+            $url ='Office.Tickets.show';
+
+        }elseif($user->is_service_provider)
+        {
+            $url ='ServiceProvider.Tickets.show';
+        }
+
 
         return [
             'msg' => __('') . ' ' . ($formattedId).' : '.($type),
-            'url' => route('Broker.Tickets.show', $ticket_id),
+            'url' => route($url, $ticket_id),
             'type_noty' => 'You have an update on a support ticket',
             'service_name' => 'ResponseTicket',
             'created_at' => now(),

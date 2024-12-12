@@ -29,7 +29,8 @@ class ProviderServiceController extends Controller
 
     public function index()
     {
-        $providerServices = $this->ProviderServiceService->getAll();
+        $serviceProviderId = auth()->user()->UserServiceProviderData->id;
+        $providerServices = $this->ProviderServiceService->getAllByServiceProviderId($serviceProviderId);
         return view('ServiceProvider.MaintenanceOperationManagement.index', get_defined_vars());
     }
 

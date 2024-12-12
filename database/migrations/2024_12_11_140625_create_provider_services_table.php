@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('provider_service_type_id');
             $table->decimal('price', 10, 2);
+            $table->string('status')->default('valid'); // Adding the status column
             $table->text('description');
             $table->timestamps();
 

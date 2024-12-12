@@ -12,7 +12,7 @@ class TicketResponse extends Model
 
     public function TicketData()
     {
-        return $this->belongsTo(Ticket::class);
+        return $this->belongsTo(Ticket::class ,'ticket_id');
     }
 
     public function UserData()

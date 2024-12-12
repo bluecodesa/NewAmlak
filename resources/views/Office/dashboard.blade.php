@@ -84,9 +84,9 @@
                         </li>
 
                         <!-- Step 4: إضافة عقار -->
-                        <li style="padding: 10px; border: 1px solid {{ $allItems ? 'green' : 'red' }}; border-radius: 5px;">
+                        <li style="padding: 10px; border: 1px solid {{ !empty($allItems) && count($allItems) > 0  ? 'green' : 'red' }}; border-radius: 5px;">
                             <span>
-                                @if($allItems)
+                                @if(!empty($allItems) && count($allItems) > 0 )
                                     <span style="color: green;">✔</span> @lang('Property added')
                                 @else
                                     <span style="color: red;">✖</span> @lang('Add property')

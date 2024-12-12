@@ -18,7 +18,7 @@ use App\Http\Controllers\Office\ProjectManagement\Receipt\VoucherController;
 use App\Http\Controllers\Office\ProjectManagement\Renter\RenterController;
 use App\Http\Controllers\Office\ProjectManagement\UnitController;
 use App\Http\Controllers\ServiceProvider\SettingController;
-use App\Http\Controllers\Office\TicketController;
+use App\Http\Controllers\ServiceProvider\TicketController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ServiceProvider\MaintenanceOperationManagement\ProviderServiceController;
 use Illuminate\Support\Facades\Route;

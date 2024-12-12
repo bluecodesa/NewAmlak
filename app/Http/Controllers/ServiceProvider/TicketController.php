@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Office;
+namespace App\Http\Controllers\ServiceProvider;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
@@ -12,11 +12,11 @@ use App\Notifications\Admin\AdminResponseTicketNotification;
 use App\Notifications\Admin\NewTicketNotification;
 use App\Notifications\Admin\ResponseTicketNotification;
 use App\Services\Admin\TicketTypeService;
-use App\Services\Office\SettingService;
+use App\Services\ServiceProvider\SettingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
-use App\Services\Office\TicketService;
+use App\Services\ServiceProvider\TicketService;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
@@ -46,19 +46,19 @@ class TicketController extends Controller
             $ticket->formatted_id = "100{$ticket->id}";
             return $ticket;
         });
-        return view('Office.Support.index', get_defined_vars());
+        return view('ServiceProvider.Support.index', get_defined_vars());
     }
 
     public function create()
     {
         // $ticketTypes = TicketType::all();
         $ticketTypes = $this->ticketTypeService->getAllTicketTypes();
-        return view('Office.Support.Ticket.create', compact('ticketTypes'));
+        return view('ServiceProvider.Support.Ticket.create', compact('ticketTypes'));
     }
 
     public function store(Request $request)
     {
-        //
+        // dd($request);
         // Validate the form data
         $validatedData = $request->validate([
             'type' => 'required',
@@ -80,8 +80,8 @@ class TicketController extends Controller
             $file = $request->file('image');
             $ext = $file->getClientOriginalExtension();
             $fileName = uniqid() . '.' . $ext;
-            $file->move(public_path('Offices/Tickets'), $fileName);
-            $validatedData['image'] = '/Offices/Tickets/' . $fileName;
+            $file->move(public_path('ServiceProviders/Tickets'), $fileName);
+            $validatedData['image'] = '/ServiceProviders/Tickets/' . $fileName;
         }
 
         $ticket = new Ticket();
@@ -95,7 +95,7 @@ class TicketController extends Controller
         $ticket->save();
         $this->notifyAdmins($ticket);
 
-        return redirect()->route('Office.Tickets.index')->with('success', 'Ticket created successfully');
+        return redirect()->route('ServiceProvider.Tickets.index')->with('success', 'Ticket created successfully');
     }
 
     public function show(string $id)
@@ -106,7 +106,7 @@ class TicketController extends Controller
 
         // Check if the ticket belongs to the authenticated user
         if ($ticket->user_id !== $user->id) {
-            return redirect()->route('Office.home');
+            return redirect()->route('ServiceProvider.home');
         }
 
         $ticketResponses = $this->ticketService->getTicketResponses($id);
@@ -122,7 +122,7 @@ class TicketController extends Controller
             });
         }
 
-        return view('Office.Support.Ticket.show', get_defined_vars());
+        return view('ServiceProvider.Support.Ticket.show', get_defined_vars());
     }
 
     public function addResponse(Request $request, $ticketId)

@@ -21,50 +21,43 @@
 
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <div>
-                <div class="alert alert-warning d-flex align-items-center" role="alert">
-                    <span class="alert-icon text-danger me-2">
-                        <i class="ti ti-list-check ti-xs"></i>
-                    </span>
-                    @lang('الرسم التوضيجي لخطوات اكمال البيانات/الخطوات المتبقية لاكمال بيانات الحساب')
+            @if(auth()->user()->UserServiceProviderData->city_id && $numOfServices)
+            @else
+                <div>
+                    <div class=" d-flex flex-column" role="alert">
+                    <p>
+                        <span class="alert-icon text-danger me-2">
+                            <i class="ti ti-list-check ti-xs"></i>
+                        </span>
+                        @lang('Lets get started !..')
+                    </p>
+
+                        <ul style="list-style-type: none; padding: 0; display: flex; gap: 10px;">
+                            <!-- Step 1: تحديث البيانات الشخصية -->
+                            <li style="padding: 10px; border: 1px solid {{ auth()->user()->UserServiceProviderData->city_id ? 'green' : 'red' }}; border-radius: 5px;">
+                                <span>
+                                    @if(auth()->user()->UserServiceProviderData->city_id)
+                                        <span style="color: green;">✔</span> @lang('Account data updated')
+                                    @else
+                                        <span style="color: red;">✖</span> @lang('Update Account data')
+                                    @endif
+                                </span>
+                            </li>
+
+                            <!-- Step 2: تحديث ترخيص هيئة العقار -->
+                            <li style="padding: 10px; border: 1px solid {{ $numOfServices ? 'green' : 'red' }}; border-radius: 5px;">
+                                <span>
+                                    @if($numOfServices)
+                                        <span style="color: green;">✔</span> @lang('Add Service')
+                                    @else
+                                        <span style="color: red;">✖</span> @lang('Add Service')
+                                    @endif
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <ul style="list-style-type: none; padding: 0; display: flex; gap: 10px;">
-                    <!-- Step 1: تحديث البيانات الشخصية -->
-                    <li style="padding: 10px; border: 1px solid {{ auth()->user()->UserServiceProviderData->city_id ? 'green' : 'red' }}; border-radius: 5px;">
-                        <span>
-                            @if(auth()->user()->UserServiceProviderData->city_id)
-                                <span style="color: green;">✔</span> @lang('1- تم تحديث البيانات الشخصية')
-                            @else
-                                <span style="color: red;">✖</span> @lang('1- تحديث البيانات الشخصية')
-                            @endif
-                        </span>
-                    </li>
-
-                    <!-- Step 3: إضافة عميل -->
-                    <li style="padding: 10px; border: 1px solid {{ $numberOfowners ? 'green' : 'red' }}; border-radius: 5px;">
-                        <span>
-                            @if($numberOfowners)
-                                <span style="color: green;">✔</span> @lang('3- تم إضافة عميل')
-                            @else
-                                <span style="color: red;">✖</span> @lang('3- إضافة عميل')
-                            @endif
-                        </span>
-                    </li>
-
-                    <!-- Step 4: إضافة عقار -->
-                    <li style="padding: 10px; border: 1px solid {{ $numberOfUnits ? 'green' : 'red' }}; border-radius: 5px;">
-                        <span>
-                            @if($numberOfUnits)
-                                <span style="color: green;">✔</span> @lang('4- تم إضافة عقار')
-                            @else
-                                <span style="color: red;">✖</span> @lang('4- إضافة عقار')
-                            @endif
-                        </span>
-                    </li>
-
-
-                </ul>
-            </div>
+            @endif
 
 
             <hr>

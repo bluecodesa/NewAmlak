@@ -40,8 +40,18 @@
                                     <input type="number" required id="price" name="price" class="form-control"
                                         placeholder="{{ __('price') }}" value="{{ old('price', $providerService->price) }}">
                                 </div>
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label" style="display: block !important;">@lang('active') / @lang('inactive')</label>
+                                    <label class="switch switch-lg">
+                                        <input type="checkbox" name="status" class="switch-input" id="status" {{ $providerService->status === 'active' ? 'checked' : '' }} required/>
+                                        <span class="switch-toggle-slider">
+                                            <span class="switch-on"><i class="ti ti-check"></i></span>
+                                            <span class="switch-off"><i class="ti ti-x"></i></span>
+                                        </span>
+                                    </label>
+                                </div>
 
-                                <div class="col-md-6 col-12 mb-3">
+                                <div class="col-md-8 col-12 mb-3">
                                     <label class="form-label">@lang('Description')</label>
                                     <textarea id="textarea" name="description" class="form-control"
                                         placeholder="@lang('Description')">{{ old('description', $providerService->description) }}</textarea>

@@ -97,6 +97,7 @@ use App\Interfaces\Office\UnitInterestRepositoryInterface as OfficeUnitInterestR
 use App\Interfaces\Office\UnitRepositoryInterface as OfficeUnitRepositoryInterface;
 use App\Interfaces\ServiceProvider\ProviderServiceRepositoryInterface as ServiceProviderProviderServiceRepositoryInterface;
 use App\Interfaces\ServiceProvider\SettingRepositoryInterface as ServiceProviderSettingRepositoryInterface;
+use App\Interfaces\ServiceProvider\TicketRepositoryInterface as ServiceProviderTicketRepositoryInterface;
 use App\Repositories\Admin\AdvertisingRepository;
 use App\Repositories\Admin\FalLicenseRepository;
 use App\Repositories\Admin\PartnerSuccessRepository;
@@ -118,6 +119,7 @@ use App\Repositories\Office\UnitRepository as OfficeUnitRepository;
 use App\Repositories\Home\GalleryRepository as homeGalleryRepository;
 use App\Repositories\ServiceProvider\ProviderServiceRepository as ServiceProviderProviderServiceRepository;
 use App\Repositories\ServiceProvider\SettingRepository as ServiceProviderSettingRepository;
+use App\Repositories\ServiceProvider\TicketRepository as ServiceProviderTicketRepository;
 use App\Services\NafathService;
 
 
@@ -147,6 +149,7 @@ class AppServiceProvider extends ServiceProvider
             TicketTypeRepository::class
         );
 
+
         $this->app->bind(
             SupportRepositoryInterface::class,
             SupportRepository::class
@@ -155,6 +158,12 @@ class AppServiceProvider extends ServiceProvider
             TicketRepositoryInterface::class,
             TicketRepository::class
         );
+
+        $this->app->bind(
+            ServiceProviderTicketRepositoryInterface::class,
+            ServiceProviderTicketRepository::class
+        );
+
         $this->app->bind(
             RealEstateRequestRepositoryInterface::class,
             RealEstateRequestRepository::class

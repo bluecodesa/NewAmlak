@@ -81,7 +81,7 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item" data-tour="technical-support">
-                    <a href="{{ route('Office.Tickets.index') }}" class="menu-link">
+                    <a href="{{ route('ServiceProvider.Tickets.index') }}" class="menu-link">
                         <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
                         <div data-i18n="@lang('Tickets Support')">@lang('Tickets Support')</div>
                     </a>

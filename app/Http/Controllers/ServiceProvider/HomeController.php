@@ -120,6 +120,7 @@ class HomeController extends Controller
         $tickets = null;
         $sectionsIds = [];
         $numberOfRentedUnits =0;
+        $numOfServices =0;
 
         Auth::user()->assignRole('service-povider');
         session(['active_role' => 'service-povider']);
