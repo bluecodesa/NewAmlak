@@ -31,6 +31,7 @@
 
                     <form id="loginForm" method="POST" action="{{ route('login') }}">
                         @csrf
+
                         <div class="mb-1">
                             <label for="user_name" class="form-label">@lang('Email')/@lang('mobile')</label>
                             <input type="text" class="form-control" id="user_name" name="user_name"
@@ -59,7 +60,13 @@
                         <div class="col-md-6 col-12 mb-1" id="resend-otp-button" style="display: none;">
                             <form method="POST" action="{{ route('Home.sendOtp') }}">
                                 @csrf
-                                <input type="hidden" name="email" value="{{ $email }}" />
+                                @if (isset($email))
+                                <input type="hidden" name="user_name" value="{{ isset($email) ? $email : $fullPhone  }}" />
+                            @else
+                                <!-- If phone is used -->
+                                <input type="hidden" name="full_phone" value="{{ $fullPhone }}" />
+                            @endif
+                                <input type="hidden" name="otp_type" value="{{ session('otp_type') }}">
                                 <button type="submit" class="btn btn-secondary">@lang('Resend OTP')</button>
                             </form>
                         </div>

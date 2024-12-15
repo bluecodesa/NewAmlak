@@ -122,11 +122,16 @@ class HomeController extends Controller
 
     public function sendOtp(Request $request)
     {
+        // dd($request);
         // $otp = 555555;
+
         $otp = mt_rand(100000, 999999);
         session()->forget(['otp', 'email', 'phone', 'mobile', 'key_phone']);
-
+        $request->session()->put('email', $request->user_name);
+        $request->session()->put('fullPhone', $request->full_phone);
+        $request->session()->put('otp_type', $request->otp_type);
         session(['otp' => $otp]);
+        // dd(session()->all());
 
         if ($request->input('otp_type') === 'email') {
             // Send OTP via Email
@@ -138,7 +143,6 @@ class HomeController extends Controller
             $fullPhone = $request->input('full_phone');
             $phone = $request->input('mobile');
             $keyPhone = $request->input('key_phone');
-// dd($fullPhone);
             session(['phone' => $fullPhone, 'mobile' => $phone, 'key_phone' => $keyPhone]);
 
             // Send WhatsApp Message
@@ -148,6 +152,7 @@ class HomeController extends Controller
                 'otp' => $otp,
             ]);
         }
+        // dd(session()->all());
 
         return redirect()->route('Home.auth.verifyLogin')->with('success', __('OTP sent successfully'));
     }
