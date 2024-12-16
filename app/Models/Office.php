@@ -56,6 +56,11 @@ class Office extends Model
         return $this->hasOne(SystemInvoice::class, 'office_id')->where('status', 'pending')->latest();
     }
 
+    public function UserSystemInvoiceExpired()
+    {
+        return $this->hasOne(SystemInvoice::class, 'office_id')->where('status', 'expired')->latest();
+    }
+
     public function UserSubscription()
     {
         return $this->hasOne(Subscription::class, 'office_id');

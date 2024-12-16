@@ -73,11 +73,22 @@
                                             </ul>
                                         </div>
                                         <div class="modal-footer justify-content-center">
-                                            <input type="radio" class="subscription_type form-check-input" required
+                                            {{-- <input type="radio" class="subscription_type form-check-input" required
                                                    data-url="{{ Auth::user()->is_broker ? route('Broker.UpdateSubscription', $type->id) : route('Office.UpdateSubscription', $type->id) }}"
                                                    name="subscription_type" value="{{ $type->id }}"
                                                    id="subscription{{ $type->id }}"
-                                                   @if ($type->id == optional($subscription)->subscription_type_id) checked @endif>
+                                                   @if ($type->id == optional($subscription)->subscription_type_id) checked @endif> --}}
+                                                   <input type="radio" class="subscription_type form-check-input" required
+                                                    data-url="{{ Auth::user()->is_broker ? route('Broker.UpdateSubscription', $type->id) : route('Office.UpdateSubscription', $type->id) }}"
+                                                    name="subscription_type" value="{{ $type->id }}"
+                                                    id="subscription{{ $type->id }}"
+                                                    @if(
+                                                        (Auth::user()->UserBrokerData && Auth::user()->UserBrokerData->UserSubscriptionPending->status === 'pending' && $type->id == optional($subscription)->subscription_type_id) ||
+                                                        (Auth::user()->UserOfficeData && Auth::user()->UserOfficeData->UserSubscriptionPending->status === 'pending' && $type->id == optional($subscription)->subscription_type_id)
+                                                    )
+                                                        checked
+                                                    @endif>
+                                            {{-- <input type="text" name="discounted_price" id="" hidden value="{{ $discounted_price }}"> --}}
                                         </div>
                                     </div>
                                 </label>

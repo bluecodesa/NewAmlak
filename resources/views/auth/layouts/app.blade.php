@@ -149,7 +149,7 @@
 
 <script>
     $(document).ready(function() {
-        var countdown = 5;
+        var countdown = 60;
         var countdownTimer = setInterval(function() {
             countdown--;
             $("#countdown").text(countdown);
