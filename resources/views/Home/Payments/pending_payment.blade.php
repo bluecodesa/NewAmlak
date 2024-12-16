@@ -100,15 +100,45 @@
                 </div>
                 <hr>
                 <div class="col-12">
-                    @if(Auth::user()->UserBrokerData)
+                    {{-- @if(Auth::user()->UserBrokerData)
                     <button type="button" class="btn btn-primary waves-effect waves-light view_inv" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" data-url="{{ route('Broker.ViewInvoice') }}">اكمال الدفع</button>
                     <a href="{{ route('Broker.Tickets.index') }}" class="btn btn-outline-warning">@lang('technical support')</a>
                     @elseif(Auth::user()->UserOfficeData)
                     <button type="button" class="btn btn-primary waves-effect waves-light view_inv" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" data-url="{{ route('Office.ViewInvoice') }}">اكمال الدفع</button>
                     <a href="{{ route('Broker.Tickets.index') }}" class="btn btn-outline-warning">@lang('technical support')</a>
-                    @endif
+                    @endif --}}
+                    @if(Auth::user()->UserBrokerData)
+                    <button type="button" id="completePaymentButton" class="btn btn-primary waves-effect waves-light view_inv"
+                            data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg"
+                            data-url="{{ route('Broker.ViewInvoice') }}" disabled>
+                        اكمال الدفع
+                    </button>
+                    <a href="{{ route('Broker.Tickets.index') }}" class="btn btn-outline-warning">@lang('technical support')</a>
+                @elseif(Auth::user()->UserOfficeData)
+                    <button type="button" id="completePaymentButton" class="btn btn-primary waves-effect waves-light view_inv"
+                            data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg"
+                            data-url="{{ route('Office.ViewInvoice') }}" disabled>
+                        اكمال الدفع
+                    </button>
+                    <a href="{{ route('Office.Tickets.index') }}" class="btn btn-outline-warning">@lang('technical support')</a>
+                @endif
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const subscriptionRadios = document.querySelectorAll('input[name="subscription_type"]');
+        const completePaymentButton = document.getElementById('completePaymentButton');
+
+        // Enable button only when a subscription is selected
+        subscriptionRadios.forEach(radio => {
+            radio.addEventListener('change', function () {
+                completePaymentButton.disabled = !this.checked;
+            });
+        });
+    });
+</script>
