@@ -123,9 +123,9 @@ class HomeController extends Controller
     public function sendOtp(Request $request)
     {
         // dd($request);
-        // $otp = 555555;
+        $otp = 555555;
 
-        $otp = mt_rand(100000, 999999);
+        // $otp = mt_rand(100000, 999999);
         session()->forget(['otp', 'email', 'phone', 'mobile', 'key_phone']);
         $request->session()->put('email', $request->user_name);
         $request->session()->put('fullPhone', $request->full_phone);

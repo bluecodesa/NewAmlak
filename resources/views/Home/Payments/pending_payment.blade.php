@@ -134,11 +134,18 @@
         const subscriptionRadios = document.querySelectorAll('input[name="subscription_type"]');
         const completePaymentButton = document.getElementById('completePaymentButton');
 
-        // Enable button only when a subscription is selected
+        // Function to check if any radio is checked
+        function updateButtonState() {
+            const isChecked = Array.from(subscriptionRadios).some(radio => radio.checked);
+            completePaymentButton.disabled = !isChecked;
+        }
+
+        // Add event listeners to all radio buttons
         subscriptionRadios.forEach(radio => {
-            radio.addEventListener('change', function () {
-                completePaymentButton.disabled = !this.checked;
-            });
+            radio.addEventListener('change', updateButtonState);
         });
+
+        // Check the button state on page load
+        updateButtonState();
     });
 </script>
