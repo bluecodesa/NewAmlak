@@ -77,46 +77,48 @@
                 <!-- Menu wrapper: End -->
                 <!-- Toolbar: Start -->
                 <ul class="navbar-nav flex-row align-items-center ms-auto">
-                    <!-- Style Switcher -->
-                    <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
-                        <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
-                            data-bs-toggle="dropdown">
-                            <i class="ti ti-sm"></i>
+          <!-- Language -->
+          <li class="nav-item dropdown-language dropdown me-2 me-xl-0" data-tour="language">
+            <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                <i class="ti ti-language rounded-circle ti-md"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                    <li>
+                        <a class="dropdown-item" rel="alternate" hreflang="{{ $localeCode }}"
+                            href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                            <span class="align-middle">{{ $properties['native'] }}</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
-                            <li>
-                                <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
-                                    <span class="align-middle"><i class="ti ti-sun me-2"></i>Light</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
-                                    <span class="align-middle"><i class="ti ti-moon me-2"></i>Dark</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
-                                    <span class="align-middle"><i class="ti ti-device-desktop me-2"></i>System</span>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
-                    <li class="nav-item dropdown-language dropdown me-2 me-xl-0" data-tour="language">
-                        <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                            <i class="ti ti-language rounded-circle ti-md"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                                <li>
-                                    <a class="dropdown-item" rel="alternate" hreflang="{{ $localeCode }}"
-                                        href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
-                                        <span class="align-middle">{{ $properties['native'] }}</span>
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </li>
-                    <!-- / Style Switcher-->
+                @endforeach
+            </ul>
+        </li>
+        <!--/ Language -->
+
+        <!-- Style Switcher -->
+        <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0" data-tour="style-switcher">
+            <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                <i class="ti ti-md"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+                <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                        <span class="align-middle"><i class="ti ti-sun me-2"></i>Light</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                        <span class="align-middle"><i class="ti ti-moon me-2"></i>Dark</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                        <span class="align-middle"><i class="ti ti-device-desktop me-2"></i>System</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!-- / Style Switcher-->
 
                     <!-- navbar button: Start -->
                     <li class="me-1">
@@ -335,7 +337,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="text-center mb-4">
-                        <h3 class="address-title mb-2">انشاء حساب</h3>
+                        <h3 class="address-title mb-2">@lang('Create an account')</h3>
                     </div>
                     <div class="row justify-content-around">
                         <form id="roleForm" action="{{ route('Home.addAccount') }}" method="POST">

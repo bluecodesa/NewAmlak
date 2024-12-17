@@ -722,7 +722,7 @@
                     },
                     {
                         id: 'financial-management',
-                        title: '@lang("Financial Management")',
+                        title: '@lang("Financial Managment")',
                         text: '@lang("Here you can manage treasuries, invoices and issue bonds.")',
                         attachTo: '[data-tour="financial-management"] right',
                         sectionId: 30
@@ -736,7 +736,7 @@
                     },
                     {
                         id: 'maintenance-operation-managment',
-                        title: '@lang("Maintenance and Operation Management")',
+                        title: '@lang("Maintenance and operation management")',
                         text: '@lang("Here you can add service providers and track maintenance and operation requests.")',
                         attachTo: '[data-tour="maintenance-operation-managment"] right',
                         sectionId: 33
