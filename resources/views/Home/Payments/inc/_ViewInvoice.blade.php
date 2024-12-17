@@ -1,31 +1,37 @@
 <div class="alert alert-primary mb-0 text-center">
     <h4> الفاتورة </h4>
-
-    {{-- {{ Auth::user()->UserBrokerData->UserSystemInvoicePaid ?? '' !== '' ? 'تجديد إشتراك' : 'اشتراك جديد' }} --}}
-
-
+    {{-- ( {{ Auth::user()->UserBrokerData->UserSystemInvoicePaid ?? '' !== '' ? 'تجديد إشتراك' : 'اشتراك جديد' }}) --}}
     <p>(رقم الفاتورة -
-        {{ Auth::user()->UserBrokerData->UserSystemInvoicePending->invoice_ID ?? Auth::user()->UserOfficeData->UserSystemInvoicePending->invoice_ID }}
-    )</p>
-
-    <td>
+        {{ Auth::user()->UserBrokerData->UserSystemInvoicePending->invoice_ID ?? Auth::user()->UserOfficeData->UserSystemInvoicePending->invoice_ID ?? '' }}
+        )</p>
         @php
-        if(auth()->user->UserBrokerData){
+        if(auth()->user()->UserBrokerData){
             $invoice = Auth::user()->UserBrokerData->UserSystemInvoicePending;
 
-        }else{
+        }elseif(Auth::user()->UserOfficeData){
             $invoice = Auth::user()->UserOfficeData->UserSystemInvoicePending;
-
         }
-
         @endphp
-        <a href="{{ route('Office.ShowInvoice', $invoice->id) }}"
-            class="btn btn-secondary add-new btn-primary btn-sm waves-effect waves-light">@lang('view')
-            @lang('Invoice')</a>
-
-    </td>
+        @if($invoice)
+        <td>
+            <a href="{{ route('Office.ShowInvoice', $invoice->id) }}"
+                class="btn btn-secondary add-new btn-primary btn-sm waves-effect waves-light">@lang('view')
+                @lang('Invoice')</a>
+        </td>
+        @endif
 </div>
 {{-- <div class="row text-center">
+    <div class="col-6">
+        <h5>الي</h5>
+        <p>{{ Auth::user()->name }}</p>
+        <p class="phone"> {{ auth()->user()->phone ?? __('phone') }} </p>
+        <p class="location">
+            {{ Auth::user()->UserBrokerData->CityData->name ?? (Auth::user()->UserOfficeData->CityData->name ?? '') }}
+        </p>
+        <p class="id">
+            {{ Auth::user()->UserBrokerData->broker_license ?? (Auth::user()->UserOfficeData->CRN ?? '') }}
+        </p>
+    </div>
     <div class="col-6">
         <h5>من</h5>
         <p>{{ $sitting->title }}</p>
@@ -34,71 +40,66 @@
         <p class="id"> @lang('crn') : {{ $sitting->crn }}</p>
     </div>
 
-    <div class="col-6">
-        <h5>الي</h5>
-        <p>{{ Auth::user()->name }}</p>
-        <p class="phone">
-            {{ Auth::user()->UserBrokerData->mobile ?? (Auth::user()->UserOfficeData->presenter_number ?? auth()->user()->phone) }}
-        </p>
-        <p class="location">
-            {{ Auth::user()->UserBrokerData->CityData->name ?? (Auth::user()->UserOfficeData->CityData->name ?? '') }}
-        </p>
 
-    </div>
+
 
 </div> --}}
 <div class="card">
     <div class="card-body">
-        <table class="table mb-2">
+        <table class="table mb-0">
             <tbody>
                 <tr>
                     <th>@lang('subscription')</th>
-                    <th>
+                    <td>
+
                         {{ Auth::user()->UserOfficeData->UserSubscriptionPending->SubscriptionTypeData->name ?? (Auth::user()->UserBrokerData->UserSubscriptionPending->SubscriptionTypeData->name ?? '') }}
-                    </th>
+                    </td>
                 </tr>
                 <tr>
                     <th>@lang('period')</th>
-                    <th>
+                    <td>
                         @if (isset(Auth::user()->UserOfficeData->UserSystemInvoicePending))
                             {{ Auth::user()->UserOfficeData->UserSystemInvoicePending->period . ' ' . __(Auth::user()->UserOfficeData->UserSystemInvoicePending->period_type) }}
                         @elseif(isset(Auth::user()->UserBrokerData->UserSystemInvoicePending))
                             {{ Auth::user()->UserBrokerData->UserSystemInvoicePending->period . ' ' . __(Auth::user()->UserBrokerData->UserSystemInvoicePending->period_type) }}
                         @endif
-                    </th>
+                    </td>
                 </tr>
 
                 <tr>
                     <th>@lang('Invoice Status')</th>
-                    <th>
+                    <td>
                         @if (isset(Auth::user()->UserOfficeData->UserSystemInvoicePending))
                             {{ __('_' . Auth::user()->UserOfficeData->UserSystemInvoicePending->status) }}
-                        @else
+                        @elseif(isset(Auth::user()->UserOfficeData->UserSystemInvoicePending))
                             {{ __('_' . Auth::user()->UserBrokerData->UserSystemInvoicePending->status) }}
                         @endif
-                    </th>
+                    </td>
                 </tr>
+
 
                 <tr>
                     <th>@lang('total')</th>
-                    <th>
+                    <td>
                         @if (isset(Auth::user()->UserOfficeData->UserSystemInvoicePending))
                             {{ Auth::user()->UserOfficeData->UserSystemInvoicePending->amount }}
                             <sub>@lang('SAR')</sub>
-                        @else
+                        @elseif(isset(Auth::user()->UserBrokerData->UserSystemInvoicePending))
                             {{ Auth::user()->UserBrokerData->UserSystemInvoicePending->amount }}
                             <sub>@lang('SAR')</sub>
                         @endif
 
-                    </th>
+                    </td>
                 </tr>
 
             </tbody>
         </table>
         {{-- <form action="{{ route('Payment.store') }}" method="POST">
             @csrf
-            <button type="submit" class="btn btn-success btn-lg btn-block waves-effect waves-light">
-                اكمل الدفع اون لاين</button>
+            <button type="submit"
+                class="btn btn-success btn-lg btn-block waves-effect waves-light">
+                اكمل الدفع اون لاين
+                </button>
         </form> --}}
 
         <div class="row m-2">
@@ -143,7 +144,5 @@
                     </div>
             </div>
         </div>
-
-
     </div>
 </div>
