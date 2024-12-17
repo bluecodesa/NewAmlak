@@ -715,9 +715,12 @@
                         </div>
 
                     </div>
+                    @if ($subscriber->is_service_provider)
                     <div class="tab-pane fade" id="navs-justified-Services" role="tabpanel">
                         @include('Admin.subscribers._inc._services')
                     </div>
+                    @endif
+
                 </div>
               </div>
 
