@@ -81,7 +81,7 @@
                                                    <input type="radio"
                                                     class="subscription_type form-check-input"
                                                     required
-                                                    data-url="{{ Auth::user()->is_broker ? route('Broker.UpdateSubscription', ['id' => $type->id, 'discounted_price' => $discounted_price ?? $type->price]) : route('Office.UpdateSubscription', ['id' => $type->id, 'discounted_price' => $discounted_price ?? $type->price]) }}"
+                                                    data-url="{{ Auth::user()->is_broker ? route('Broker.UpdateSubscription', ['id' => $type->id, 'discounted_price' => $discounted_price]) : route('Office.UpdateSubscription', ['id' => $type->id, 'discounted_price' => $discounted_price]) }}"
                                                     name="subscription_type"
                                                     value="{{ $type->id }}"
                                                     id="subscription{{ $type->id }}"
