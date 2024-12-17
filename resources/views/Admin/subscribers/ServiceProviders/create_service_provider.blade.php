@@ -75,27 +75,40 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-12 mb-3">
-                            <label for="id_number" class="form-label">@lang('National number') <span class="text-danger">*</span></label>
-                            <input type="text"
-                                   class="form-control"
-                                   id="id_number"
-                                   name="id_number"
-                                   oninput="validateIdNumber(this)">
+                                <label for="id_number" class="form-label">
+                                    @lang('National number') <span class="text-danger">*</span>
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="id_number"
+                                       name="id_number"
+                                       oninput="validateIdNumber(this)"
+                                       onblur="checkIdNumber(this)">
+                                <small id="id_number_error" class="text-danger"></small> <!-- مكان عرض الرسالة -->
+
+
                         </div>
 
                         <script>
                             function validateIdNumber(input) {
-                                // Ensure only digits are allowed
-                                input.value = input.value.replace(/[^0-9]/g, '');
-
-                                // Enforce max length of 10
-                                input.value = input.value.slice(0, 10);
-
-                                // Check if the first digit is 7; if not, clear the input
-                                if (input.value.length > 0 && input.value[0] !== '7') {
-                                    input.value = '';
+                                    // Ensure only digits are allowed while typing
+                                    input.value = input.value.replace(/[^0-9]/g, '').slice(0, 10);
                                 }
-                            }
+
+                                function checkIdNumber(input) {
+                                    const value = input.value;
+                                    const errorElement = document.getElementById('id_number_error');
+
+                                    // تحقق من الشرط
+                                    if (value.length > 0 && value[0] !== '7') {
+                                        errorElement.textContent = 'يجب أن يبدأ الرقم الوطني بالرقم 7.';
+                                    } else if (value.length < 10) {
+                                        errorElement.textContent = 'يجب أن يتكون الرقم الوطني من 10 أرقام.';
+                                    } else {
+                                        errorElement.textContent = ''; // مسح الرسالة إذا كان الرقم صحيح
+                                    }
+                                }
+
                         </script>
 
 

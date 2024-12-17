@@ -92,7 +92,7 @@
                                                     )
                                                         checked
                                                     @endif>
-                                                                                            {{-- <input type="text" name="discounted_price" id="" hidden value="{{ $discounted_price }}"> --}}
+                                            {{-- <input type="text" name="discounted_price" id="" hidden value="{{ $discounted_price }}"> --}}
                                         </div>
                                     </div>
                                 </label>

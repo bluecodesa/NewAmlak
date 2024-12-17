@@ -296,7 +296,7 @@ class HomeController extends Controller
         $data = [
             'broker_id' => $subscription->broker_id,
             'office_id' => $subscription->office_id,
-            'amount' => $SubscriptionType->price,
+            'amount' => $discountedPrice,
             'subscription_name' => $SubscriptionType->name,
             'period' => $SubscriptionType->period,
             'period_type' => $SubscriptionType->period_type,
