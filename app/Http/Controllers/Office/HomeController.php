@@ -278,12 +278,13 @@ class HomeController extends Controller
     {
         return view('Home.Payments.inc._ViewInvoice');
     }
-    function UpdateSubscription($id)
+    function UpdateSubscription($id , Request $request)
     {
         // $SubscriptionType = SubscriptionType::find($id);
         $SubscriptionType = $this->SubscriptionTypeService->getSubscriptionTypeById($id);
 
         $subscription = auth()->user()->UserOfficeData->UserSubscriptionPending;
+        $discountedPrice = $request->query('discounted_price', $SubscriptionType->price);
 
         $subscription->update(['subscription_type_id' => $id, 'total' => $SubscriptionType->price, 'status' => 'pending']);
 
@@ -306,7 +307,7 @@ class HomeController extends Controller
         if (!$Invoice) {
             $this->systemInvoiceRepository->create($data);
         } else {
-            $Invoice->update(['amount' => $SubscriptionType->price, 'subscription_name' => $SubscriptionType->name, 'period' => $SubscriptionType->period, 'period_type' => $SubscriptionType->period_type]);
+            $Invoice->update(['amount' => $discountedPrice, 'subscription_name' => $SubscriptionType->name, 'period' => $SubscriptionType->period, 'period_type' => $SubscriptionType->period_type]);
         }
     }
 

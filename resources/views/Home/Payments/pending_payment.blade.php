@@ -79,16 +79,19 @@
                                                    id="subscription{{ $type->id }}"
                                                    @if ($type->id == optional($subscription)->subscription_type_id) checked @endif> --}}
 
-                                                   <input type="radio" class="subscription_type form-check-input" required
-                                                    data-url="{{ Auth::user()->is_broker ? route('Broker.UpdateSubscription', $type->id) : route('Office.UpdateSubscription', $type->id) }}"
-                                                    name="subscription_type" value="{{ $type->id }}"
-                                                    id="subscription{{ $type->id }}"
-                                                    @if(
-                                                        (Auth::user()->UserBrokerData && Auth::user()->UserBrokerData->UserSubscriptionPending->status === 'pending' && $type->id == optional($subscription)->subscription_type_id) ||
-                                                        (Auth::user()->UserOfficeData && Auth::user()->UserOfficeData->UserSubscriptionPending->status === 'pending' && $type->id == optional($subscription)->subscription_type_id)
-                                                    )
-                                                        checked
-                                                    @endif>
+                                                   <input type="radio"
+       class="subscription_type form-check-input"
+       required
+       data-url="{{ Auth::user()->is_broker ? route('Broker.UpdateSubscription', ['id' => $type->id, 'discounted_price' => $discounted_price]) : route('Office.UpdateSubscription', ['id' => $type->id, 'discounted_price' => $discounted_price]) }}"
+       name="subscription_type"
+       value="{{ $type->id }}"
+       id="subscription{{ $type->id }}"
+       @if(
+           (Auth::user()->UserBrokerData && Auth::user()->UserBrokerData->UserSubscriptionPending->status === 'pending' && $type->id == optional($subscription)->subscription_type_id) ||
+           (Auth::user()->UserOfficeData && Auth::user()->UserOfficeData->UserSubscriptionPending->status === 'pending' && $type->id == optional($subscription)->subscription_type_id)
+       )
+           checked
+       @endif>
                                             {{-- <input type="text" name="discounted_price" id="" hidden value="{{ $discounted_price }}"> --}}
                                         </div>
                                     </div>
@@ -149,4 +152,23 @@
         // Check the button state on page load
         updateButtonState();
     });
+
+    $('.subscription_type').on('change', function() {
+    var url = $(this).data('url'); // الرابط المُعدل مع قيمة discounted_price
+
+    console.log("Request URL:", url); // تأكد من عرض الرابط كاملاً في console
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function(data) {
+            alertify.success(@json(__('Subscription has been updated')));
+        },
+        error: function(xhr) {
+            console.error("Error:", xhr);
+            alertify.error(@json(__('An error occurred while updating the subscription')));
+        }
+    });
+});
+
 </script>
