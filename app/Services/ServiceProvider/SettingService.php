@@ -121,6 +121,7 @@ class SettingService
 
     public function updateProfileSetting(Request $request, $id)
     {
+        // dd($request);
         $user = User::findOrFail($id);
 
         // Define validation rules
@@ -189,8 +190,8 @@ class SettingService
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
             $ext = uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('/ServicePovider/Logos/'), $ext);
-            $serviceProvider->update(['avatar' => '/ServicePovider/Logos/' . $ext]);
+            $file->move(public_path('/ServicePoviders/Logos/'), $ext);
+            $user->update(['avatar' => '/ServicePoviders/Logos/' . $ext]);
         }
 
         // Redirect with success message

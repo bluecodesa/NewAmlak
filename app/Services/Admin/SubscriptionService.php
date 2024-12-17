@@ -460,6 +460,7 @@ class SubscriptionService
 
     public function createServiceProvider(array $data)
     {
+        // dd($data);
             // Validation rules
             $rules = [
                 'name' => 'required|string|max:255',
@@ -499,9 +500,9 @@ class SubscriptionService
                 'name.max' => __('The name may not be greater than :max characters.'),
                 'city_id.required' => __('The city field is required.'),
                 'city_id.exists' => __('The selected city is invalid.'),
-                'id_number.required' => __('The ID number is required.'),
-                'id_number.string' => __('The ID number must be a string.'),
-                'id_number.max' => __('The ID number may not be greater than :max characters.'),
+                'id_number.required' => __('The National number is required.'),
+                'id_number.string' => __('The National number must be a string.'),
+                'id_number.max' => __('The National number may not be greater than :max characters.'),
                 'email.required' => __('The email field is required.'),
                 'email.email' => __('The email must be a valid email address.'),
                 'email.unique' => __('The email has already been taken.'),
@@ -535,6 +536,15 @@ class SubscriptionService
                     $tag = $prefixes[$tag_index];
                     $new_customer_id = $tag . str_pad($number % 1000, 4, '0', STR_PAD_LEFT);
                 }
+
+                if ($data['avatar']) {
+                    $file = $data['avatar'];
+                    $ext = $file->getClientOriginalExtension();
+                    $fileName = uniqid() . '.' . $ext;
+                    $file->move(public_path('ServiceProviders/Logos'), $fileName);
+                    $data['avatar'] = '/ServiceProviders/Logos/' . $fileName;
+                }
+
                 $user = User::create([
                     'is_service_provider' => 1,
                     'name' => $data['name'],
@@ -545,6 +555,7 @@ class SubscriptionService
                     'id_number' => $data['id_number'],
                     'customer_id' => $new_customer_id,
                     'password' => Hash::make($password),
+                    'avatar' => $data['avatar'] ?? null,
                 ]);
 
                 $serviceProvider = ServiceProvider::create([

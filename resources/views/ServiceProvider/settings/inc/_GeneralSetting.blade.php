@@ -114,7 +114,7 @@
                 <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
                     <span class="d-none d-sm-block">اختر صورة الشركة</span>
                     <i class="ti ti-upload d-block d-sm-none"></i>
-                    <input type="file" id="upload" class="account-file-input" name="company_logo" hidden
+                    <input type="file" id="upload" class="account-file-input" name="avatar" hidden
                         accept="image/png, image/jpeg" />
                 </label>
                 <button type="button" id="account-image-reset"
