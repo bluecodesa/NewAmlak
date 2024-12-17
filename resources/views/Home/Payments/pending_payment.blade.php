@@ -40,24 +40,24 @@
                                                 <div class="d-flex justify-content-center">
                                                     <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
                                                     @if ($type->discount_type == 'incentive')
-                                                    @php
+                                                        @php
 
-                                                        $publish_discount = 0;
-                                                        $views_discount = 0;
+                                                            $publish_discount = 0;
+                                                            $views_discount = 0;
 
-                                                        if ($type->ads_count != 0) {
-                                                            $publish_discount = ($numOfAds / $type->ads_count) * $type->ads_discount; // خصم النشر
-                                                        }
+                                                            if ($type->ads_count != 0) {
+                                                                $publish_discount = ($numOfAds / $type->ads_count) * $type->ads_discount; // خصم النشر
+                                                            }
 
-                                                        if ($type->views_count != 0) {
-                                                            $views_discount = ($numOfViews / $type->views_count) * $type->views_discount; // خصم المشاهدات
-                                                        }
+                                                            if ($type->views_count != 0) {
+                                                                $views_discount = ($numOfViews / $type->views_count) * $type->views_discount; // خصم المشاهدات
+                                                            }
 
-                                                        $total_discount = $publish_discount + $views_discount; // إجمالي الخصم
-                                                        $discounted_price = $type->price - ($type->price * $total_discount); // السعر بعد الخصم
-                                                        $discounted_price = $discounted_price < 0 ? 0 : $discounted_price; // إذا كان بالسالب يتم تعيين 0
+                                                            $total_discount = $publish_discount + $views_discount; // إجمالي الخصم
+                                                            $discounted_price = $type->price - ($type->price * $total_discount); // السعر بعد الخصم
+                                                            $discounted_price = $discounted_price < 0 ? 0 : $discounted_price; // إذا كان بالسالب يتم تعيين 0
 
-                                                    @endphp
+                                                        @endphp
                                                     <h1 class="display-4 mb-0 text-primary">{{ $discounted_price }}</h1>
                                                     @else
                                                     <h1 class="display-4 mb-0 text-primary">{{ $type->price - $type->price * $type->upgrade_rate }}</h1>
@@ -82,7 +82,7 @@
                                                    <input type="radio"
                                                     class="subscription_type form-check-input"
                                                     required
-                                                    data-url="{{ Auth::user()->is_broker ? route('Broker.UpdateSubscription', ['id' => $type->id, 'discounted_price' => $discounted_price]) : route('Office.UpdateSubscription', ['id' => $type->id, 'discounted_price' => $discounted_price]) }}"
+                                                    data-url="{{ Auth::user()->is_broker ? route('Broker.UpdateSubscription', ['id' => $type->id, 'discounted_price' => $discounted_price ?? $type->price]) : route('Office.UpdateSubscription', ['id' => $type->id, 'discounted_price' => $discounted_price ?? $type->price]) }}"
                                                     name="subscription_type"
                                                     value="{{ $type->id }}"
                                                     id="subscription{{ $type->id }}"
