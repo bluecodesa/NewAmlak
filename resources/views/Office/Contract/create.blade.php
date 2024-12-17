@@ -110,7 +110,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                {{-- <input type="hidden" name="owner_id" id="hiddenOwnerId" /> --}}
+                                <input type="hidden" name="owner_id" id="hiddenOwnerId" />
 
                                 <div class="col-md-4 mb-3">
                                     <label for="price" class="form-label">@lang('yearly rental price') <span
