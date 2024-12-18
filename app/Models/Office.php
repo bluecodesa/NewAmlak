@@ -117,4 +117,10 @@ class Office extends Model
         return $this->hasOne(Gallery::class, 'office_id');
     }
 
+    public function serviceProviders()
+    {
+        return $this->belongsToMany(ServiceProvider::class, 'broker_office_service_provider', 'office_id', 'service_provider_id')
+                    ->withTimestamps();
+    }
+
 }

@@ -21,10 +21,12 @@ use App\Interfaces\Admin\SettingRepositoryInterface;
 use App\Interfaces\Admin\SubscriptionRepositoryInterface;
 use App\Interfaces\Admin\SubscriptionTypeRepositoryInterface;
 use App\Interfaces\Admin\SupportRepositoryInterface;
+use App\Interfaces\Office\ServiceProviderRepositoryInterface;
 use App\Interfaces\Office\WalletRepositoryInterface;
 use App\Repositories\Admin\SupportRepository;
 use App\Repositories\Broker\TicketRepository;
 use App\Repositories\Office\RenterRepository;
+use App\Repositories\Office\ServiceProviderRepository;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -336,6 +338,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ProviderServiceRepositoryInterface::class,
             ProviderServiceRepository::class
+        );
+        $this->app->bind(
+            ServiceProviderRepositoryInterface::class,
+            ServiceProviderRepository::class
         );
 
         $this->app->bind(

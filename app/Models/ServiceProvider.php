@@ -20,4 +20,16 @@ class ServiceProvider extends Model
     {
         return $this->belongsTo(City::class, 'city_id');
     }
+
+    public function brokersData()
+    {
+        return $this->belongsToMany(Broker::class, 'broker_office_service_provider', 'service_provider_id', 'broker_id')
+                    ->withTimestamps();
+    }
+
+    public function officesData()
+    {
+        return $this->belongsToMany(Office::class, 'broker_office_service_provider', 'service_provider_id', 'office_id')
+                    ->withTimestamps();
+    }
 }

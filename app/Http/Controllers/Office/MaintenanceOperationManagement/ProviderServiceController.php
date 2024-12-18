@@ -31,13 +31,13 @@ class ProviderServiceController extends Controller
     {
         $serviceProviderId = auth()->user()->UserServiceProviderData->id;
         $providerServices = $this->ProviderServiceService->getAllByServiceProviderId($serviceProviderId);
-        return view('ServiceProvider.MaintenanceOperationManagement.index', get_defined_vars());
+        return view('Office.MaintenanceOperationManagement.index', get_defined_vars());
     }
 
     public function create()
     {
         $providerServiceTypes = $this->ProviderServiceServiceType->getAll();
-        return view('ServiceProvider.MaintenanceOperationManagement.create', get_defined_vars());
+        return view('Office.MaintenanceOperationManagement.create', get_defined_vars());
     }
 
     public function store(Request $request)
@@ -51,7 +51,7 @@ class ProviderServiceController extends Controller
         $providerServiceTypes = $this->ProviderServiceServiceType->getAll();
 
         $providerService = $this->ProviderServiceService->getById($id);
-        return view('ServiceProvider.MaintenanceOperationManagement.edit', get_defined_vars());
+        return view('Office.MaintenanceOperationManagement.edit', get_defined_vars());
     }
 
     public function update(Request $request, $id)

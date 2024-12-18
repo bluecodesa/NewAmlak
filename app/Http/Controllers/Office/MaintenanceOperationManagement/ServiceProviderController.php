@@ -6,32 +6,37 @@ use App\Http\Controllers\Controller;
 use App\Services\Admin\ProviderServiceService;
 use App\Services\CityService;
 use App\Services\Office\AdvisorService;
+use App\Services\Office\ServiceProviderService;
 use App\Services\RegionService;
 use App\Services\ServiceProvider\ProviderServiceService as ServiceProviderProviderServiceService;
 use Illuminate\Http\Request;
+use App\Models\Office;
+
 
 class ServiceProviderController extends Controller
 {
     protected $ProviderServiceServiceType;
-    protected $ProviderServiceService;
+    protected $ServiceProviderService;
 
     protected $regionService;
     protected $cityService;
 
     public function __construct(ProviderServiceService $ProviderServiceServiceType
-    ,ServiceProviderProviderServiceService $ProviderServiceService, RegionService $regionService, CityService $cityService)
+    ,ServiceProviderService $ServiceProviderService, RegionService $regionService, CityService $cityService)
     {
         $this->ProviderServiceServiceType = $ProviderServiceServiceType;
-        $this->ProviderServiceService = $ProviderServiceService;
+        $this->ServiceProviderService = $ServiceProviderService;
         $this->regionService = $regionService;
         $this->cityService = $cityService;
     }
 
     public function index()
     {
-        $serviceProviderId = auth()->user()->UserServiceProviderData->id;
-        $providerServices = $this->ProviderServiceService->getAllByServiceProviderId($serviceProviderId);
-        return view('ServiceProvider.MaintenanceOperationManagement.index', get_defined_vars());
+        // $serviceProviders = $this->ServiceProviderService->getAll();
+        $officeId =auth()->user()->UserOfficeData->id;
+        $office = Office::find($officeId);
+        $serviceProviders = $office->serviceProviders;
+        return view('Office.MaintenanceOperationManagement.ServiceProvider.index', get_defined_vars());
     }
 
     public function create()

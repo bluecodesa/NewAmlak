@@ -10,6 +10,7 @@ use App\Http\Controllers\Home\UnitInterestController;
 use App\Http\Controllers\Office\FinancialManagment\WalletController;
 use App\Http\Controllers\Office\Gallary\GallaryController;
 use App\Http\Controllers\Office\HomeController;
+use App\Http\Controllers\Office\MaintenanceOperationManagement\ServiceProviderController;
 use App\Http\Controllers\Office\ProjectManagement\Contract\ContractController;
 use App\Http\Controllers\Office\ProjectManagement\ProjectController;
 use App\Http\Controllers\Office\ProjectManagement\PropertyController;
@@ -56,6 +57,7 @@ Route::group(
        route::resource('RealEstateRequest', RealEstateRequestController::class)->middleware('CheckSubscription');
        Route::post('/update-interest-type/{requestId}', [RealEstateRequestController::class, 'updateInterestType'])->name('updateInterestType');
        Route::post('/Interest/status/{id}', [UnitInterestController::class, 'update'])->name('Interest.status.update')->middleware('CheckSubscription');
+       Route::resource('ServiceProvider', ServiceProviderController::class)->middleware('CheckSubscription');
 
 
        //owner

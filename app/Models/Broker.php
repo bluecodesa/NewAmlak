@@ -115,4 +115,10 @@ class Broker extends Model
         return $this->hasMany(OwnerOfficeBroker::class, 'broker_id');
     }
 
+    public function serviceProviders()
+    {
+        return $this->belongsToMany(ServiceProvider::class, 'broker_office_service_provider', 'broker_id', 'service_provider_id')
+                    ->withTimestamps();
+    }
+
 }
