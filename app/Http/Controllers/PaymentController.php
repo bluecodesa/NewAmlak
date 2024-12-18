@@ -92,16 +92,16 @@ class PaymentController extends Controller
             // $this->updateSubscriptionHistory($subscription);
         }
 
-        $invoice = $officeData ? $brokerData->UserSubscriptionPending : $brokerData->UserSystemInvoicePending;
-        // if ($officeData && $officeData->UserSubscriptionPending) {
-        //     $invoice = $officeData->UserSubscriptionPending;
-        // } elseif ($brokerData && $brokerData->UserSubscriptionPending) {
-        //     $invoice = $brokerData->UserSubscriptionPending;
-        // } elseif ($officeData && $officeData->UserSystemInvoicePending) {
-        //     $invoice = $officeData->UserSystemInvoicePending;
-        // } elseif ($brokerData && $brokerData->UserSystemInvoicePending) {
-        //     $invoice = $brokerData->UserSystemInvoicePending;
-        // }
+        // $invoice = $officeData ? $brokerData->UserSubscriptionPending : $brokerData->UserSystemInvoicePending;
+        if ($officeData && $officeData->UserSubscriptionPending) {
+            $invoice = $officeData->UserSubscriptionPending;
+        } elseif ($brokerData && $brokerData->UserSubscriptionPending) {
+            $invoice = $brokerData->UserSubscriptionPending;
+        } elseif ($officeData && $officeData->UserSystemInvoicePending) {
+            $invoice = $officeData->UserSystemInvoicePending;
+        } elseif ($brokerData && $brokerData->UserSystemInvoicePending) {
+            $invoice = $brokerData->UserSystemInvoicePending;
+        }
         if ($invoice) {
             $invoice->update(['status' => 'active']);
         }
