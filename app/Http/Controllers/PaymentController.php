@@ -105,7 +105,7 @@ class PaymentController extends Controller
         if ($invoice) {
             $invoice->update(['status' => 'active']);
         }
-$user =auth()->user();
+        $user =auth()->user();
 
         $redirectRoute = $officeData ? 'Office.home' : 'Broker.home';
         $redirectMessage = $officeData ? 'The subscription has been activated successfully' : 'The subscription has been activated successfully';

@@ -348,12 +348,12 @@ class GalleryService
         switch ($sortOrder) {
             case 'highest_price':
                 $allItems = $allItems->sortByDesc(function ($item) {
-                    return $item->getRentPriceByType() ; // الإيجار أو السعر
+                    return method_exists($item, 'getRentPriceByType') ? $item->getRentPriceByType() : null;
                 });
                 break;
             case 'lowest_price':
                 $allItems = $allItems->sortBy(function ($item) {
-                    return $item->getRentPriceByType(); // الإيجار أو السعر
+                    return method_exists($item, 'getRentPriceByType') ? $item->getRentPriceByType() : PHP_INT_MAX;
                 });
                 break;
             case 'largest_space':
