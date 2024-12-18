@@ -3,7 +3,7 @@
 @section('content')
     <section class="section-py first-section-pt">
         <div class="container">
-            <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
+            <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">@lang('Home')</a>/
                 </span>المشاريع</h4>
 
             <div class="row rounded-5">
@@ -153,7 +153,7 @@
                                                     <a href="tel:+{{ $project->BrokerData->key_phone }} {{ $project->BrokerData->mobile }}"
                                                         target="_blank"
                                                         class="btn btn-primary d-flex align-items-center me-3"><i
-                                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                                 @endif
                                                 @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                                         Auth::user()->hasPermission('Send-message-to-broker-admin'))
@@ -168,7 +168,7 @@
                                                 <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                                     style="color: white;" data-bs-toggle="modal"
                                                     data-bs-target="#modalToggle"><i
-                                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                                 <a target="_blank" class="btn btn-label-secondary btn-icon"
                                                     data-bs-toggle="modal" data-bs-target="#modalToggle"><i
                                                         class="ti ti-message ti-sm"></i></a>

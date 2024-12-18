@@ -7,7 +7,7 @@
           <input type="text" name="full_phone" hidden id="full_phone" value="966">
           <div class="modal-content">
              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">تسجيل اهتمام</h5>
+                <h5 class="modal-title" id="exampleModalLabel1">@lang('inter')</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
              </div>
              <div class="modal-body">

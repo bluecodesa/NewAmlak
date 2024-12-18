@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-4">
                     <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">@lang('Home')</a>/
-                        </span><span class="text-muted fw-light"><a href="{{ route('gallery.showAllGalleries') }}">المعرض</a>/
+                        </span><span class="text-muted fw-light"><a href="{{ route('gallery.showAllGalleries') }}">@lang('Gallery')</a>/
                         </span>
                         {{ $user->name }}</h4>
 

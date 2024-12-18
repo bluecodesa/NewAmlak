@@ -8,11 +8,11 @@
         <div class="container">
             <h4 class="py-3 mb-4">
                 <span class="text-muted fw-light">
-                    <a href="{{ route('welcome') }}">الرئيسية</a>/
+                    <a href="{{ route('welcome') }}">@lang('Home')</a>/
                     <span class="text-muted fw-light">
-                        <a href="{{ route('gallery.showAllGalleries') }}">المعرض</a>
+                        <a href="{{ route('gallery.showAllGalleries') }}">@lang('Gallery')</a>
                     </span>/
-                    مشروع : {{ $project->name ?? '' }}
+                    @lang('Project') : {{ $project->name ?? '' }}
                 </span>
             </h4>
             <input hidden type="text" name="project_idd" value="{{ $project->id }}" />
@@ -441,7 +441,7 @@
                                     <a href="tel:+{{ $project->BrokerData->UserData->key_phone ?? $project->OfficeData->UserData->key_phone }} {{ $project->BrokerData->UserData->mobile ?? $project->OfficeData->UserData->phone }}"
                                         target="_blank"
                                         class="btn btn-primary d-flex align-items-center me-3"><i
-                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                 @endif
                                 @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                         Auth::user()->hasPermission('Send-message-to-broker-admin'))
@@ -455,7 +455,7 @@
                                     <div class="d-flex align-items-center justify-content-center">
                                      <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                             style="color: white;" href="{{ route('login') }}"><i
-                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                         <a target="_blank" class="btn btn-label-secondary btn-icon" href="{{ route('login') }}"><i class="ti ti-message ti-sm"></i></a>
                                     </div>
                         @endguest
@@ -510,7 +510,7 @@
                                                 </li>
                                                 <li
                                                 class="list-group-item d-flex justify-content-between align-items-center">
-                                                @lang(' صلاحية الاعلان')
+                                                @lang('Ad validity')
                                                 <span class="badge bg-primary">
                                                     {{ __($project->ad_license_status) }}
                                                 </span>
@@ -521,7 +521,7 @@
                                                      href="" data-bs-toggle="modal"
                                                      data-bs-target="#modalReport" >
                                                     <i class="ti ti-report ti-sm"></i>
-                                                        @lang('الابلاغ عن الاعلان')
+                                                        @lang('Report Ad')
                                                     </a>
                                                   </li>
                                                 @endauth
@@ -530,7 +530,7 @@
                                                     <a class=" d-flex align-items-center me-3"
                                                     href="{{ route('login') }}">
                                                    <i class="ti ti-report ti-sm"></i>
-                                                       @lang('الابلاغ عن الاعلان')
+                                                       @lang('Report Ad')
                                                    </a>
                                                   </li>
                                                 @endguest
@@ -648,7 +648,7 @@
                                     <a class=" d-flex align-items-center me-3"
                                     href="{{ route('login') }}">
                                     <i class="ti ti-report ti-sm"></i>
-                                        @lang('الابلاغ عن الاعلان')
+                                        @lang('Report Ad')
                                     </a> --}}
 
                                 @endguest
@@ -731,7 +731,7 @@
                                     href="" data-bs-toggle="modal"
                                     data-bs-target="#modalReport" >
                                     <i class="ti ti-report ti-sm"></i>
-                                        @lang('الابلاغ عن الاعلان')
+                                        @lang('Report Ad')
                                     </a> --}}
                                 @endauth
 
@@ -838,7 +838,7 @@
                                     @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
                                         <a href="tel:+{{ $key_phone }} {{ $phone }}"
                                             target="_blank" class="btn btn-primary d-flex align-items-center me-3"><i
-                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                     @endif
                                     @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                             Auth::user()->hasPermission('Send-message-to-broker-admin'))
@@ -852,12 +852,12 @@
                                 <div class="d-flex align-items-center justify-content-center">
                                     {{-- <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                     style="color: white;" data-bs-toggle="modal" data-bs-target="#modalToggle"><i
-                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                 <a target="_blank" class="btn btn-label-secondary btn-icon" data-bs-toggle="modal"
                                     data-bs-target="#modalToggle"><i class="ti ti-message ti-sm"></i></a> --}}
                                     <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                         style="color: white;" href="{{ route('login') }}"><i
-                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                     <a target="_blank" class="btn btn-label-secondary btn-icon"
                                         href="{{ route('login') }}"><i class="ti ti-message ti-sm"></i></a>
                                 </div>
@@ -930,7 +930,7 @@
                                     <a class=" d-flex align-items-center me-3"
                                     href="{{ route('login') }}">
                                     <i class="ti ti-report ti-sm"></i>
-                                        @lang('الابلاغ عن الاعلان')
+                                        @lang('Report Ad')
                                     </a> --}}
 
                                 @endguest
@@ -1013,7 +1013,7 @@
                                     href="" data-bs-toggle="modal"
                                     data-bs-target="#modalReport" >
                                     <i class="ti ti-report ti-sm"></i>
-                                        @lang('الابلاغ عن الاعلان')
+                                        @lang('Report Ad')
                                     </a> --}}
                                 @endauth
 
@@ -1120,7 +1120,7 @@
                                     @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
                                         <a href="tel:+{{ $key_phone }} {{ $phone }}"
                                             target="_blank" class="btn btn-primary d-flex align-items-center me-3"><i
-                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                     @endif
                                     @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                             Auth::user()->hasPermission('Send-message-to-broker-admin'))
@@ -1134,12 +1134,12 @@
                                 <div class="d-flex align-items-center justify-content-center">
                                     {{-- <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                     style="color: white;" data-bs-toggle="modal" data-bs-target="#modalToggle"><i
-                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                 <a target="_blank" class="btn btn-label-secondary btn-icon" data-bs-toggle="modal"
                                     data-bs-target="#modalToggle"><i class="ti ti-message ti-sm"></i></a> --}}
                                     <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                         style="color: white;" href="{{ route('login') }}"><i
-                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                     <a target="_blank" class="btn btn-label-secondary btn-icon"
                                         href="{{ route('login') }}"><i class="ti ti-message ti-sm"></i></a>
                                 </div>
@@ -1222,7 +1222,7 @@
                                                             <a class=" d-flex align-items-center me-3"
                                                             href="{{ route('login') }}">
                                                             <i class="ti ti-report ti-sm"></i>
-                                                                @lang('الابلاغ عن الاعلان')
+                                                                @lang('Report Ad')
                                                             </a> --}}
 
                                                         @endguest
@@ -1305,7 +1305,7 @@
                                                             href="" data-bs-toggle="modal"
                                                             data-bs-target="#modalReport" >
                                                             <i class="ti ti-report ti-sm"></i>
-                                                                @lang('الابلاغ عن الاعلان')
+                                                                @lang('Report Ad')
                                                             </a> --}}
                                                         @endauth
 
@@ -1412,7 +1412,7 @@
                                                             @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
                                                                 <a href="tel:+{{ $key_phone }} {{ $phone }}"
                                                                     target="_blank" class="btn btn-primary d-flex align-items-center me-3"><i
-                                                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                                             @endif
                                                             @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                                                     Auth::user()->hasPermission('Send-message-to-broker-admin'))
@@ -1426,12 +1426,12 @@
                                                         <div class="d-flex align-items-center justify-content-center">
                                                             {{-- <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                                             style="color: white;" data-bs-toggle="modal" data-bs-target="#modalToggle"><i
-                                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                                         <a target="_blank" class="btn btn-label-secondary btn-icon" data-bs-toggle="modal"
                                                             data-bs-target="#modalToggle"><i class="ti ti-message ti-sm"></i></a> --}}
                                                             <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                                                 style="color: white;" href="{{ route('login') }}"><i
-                                                                    class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                                    class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                                             <a target="_blank" class="btn btn-label-secondary btn-icon"
                                                                 href="{{ route('login') }}"><i class="ti ti-message ti-sm"></i></a>
                                                         </div>

@@ -57,7 +57,7 @@
                         <a class=" d-flex align-items-center me-3"
                         href="{{ route('login') }}">
                         <i class="ti ti-report ti-sm"></i>
-                            @lang('الابلاغ عن الاعلان')
+                            @lang('Report Ad')
                         </a> --}}
 
                     @endguest
@@ -123,7 +123,7 @@
                         href="" data-bs-toggle="modal"
                         data-bs-target="#modalReport" >
                         <i class="ti ti-report ti-sm"></i>
-                            @lang('الابلاغ عن الاعلان')
+                            @lang('Report Ad')
                         </a> --}}
                     @endauth
 

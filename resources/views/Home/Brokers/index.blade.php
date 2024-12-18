@@ -16,7 +16,7 @@
     </style>
     <section class="section-py bg-body first-section-pt">
         <div class="container mt-2">
-            <h4 class="py-3 mb-1"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
+            <h4 class="py-3 mb-1"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">@lang('Home')</a>/
                 </span> @lang('Real Estate Brokers') </h4>
                 @if($advertisings->isNotEmpty())
 

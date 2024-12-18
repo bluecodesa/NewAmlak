@@ -3,7 +3,7 @@
 @section('content')
     <section class="section-py first-section-pt">
         <div class="container">
-            <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
+            <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">@lang('Home')</a>/
                 </span>@lang('privacy policy')</h4>
 
             <!--/ Header -->

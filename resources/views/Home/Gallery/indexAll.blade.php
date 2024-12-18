@@ -15,7 +15,7 @@
     <section class="section-py first-section-pt">
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="py-3 mb-1"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">@lang('Home')</a>/
-                </span>المعرض</h4>
+                </span>@lang('Gallery')</h4>
 
             @if ($advertisings->isNotEmpty())
 
@@ -197,15 +197,15 @@
                                     </select>
                                 </div>
                                 <div class="col-6 col-md-3 mb-3">
-                                    <span>السعر</span>
+                                    <span>@lang('price')</span>
                                     <div class="row m-0 p-0 gap-3">
                                         <div class="col-5 p-0">
                                             <input class="form-control" name="price_from" id="price_from"
-                                                placeholder="من" value="{{ request()->input('price_from', null) }}"
+                                                placeholder="@lang('From')" value="{{ request()->input('price_from', null) }}"
                                                 onchange="reloadUnits()" />
                                         </div>
                                         <div class="col-5 p-0">
-                                            <input class="form-control" name="price_to" id="price_to" placeholder="الي"
+                                            <input class="form-control" name="price_to" id="price_to" placeholder="@lang('To')"
                                                 value="{{ request()->input('price_to', null) }}"
                                                 onchange="reloadUnits()" />
                                         </div>

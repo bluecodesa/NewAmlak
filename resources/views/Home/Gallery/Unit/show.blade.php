@@ -6,9 +6,9 @@
     <!-- Content wrapper -->
     <section class="section-py first-section-pt">
         <div class="container">
-            <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
-                    <span class="text-muted fw-light"> <a href="{{ route('gallery.showAllGalleries') }}">المعرض</a>/</span>
-                    وحدة : {{ $Unit->ad_name ?? ($Unit->number_unit ?? '') }}</h4>
+            <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">@lang('Home')</a>/
+                    <span class="text-muted fw-light"> <a href="{{ route('gallery.showAllGalleries') }}">@lang('Gallery')</a>/</span>
+                    @lang('Unit') : {{ $Unit->ad_name ?? ($Unit->number_unit ?? '') }}</h4>
             <input hidden type="text" name="unit_idd" value="{{ $Unit->id }}" />
             <!-- Header -->
 
@@ -65,7 +65,7 @@
                             <div class="col-5 btn-group mt-3">
                                 <button type="button" class="btn btn-outline-primary">
                                     <span>
-                                        <span class="d-none d-sm-inline-block">@lang(' عدد المشاهدات اخر 7 ايام')</span>
+                                        <span class="d-none d-sm-inline-block">@lang('Number of views last 7 days')</span>
                                         <i class="ti ti-eye me-0 me-sm-1 ti-xs"> </i>
                                         {{ $unitVisitorsCount ?? 0 }}
                                     </span>
@@ -196,7 +196,7 @@
                     <!--/ Activity Timeline -->
                     <div class="card card-action mb-4">
                         <div class="card-header align-items-center">
-                            <h5 class="card-action-title mb-0">تفاصيل الوحدة</h5>
+                            <h5 class="card-action-title mb-0">@lang('Unit Details')</h5>
 
                         </div>
                         @if($Unit->note)
@@ -297,7 +297,7 @@
                     <!-- About User -->
                     <div class="card mb-4">
                         <div class="card-body">
-                            <small class="card-text text-uppercase">@lang('عن المسوق العقاري')</small>
+                            <small class="card-text text-uppercase">@lang('About Real Estate Marketer')</small>
                             <ul class="list-unstyled mb-4 mt-3">
                                 <li class="d-flex align-items-center mb-3">
                                     <i class="ti ti-check text-heading"></i><span class="fw-medium mx-2 text-heading">
@@ -350,7 +350,7 @@
                                     <a href="tel:+{{ $Unit->BrokerData->key_phone ?? $Unit->OfficeData->key_phone }} {{ $Unit->BrokerData->mobile ?? $Unit->OfficeData->phone }}"
                                         target="_blank"
                                         class="btn btn-primary d-flex align-items-center me-3"><i
-                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                 @endif
                                 @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                         Auth::user()->hasPermission('Send-message-to-broker-admin'))
@@ -364,7 +364,7 @@
                                     <div class="d-flex align-items-center justify-content-center">
                                      <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                             style="color: white;" href="{{ route('login') }}"><i
-                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                         <a target="_blank" class="btn btn-label-secondary btn-icon" href="{{ route('login') }}"><i class="ti ti-message ti-sm"></i></a>
                                     </div>
                         @endguest
@@ -374,7 +374,7 @@
                     <!-- Profile Overview -->
                     <div class="card mb-4">
                         <div class="card-body">
-                            <small class="card-text text-uppercase">@lang('عن الوحدة')</small>
+                            <small class="card-text text-uppercase">@lang('About Unit')</small>
                             <ul class="list-unstyled mb-4 mt-3">
                                 <li class="d-flex align-items-center mb-3">
                                     <small class="card-text text-uppercase">
@@ -461,7 +461,7 @@
                                     @endauth
                                     @guest
                                         <a href="{{ route('login') }}" target="_blank" type="submit" class="btn btn-primary">
-                                            تسجيل اهتمام
+                                            @lang('Register interest')
                                         </a>
 
                                     @endguest
@@ -479,7 +479,7 @@
                                                     value="966">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel1">تسجيل اهتمام</h5>
+                                                        <h5 class="modal-title" id="exampleModalLabel1">@lang('Register interest')</h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
@@ -574,7 +574,7 @@
                                                 </li>
                                                 <li
                                                 class="list-group-item d-flex justify-content-between align-items-center">
-                                                @lang(' صلاحية الاعلان')
+                                                @lang('Ad validity')
                                                 <span class="badge bg-primary">
                                                     {{ __($Unit->ad_license_status) }}
                                                 </span>
@@ -585,7 +585,7 @@
                                                      href="" data-bs-toggle="modal"
                                                      data-bs-target="#modalReport" >
                                                     <i class="ti ti-report ti-sm"></i>
-                                                        @lang('الابلاغ عن الاعلان')
+                                                        @lang('Report Ad')
                                                     </a>
                                                   </li>
                                                 @endauth
@@ -594,7 +594,7 @@
                                                     <a class=" d-flex align-items-center me-3"
                                                     href="{{ route('login') }}">
                                                    <i class="ti ti-report ti-sm"></i>
-                                                       @lang('الابلاغ عن الاعلان')
+                                                       @lang('Report Ad')
                                                    </a>
                                                   </li>
                                                 @endguest
@@ -625,7 +625,7 @@
         <div class="container">
             <div class="row g-4">
                 @if ($moreUnits->isNotEmpty())
-                <h4>وحدات مشابهة</h4>
+                <h4>@lang('Similar units')</h4>
 
                     @foreach ($moreUnits as $unit)
                     @php
@@ -700,7 +700,7 @@
                                         <a class=" d-flex align-items-center me-3"
                                         href="{{ route('login') }}">
                                         <i class="ti ti-report ti-sm"></i>
-                                            @lang('الابلاغ عن الاعلان')
+                                            @lang('Report Ad')
                                         </a> --}}
 
                                     @endguest
@@ -782,7 +782,7 @@
                                         href="" data-bs-toggle="modal"
                                         data-bs-target="#modalReport" >
                                         <i class="ti ti-report ti-sm"></i>
-                                            @lang('الابلاغ عن الاعلان')
+                                            @lang('Report Ad')
                                         </a> --}}
                                     @endauth
 
@@ -906,7 +906,7 @@
                                         @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
                                             <a href="tel:+{{ $key_phone }} {{ $phone }}"
                                                 target="_blank" class="btn btn-primary d-flex align-items-center me-3"><i
-                                                    class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                    class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                         @endif
                                         @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                                 Auth::user()->hasPermission('Send-message-to-broker-admin'))
@@ -920,12 +920,12 @@
                                     <div class="d-flex align-items-center justify-content-center">
                                         {{-- <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                         style="color: white;" data-bs-toggle="modal" data-bs-target="#modalToggle"><i
-                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                     <a target="_blank" class="btn btn-label-secondary btn-icon" data-bs-toggle="modal"
                                         data-bs-target="#modalToggle"><i class="ti ti-message ti-sm"></i></a> --}}
                                         <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                             style="color: white;" href="{{ route('login') }}"><i
-                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                         <a target="_blank" class="btn btn-label-secondary btn-icon"
                                             href="{{ route('login') }}"><i class="ti ti-message ti-sm"></i></a>
                                     </div>
@@ -1023,7 +1023,7 @@
                                             <a class=" d-flex align-items-center me-3"
                                             href="{{ route('login') }}">
                                             <i class="ti ti-report ti-sm"></i>
-                                                @lang('الابلاغ عن الاعلان')
+                                                @lang('Report Ad')
                                             </a> --}}
 
                                         @endguest
@@ -1105,7 +1105,7 @@
                                             href="" data-bs-toggle="modal"
                                             data-bs-target="#modalReport" >
                                             <i class="ti ti-report ti-sm"></i>
-                                                @lang('الابلاغ عن الاعلان')
+                                                @lang('Report Ad')
                                             </a> --}}
                                         @endauth
 
@@ -1233,7 +1233,7 @@
                                             @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
                                                 <a href="tel:+{{ $key_phone }} {{ $phone }}"
                                                     target="_blank" class="btn btn-primary d-flex align-items-center me-3"><i
-                                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                             @endif
                                             @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                                     Auth::user()->hasPermission('Send-message-to-broker-admin'))
@@ -1247,12 +1247,12 @@
                                         <div class="d-flex align-items-center justify-content-center">
                                             {{-- <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                             style="color: white;" data-bs-toggle="modal" data-bs-target="#modalToggle"><i
-                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                         <a target="_blank" class="btn btn-label-secondary btn-icon" data-bs-toggle="modal"
                                             data-bs-target="#modalToggle"><i class="ti ti-message ti-sm"></i></a> --}}
                                             <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                                 style="color: white;" href="{{ route('login') }}"><i
-                                                    class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                    class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                             <a target="_blank" class="btn btn-label-secondary btn-icon"
                                                 href="{{ route('login') }}"><i class="ti ti-message ti-sm"></i></a>
                                         </div>
@@ -1363,7 +1363,7 @@
                                                             <a class=" d-flex align-items-center me-3"
                                                             href="{{ route('login') }}">
                                                             <i class="ti ti-report ti-sm"></i>
-                                                                @lang('الابلاغ عن الاعلان')
+                                                                @lang('Report Ad')
                                                             </a> --}}
 
                                                         @endguest
@@ -1445,7 +1445,7 @@
                                                             href="" data-bs-toggle="modal"
                                                             data-bs-target="#modalReport" >
                                                             <i class="ti ti-report ti-sm"></i>
-                                                                @lang('الابلاغ عن الاعلان')
+                                                                @lang('Report Ad')
                                                             </a> --}}
                                                         @endauth
 
@@ -1565,7 +1565,7 @@
                                                             @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
                                                                 <a href="tel:+{{ $key_phone }} {{ $phone }}"
                                                                     target="_blank" class="btn btn-primary d-flex align-items-center me-3"><i
-                                                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                                             @endif
                                                             @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                                                     Auth::user()->hasPermission('Send-message-to-broker-admin'))
@@ -1579,12 +1579,12 @@
                                                         <div class="d-flex align-items-center justify-content-center">
                                                             {{-- <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                                             style="color: white;" data-bs-toggle="modal" data-bs-target="#modalToggle"><i
-                                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                                         <a target="_blank" class="btn btn-label-secondary btn-icon" data-bs-toggle="modal"
                                                             data-bs-target="#modalToggle"><i class="ti ti-message ti-sm"></i></a> --}}
                                                             <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                                                 style="color: white;" href="{{ route('login') }}"><i
-                                                                    class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                                    class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                                             <a target="_blank" class="btn btn-label-secondary btn-icon"
                                                                 href="{{ route('login') }}"><i class="ti ti-message ti-sm"></i></a>
                                                         </div>

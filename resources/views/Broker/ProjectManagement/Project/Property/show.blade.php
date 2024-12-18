@@ -439,7 +439,7 @@
                                                     </li>
                                                     <li
                                                     class="list-group-item d-flex justify-content-between align-items-center">
-                                                    @lang(' صلاحية الاعلان')
+                                                    @lang('Ad validity')
                                                     <span class="badge bg-primary">{{ __($Property->ad_license_status) }}</span>
                                                     </li>
                                                     @if ($Property->show_in_gallery != 1)

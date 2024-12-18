@@ -530,7 +530,7 @@
                                             </li>
                                             <li
                                             class="list-group-item d-flex justify-content-between align-items-center">
-                                            @lang(' صلاحية الاعلان')
+                                            @lang('Ad validity')
                                             <span class="badge bg-primary">{{ __($Unit->ad_license_status) }}</span>
                                             </li>
                                             @if ($Unit->show_in_gallery != 1)

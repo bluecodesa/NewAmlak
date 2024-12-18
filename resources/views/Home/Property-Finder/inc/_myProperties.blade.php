@@ -236,7 +236,7 @@
                         >@lang('نشر')</a> --}}
                       @else
                       <a @disabled(true) target="_blank" class="btn btn-primary d-flex align-items-center me-3"
-                        ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                        ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                     @endif
 
                   </div>

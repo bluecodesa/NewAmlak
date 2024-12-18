@@ -335,7 +335,7 @@
                                     <span>@lang('Area (m²)')</span>
                                 </div>
                                 <div data-bs-toggle="tooltip" data-bs-placement="top"
-                                    title="عدد المشاهدات اخر 7 ايام">
+                                    title="@lang('Number of views last 7 days')">
                                     <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
                                     <span class="ti ti-eye"></span>
                                 </div>
@@ -365,7 +365,7 @@
                                 <span class="ti ti-eye"></span>
                             </div> --}}
                                 <div data-bs-toggle="tooltip" data-bs-placement="top"
-                                    title="عدد المشاهدات اخر 7 ايام">
+                                    title="@lang('Number of views last 7 days')">
                                     <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
                                     <span class="ti ti-eye"></span>
                                 </div>
@@ -391,7 +391,7 @@
                                 <span class="ti ti-eye"></span>
                             </div> --}}
                                 <div data-bs-toggle="tooltip" data-bs-placement="top"
-                                    title="عدد المشاهدات اخر 7 ايام">
+                                    title="@lang('Number of views last 7 days')">
                                     <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
                                     <span class="ti ti-eye"></span>
                                 </div>
@@ -414,7 +414,7 @@
                                 @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
                                     <a href="tel:+{{ $key_phone }} {{ $phone }}"
                                         target="_blank" class="btn btn-primary d-flex align-items-center me-3"><i
-                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                 @endif
                                 @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                         Auth::user()->hasPermission('Send-message-to-broker-admin'))
@@ -428,12 +428,12 @@
                             <div class="d-flex align-items-center justify-content-center">
                                 {{-- <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                 style="color: white;" data-bs-toggle="modal" data-bs-target="#modalToggle"><i
-                                    class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                    class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                             <a target="_blank" class="btn btn-label-secondary btn-icon" data-bs-toggle="modal"
                                 data-bs-target="#modalToggle"><i class="ti ti-message ti-sm"></i></a> --}}
                                 <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                     style="color: white;" href="{{ route('login') }}"><i
-                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('Contact')</a>
                                 <a target="_blank" class="btn btn-label-secondary btn-icon"
                                     href="{{ route('login') }}"><i class="ti ti-message ti-sm"></i></a>
                             </div>
