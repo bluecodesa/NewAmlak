@@ -48,7 +48,9 @@ trait WhatsappUnitPublished
             }
 
             // إرسال الرسالة باستخدام API الخاص بـ WhatsApp
-            $phone = $unit->OfficeData->UserData->full_phone ?? $unit->BrokerData->UserData->full_phone ?? '';
+            // $phone = $unit->OfficeData->UserData->full_phone ?? $unit->BrokerData->UserData->full_phone ?? '';
+            $phone = $unit->OwnerData->UserData->full_phone ?? '';
+
 
             $client = new Client();
 
